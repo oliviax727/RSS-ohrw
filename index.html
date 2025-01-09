@@ -4,7 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Normalise CSS -->
-    <!--<link rel="stylesheet" href="https://necolas.github.io/normalize.css/latest/normalize.css">-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css">
 
     <!-- Title and icons -->
@@ -15,22 +14,26 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- Scripts, native and API -->
-    <script src="dist/bundle.js"></script>
-    <script src="main.js" type="module"></script>
-
-    <!--RSS Feed-->
-    <link rel="alternate" type="application/atom+xml" title="News Feed" href="RSS-ohrw/feed.xml">
+    <script src="main.js"></script>
 </head>
 <body>
-    <!-- Sidebar div (only on crunch) -->
-    <p>Hello</p>
+    <!-- Title/Ribbon div -->
+    <div id="title" w3-include-html="ribbon.html"></div>
+    <br>
 
-    <a href="RSS-ohrw/feed.xml">RSS</a>
+    <!-- Main content div -->
+    <div class="flexdiv" id="content" w3-include-html="html-files/home.html">
+    </div>
+    <br>
 
-    <div class="sk-ww-rss-feed" data-embed-id="25684362"></div><script src="https://widgets.sociablekit.com/rss-feed/widget.js" defer></script>
+    <!-- Footer div -->
+    <div id="footer">
+        <span id="testout"></span>
+    </div>
 
 </body>
 
 <!-- Post-load scripts -->
 <script>
+    initPage();
 </script>
