@@ -2,6 +2,7 @@
   "dependencies": {
     "file-saver": "^2.0.5",
     "modern-normalize": "^3.0.1",
+    "normalize.css": "^8.0.1",
     "rss-combiner": "^0.0.5"
   }
 }
