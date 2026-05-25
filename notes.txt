@@ -1,0 +1,6 @@
+https://github.com/ptsouchlos/periodic-function
+https://app.sociablekit.com/widgets/update/25684362
+https://stackoverflow.com/questions/58357941/cannot-use-import-statement-outside-a-module
+https://stackoverflow.com/questions/47090921/how-can-i-fetch-multiple-rss-feeds-and-merge-them-in-one-feed-then-convert-the#47091817
+https://stackoverflow.com/questions/20996242/saving-xml-file-using-javascript
+https://www.w3schools.com/XML/xml_rss.asp
