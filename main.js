@@ -492,7 +492,8 @@ function formatSection(str) {
     return capitalizeEach(str.replace("-", ": ").replace("_", " "));
 }
 var RSSCombiner = require('rss-combiner');
-import { saveAs } from 'file-saver';
+var fileSaver = require('file-saver')
+import { saveAs } from fileSaver;
  
 // Basic RSS feed
 var feedConfig = {
