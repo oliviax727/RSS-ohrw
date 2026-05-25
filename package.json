@@ -4,5 +4,9 @@
     "modern-normalize": "^3.0.1",
     "normalize.css": "^8.0.1",
     "rss-combiner": "^0.0.5"
+  },
+  "devDependencies": {
+    "webpack": "^5.107.1",
+    "webpack-cli": "^7.0.2"
   }
 }
