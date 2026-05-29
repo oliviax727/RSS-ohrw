@@ -180,7 +180,7 @@ function changeSection(section) {
     // Get contentdiv, remove internal components, and then add includeHTML attribute
     contentdiv = document.getElementById("content");
     contentdiv.innerHTML = "";
-    contentdiv.setAttribute("w3-include-html", "html-files/"+section+".html");
+    contentdiv.setAttribute("w3-include-html", "html/"+section+".html");
 
     // Re-call include HTML
     loadPage(() => {
