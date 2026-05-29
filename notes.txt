@@ -6,3 +6,16 @@ https://stackoverflow.com/questions/20996242/saving-xml-file-using-javascript
 https://www.w3schools.com/XML/xml_rss.asp
 
 https://stackoverflow.com/questions/54445033/how-to-use-node-modules-on-a-traditional-website
+
+https://www.feedotter.com/blog/find-an-rss-feed-url/
+https://james.cridland.net/blog/2025/abc-news-australia-rss-feeds/
+https://help.abc.net.au/hc/en-us/articles/6147104938383-Why-are-RSS-feeds-no-longer-being-updated
+https://www.abc.net.au/news/feed/5313390/rss.xml
+
+
+https://zellwk.com/blog/node-modules-in-frontend-without-bundlers/
+
+https://github.com/jekyll/jekyll-feed
+https://reeswrites.com/posts/jekyll-feed-github-pages/
+https://zapier.com/blog/best-rss-reader-for-mac/#reeder
+https://www.wikihow.com/Create-an-RSS-Feed
