@@ -1,3 +1,5 @@
+// TODO - Convert to Typescript
+
 var RSSCombiner = require('rss-combiner');
 var fileSaver = require('file-saver');
  

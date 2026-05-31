@@ -1,3 +1,9 @@
+Pipelines:
+(compilation) src/ts/*.ts -> [tsc] -> src/javascript/*.js -> [npm to cdn] -> src/app/*.js
+(rss deconversion) xml format -> html format
+(calling rss feeds) [Somehow when accessing the github api or the webpage itself it produces the updated rss xml file]
+(updating/reloading rss feeds) [Reloading the page or reading a link marks the link as read and added to the json, or use cookies!]
+
 Sections:
 - Primary [Home Colours]
 - Local [Works]
@@ -13,6 +19,9 @@ Sections:
 - Publications (other) [Links]
 
 - STEM [New Purple]
+
+https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications
+Github rest api?
 
 
 <a href="RSS-ohrw/feed.xml">RSS</a>
