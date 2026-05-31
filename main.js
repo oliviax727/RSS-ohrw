@@ -4,18 +4,22 @@
 // End-user check JS works
 console.info("This message should appear if the javascript integration has worked.")
 
-// For testing purposes (VSCode doesn't like console with HTML preview)
-var teststring;
-
 // Constants
 const SECTION_COLOR_DICT = new Map([
-    ["home", ["darkmagenta", "magenta"]],
-    ["about-professional", ["darkslateblue", "slateblue"]],
-    ["about-personal", ["darkgreen", "green"]],
-    ["about-political", ["darkred", "red"]],
-    ["works", ["darkgoldenrod", "goldenrod"]],
-    ["curriculum_vitae", ["chocolate", "darkorange"]],
-    ["links", ["darkblue", "blue"]]
+    ["primary", ["darkmagenta", "magenta"]],
+    ["local", ["darkgoldenrod", "goldenrod"]],
+    ["global", ["chocolate", "darkorange"]],
+
+    ["political-local", ["darkgreen", "green"]],
+    ["political-aus", ["darkslategray", "slategray"]],
+    ["political-global", ["darkred", "red"]],
+
+    ["satire", ["mediumtuqoise", "turquoise"]],
+
+    ["publications-astronomy", ["darkslateblue", "slateblue"]],
+    ["publications-other", ["darkblue", "blue"]],
+
+    ["sci-tech", ["blueviolet", "darkviolet"]]
 ]);
 
 const CURRENT_DATE = new Date();

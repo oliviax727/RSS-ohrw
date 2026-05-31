@@ -241,7 +241,7 @@ td, th {
   background-color: #666;
 }
 
-#about-sublist {
+.sublist {
   display: flex;
   flex-direction: column;
   padding-left: 10%;
@@ -249,7 +249,7 @@ td, th {
   box-sizing: border-box;
 }
 
-#about-sublist a {
+.sublist a {
   width: 99%;
   box-sizing: border-box;
 }

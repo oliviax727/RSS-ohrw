@@ -1,3 +1,25 @@
+Sections:
+- Primary [Home Colours]
+- Local [Works]
+- Global [CV]
+
+- Politics (Local) [About: Personal]
+- Politics (Australia) [About: Personal)
+- Politics (Global) [About: Political col.]
+
+- Satire [Turquoise?]
+
+- Publications (Astronomy) [About: Professional]
+- Publications (other) [Links]
+
+- STEM [New Purple]
+
+
+<a href="RSS-ohrw/feed.xml">RSS</a>
+
+<div class="sk-ww-rss-feed" data-embed-id="25684362"></div><script src="https://widgets.sociablekit.com/rss-feed/widget.js" defer></script>
+
+
 https://github.com/ptsouchlos/periodic-function
 https://app.sociablekit.com/widgets/update/25684362
 https://stackoverflow.com/questions/58357941/cannot-use-import-statement-outside-a-module
