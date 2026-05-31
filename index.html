@@ -4,33 +4,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Normalise CSS -->
-    <!--<link rel="stylesheet" href="https://necolas.github.io/normalize.css/latest/normalize.css">-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css">
 
     <!-- Title and icons -->
-    <link href="src/img/boomcon.jpg" sizes="16x16" rel="icon"/>
+    <link href="RSS-ohrw/src/img/uranuscon.png" sizes="16x16" rel="icon"/>
     <title>OHRW's News Feed</title>
 
     <!-- Styling -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="RSS-ohrw/style.css">
 
     <!-- Scripts, native and API -->
-    <script src="dist/bundle.js"></script>
-    <script src="main.js" type="module"></script>
+    <script src="RSS-ohrw/main.js"></script>
 
-    <!--RSS Feed-->
-    <link rel="alternate" type="application/atom+xml" title="News Feed" href="RSS-ohrw/feed.xml">
+    <!--RSS Feeds-->
+    <link rel="alternate" type="application/rss+xml" title="News Feed" href="RSS-ohrw/data/test_feed.xml">
 </head>
 <body>
     <!-- Sidebar div (only on crunch) -->
-    <p>Hello</p>
+    <div hidden id="menu" w3-include-html="RSS-ohrw/menu.html"></div>
 
-    <a href="RSS-ohrw/feed.xml">RSS</a>
+    <!-- Title/Ribbon div -->
+    <div id="title" w3-include-html="RSS-ohrw/ribbon.html"></div>
+    <br>
 
-    <div class="sk-ww-rss-feed" data-embed-id="25684362"></div><script src="https://widgets.sociablekit.com/rss-feed/widget.js" defer></script>
+    <!-- Main content div -->
+    <div class="flexdiv" id="content" w3-include-html="RSS-ohrw/src/html/primary.html">
+    </div>
+    <br>
 
+    <!-- Footer div -->
+    <div id="footer-wrapper" class="footer-wrapper" w3-include-html="RSS-ohrw/footer.html">
+    </div>
 </body>
 
 <!-- Post-load scripts -->
 <script>
+    initPage();
 </script>

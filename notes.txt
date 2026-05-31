@@ -1,3 +1,43 @@
+TO DO:
+- Update CSS to work with RSS Feed divs
+- Test CDN integration
+- Write display-rss.ts
+- Test active file updating
+- Write load-rss-api.ts
+- Test cookie or json saving
+- Write dismiss-rss.ts
+
+Pipelines:
+(compilation) src/ts/*.ts -> [tsc] -> src/javascript/*.js -> [npm to cdn] -> src/app/*.js
+(rss deconversion) xml format -> html format
+(calling rss feeds) [Somehow when accessing the github api or the webpage itself it produces the updated rss xml file]
+(updating/reloading rss feeds) [Reloading the page or reading a link marks the link as read and added to the json, or use cookies!]
+
+Sections:
+- Primary [Home Colours]
+- Local [Works]
+- Global [CV]
+
+- Politics (Local) [About: Personal]
+- Politics (Australia) [About: Personal)
+- Politics (Global) [About: Political col.]
+
+- Satire [Turquoise?]
+
+- Publications (Astronomy) [About: Professional]
+- Publications (other) [Links]
+
+- STEM [New Purple]
+
+https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications
+Github rest api?
+
+
+<a href="RSS-ohrw/feed.xml">RSS</a>
+
+<div class="sk-ww-rss-feed" data-embed-id="25684362"></div><script src="https://widgets.sociablekit.com/rss-feed/widget.js" defer></script>
+
+
 https://github.com/ptsouchlos/periodic-function
 https://app.sociablekit.com/widgets/update/25684362
 https://stackoverflow.com/questions/58357941/cannot-use-import-statement-outside-a-module
@@ -6,3 +46,16 @@ https://stackoverflow.com/questions/20996242/saving-xml-file-using-javascript
 https://www.w3schools.com/XML/xml_rss.asp
 
 https://stackoverflow.com/questions/54445033/how-to-use-node-modules-on-a-traditional-website
+
+https://www.feedotter.com/blog/find-an-rss-feed-url/
+https://james.cridland.net/blog/2025/abc-news-australia-rss-feeds/
+https://help.abc.net.au/hc/en-us/articles/6147104938383-Why-are-RSS-feeds-no-longer-being-updated
+https://www.abc.net.au/news/feed/5313390/rss.xml
+
+
+https://zellwk.com/blog/node-modules-in-frontend-without-bundlers/
+
+https://github.com/jekyll/jekyll-feed
+https://reeswrites.com/posts/jekyll-feed-github-pages/
+https://zapier.com/blog/best-rss-reader-for-mac/#reeder
+https://www.wikihow.com/Create-an-RSS-Feed
