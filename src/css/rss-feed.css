@@ -1,0 +1,34 @@
+/* RSS Feed Div */
+
+
+/* Navbar */
+
+.feed-navbar {
+    position: sticky;
+    min-height: 55%;
+    min-width: 100%;
+    display: inline;
+    background-color: darkblue;
+    padding: 2%;
+    margin-top: 5%;
+}
+
+.navbar-rss {
+    vertical-align: left;
+}
+
+.navbar-reload {
+    vertical-align: right;
+}
+
+.feed-navbar img {
+  max-width: 22px;
+  max-height: 22px;
+  vertical-align: middle;
+}
+
+/* Content List */
+
+.feed-content {
+    padding: 3%;
+}

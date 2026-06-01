@@ -4,12 +4,12 @@
     <link rel="stylesheet" href="src/css/rss-feed.css">
 </head>
 <body>
-<div class="top-feed">
-    <a onclick="" href="src/data/test_feed.xml"><img src="src/img/rss.png"></a>
+<div class="feed-navbar">
+    <a class="navbar-button navbar-rss" onclick="" href="src/data/test_feed.xml"><img src="src/img/rss.png"></a>
     <span id="current-date"></span>
-    <a onclick=""><img src="src/img/reload.png"></a>
+    <a class="navbar-button navbar-reload" onclick=""><img src="src/img/reload.png"></a>
 </div>
-<div onload="" class="news-feed" id="news-feed">
+<div onload="" class="feed-content" id="news-feed">
     <p>
         <div w3-include-html="src/layout/rss-object.htm"></div>
     </p>
