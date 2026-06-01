@@ -1,30 +1,40 @@
-<div id="sidebar-ribbon" onmouseleave="toggleMenu(false);">
-    <div class="menu" id="sectionname-menu-wrapper">
-        Section - <br><span id="sectionname-menu"></span>
-    </div>
+<!DOCTYPE html>
 
-    <div class="menu" id="navbar-menu">
-        <a onclick="goToSection('primary')">Primary</a>
-        <a onclick="goToSection('local')">Local</a>
-        <a onclick="goToSection('global')">Global</a>
-       
-        <span>Politics</span>
-        <div class="sublist" id="politics-sublist">
-            <a onclick="goToSection('politics-local')">Local (WA)</a>
-            <a onclick="goToSection('politics-aus')">Australia</a>
-            <a onclick="goToSection('politics-global')">Global (and US)</a>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/css/menu.css">
+</head>
+
+<body>
+    <div id="sidebar-ribbon" onmouseleave="toggleMenu(false);">
+        <div class="menu" id="sectionname-menu-wrapper">
+            Section - <br><span id="sectionname-menu"></span>
         </div>
 
-        <a onclick="goToSection('satire')">Satire</a>
+        <div class="menu" id="navbar-menu">
+            <a onclick="goToSection('primary')">Primary</a>
+            <a onclick="goToSection('local')">Local</a>
+            <a onclick="goToSection('global')">Global</a>
 
-        <span>Publications</span>
-        <div class="sublist" id="publications-sublist">
-            <a onclick="goToSection('publications-astronomy')">Astronomy/Astrophysics</a>
-            <a onclick="goToSection('publications-other')">Other Academic</a>
+            <span>Politics</span>
+            <div class="sublist" id="politics-sublist">
+                <a onclick="goToSection('politics-local')">Local (WA)</a>
+                <a onclick="goToSection('politics-aus')">Australia</a>
+                <a onclick="goToSection('politics-global')">Global (and US)</a>
+            </div>
+
+            <a onclick="goToSection('satire')">Satire</a>
+
+            <span>Publications</span>
+            <div class="sublist" id="publications-sublist">
+                <a onclick="goToSection('publications-astronomy')">Astronomy/Astrophysics</a>
+                <a onclick="goToSection('publications-other')">Other Academic</a>
+            </div>
+
+            <a onclick="goToSection('sci-tech')">Sci/Tech</a>
         </div>
-
-        <a onclick="goToSection('sci-tech')">Sci/Tech</a>
     </div>
-</div>
 
-<div id="decolourbox"></div>
+    <div id="decolourbox"></div>
+
+</body>
