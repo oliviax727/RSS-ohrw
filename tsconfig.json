@@ -1,0 +1,34 @@
+{
+    "include": [
+        "./src/scripts/ts/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "./*.ts",
+        "./src/scripts/js/*",
+        "./src/scripts/app/*",
+    ],
+
+    // Visit https://aka.ms/tsconfig to read more about this file
+    "compilerOptions": {
+        // Base Options recommended for all projects
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "target": "es2022",
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "moduleDetection": "force",
+        "isolatedModules": true,
+        "verbatimModuleSyntax": true,
+        // Transpile our TypeScript code to JavaScript
+        "module": "esnext",
+        // Include the DOM types
+        "lib": [
+            "es2022",
+            "dom",
+            "dom.iterable"
+        ],
+        "rootDir": "./src/scripts/ts",
+        "outDir": "./src/scripts/js",
+    },
+}

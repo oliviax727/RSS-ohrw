@@ -1,1 +1,3 @@
-#!/bin/bash
+# Compile to js folder
+tsc
+
