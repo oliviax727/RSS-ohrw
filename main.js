@@ -11,7 +11,7 @@ const SECTION_COLOR_DICT = new Map([
     ["global", ["chocolate", "darkorange"]],
 
     ["political-local", ["darkgreen", "green"]],
-    ["political-aus", ["darkslategray", "slategray"]],
+    ["political-australia", ["darkslategray", "slategray"]],
     ["political-global", ["darkred", "red"]],
 
     ["satire", ["mediumtuqoise", "turquoise"]],
@@ -27,7 +27,7 @@ const CURRENT_DATE = new Date();
 let timer = null;
 let timerinterval = 1000;
 
-const CRUNCH_SIZE = 250;
+const CRUNCH_SIZE = 1120;
 
 // ===== BONES ===== //
 
