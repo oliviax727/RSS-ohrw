@@ -27,6 +27,8 @@ const CURRENT_DATE = new Date();
 let timer = null;
 let timerinterval = 1000;
 
+const CRUNCH_SIZE = 250;
+
 // ===== BONES ===== //
 
 // Funny-Haha Bone Counter. Bones reset on page load
@@ -288,7 +290,7 @@ function crunch() {
     }
 
     // 840 ~ Width that causes Ribbon selectors to become multiline
-    if (window.innerWidth < 840) {
+    if (window.innerWidth < CRUNCH_SIZE) {
 
         // Resize main content
         if (centreext != null) {
