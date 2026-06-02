@@ -59,8 +59,12 @@ td, th {
 
 /* Wrappers */
 
-.menu-background {
+.primary-color-css {
   background-color: darkmagenta;
+}
+
+.secondary-color-css {
+  background-color: magenta;
 }
 
 #ribbon-wrapper {
