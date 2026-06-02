@@ -190,20 +190,8 @@ function changeSection(section) {
 
     // Re-call include HTML
     loadPage(() => {
-        // Change cosmetics in ribbon
         try {
-            document.getElementById("sectionname").innerHTML = formatSection(section);
-            document.getElementById("sectionname-menu").innerHTML = formatSection(section);
-
-            primary = document.getElementsByClassName("primary-color-css");
-            for (var i = 0; i < primary.length; i++) {
-                primary[i].style.backgroundColor = SECTION_COLOR_DICT.get(section)[0];
-            }
-
-            secondary = document.getElementsByClassName("secondary-color-css");
-            for (var i = 0; i < secondary.length; i++) {
-                secondary[i].style.backgroundColor = SECTION_COLOR_DICT.get(section)[1];
-            }
+            updatePage(section);
         } catch (error) {
             console.log("Did not switch to section: " + section + "; " + error);
         } finally {
@@ -227,7 +215,6 @@ function loadPage(_callback = (() => { })) {
     // Load the page
     includeHTML(() => {
         _callback();
-        updateAges();
         crunch();
         console.log(document.cookie);
     });
@@ -351,7 +338,39 @@ function crunch() {
 
 window.onresize = crunch;
 
-// ===== INTITIALISATION FUNCTIONS ===== //
+// ===== POST-LOAD UPDATE FUNCTIONS ===== //
+
+// Update webpage CSS and span elements
+function updatePage(section) {
+    updateSectionNames(section);
+    updateBackgroundColors(section);
+    updateAges();
+    updateCurrentDates();
+}
+
+// Update section names
+function updateSectionNames(section) {
+    if (document.querySelector("#sectionname")) {
+        document.getElementById("sectionname").innerHTML = formatSection(section);
+    }
+    
+    if (document.querySelector("#sectionname-menu")) {
+        document.getElementById("sectionname-menu").innerHTML = formatSection(section);
+    }
+}
+
+// Update ribbon/menu background colors
+function updateBackgroundColors(section) {
+    primary = document.getElementsByClassName("primary-color-css");
+    for (var i = 0; i < primary.length; i++) {
+        primary[i].style.backgroundColor = SECTION_COLOR_DICT.get(section)[0];
+    }
+
+    secondary = document.getElementsByClassName("secondary-color-css");
+    for (var i = 0; i < secondary.length; i++) {
+        secondary[i].style.backgroundColor = SECTION_COLOR_DICT.get(section)[1];
+    }
+}
 
 // Change all age values in spans
 function updateAges() {
@@ -371,7 +390,7 @@ function updateAges() {
 
         // Show date if tag is flagged
         if (span.hasAttribute("showdate")) {
-            span.innerHTML = agediff + " (" + agedate.toLocaleDateString('en-CA') + ")";
+            span.innerHTML = agediff + " (" + agedate.toLocaleDateString('en-AU') + ")";
         } else {
             span.innerHTML = agediff
         }
@@ -383,25 +402,12 @@ function updateAges() {
 function updateCurrentDates() {
     var date;
 
-    datespans = document.getElementsByClassName("date");
-
-    console.log(datespans)
+    datespans = document.getElementsByClassName("current-date");
 
     for (let i = 0; i < datespans.length; i++) {
         span = datespans[i];
 
-        // Get age attribute of span and add 1 day
-        let timediff = span.getAttribute("time");
-
-        // Take day difference and set it inside the HTML
-        let newdate = new Date().setDate(CURRENT_DATE - timediff);
-
-        // Show date if tag is flagged
-        if (span.hasAttribute("showtime")) {
-            span.innerHTML = newdate.toLocaleDateString('en-CA') + " (" + newdate.toLocaleTimeString('en-CA') + ")";
-        } else {
-            span.innerHTML = newdate.toLocaleDateString('en-CA')
-        }
+        span.innerHTML = CURRENT_DATE.toDateString('en-AU');
 
         span.classList.remove("date");
     }
