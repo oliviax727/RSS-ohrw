@@ -7,23 +7,25 @@
     position: sticky;
     position: -webkit-sticky;
     top: 0;
-    min-height: 55%;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+    max-height: 11%;
     min-width: 100%;
-    display: inline;
+    display: inline-block;
     background-color: darkmagenta;
     padding: 2%;
-    margin-top: 5%;
     border: solid;
-    border-color: black;
-    border-width: 3px;
+    border-color: white;
+    border-width: 1px;
 }
 
 .navbar-rss {
-    vertical-align: left;
+    text-align: left;
 }
 
 .navbar-reload {
-    vertical-align: right;
+    text-align: right;
 }
 
 .feed-navbar img {
@@ -37,13 +39,14 @@
 .feed-content {
     padding: 3%;
     background-color: lightgray;
+    min-height: inherit;
 }
 
 /* Feed Item */
 
 .news-item {
     padding: 3%;
-    background-color: darkgray;
+    background-color: #666;
     border: solid;
     border-color: black;
     border-width: 3px;
