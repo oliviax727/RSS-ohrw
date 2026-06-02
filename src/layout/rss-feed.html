@@ -5,9 +5,15 @@
 </head>
 <body>
 <div class="feed-navbar">
-    <a class="navbar-button navbar-rss" onclick="" href="src/data/test_feed.xml"><img src="src/img/rss.png"></a>
-    <span class="current-date"></span>
-    <a class="navbar-button navbar-reload" onclick=""><img src="src/img/reload.png"></a>
+    <div class="feed-navbar-item feed-navbar-button">
+        <a onclick="" href="src/data/test_feed.xml"><img src="src/img/rss.png"></a>
+    </div>
+    <div class="feed-navbar-item central-navbar">
+        <span class="current-date"></span>
+    </div>
+    <div class="feed-navbar-item feed-navbar-button">
+        <a onclick=""><img src="src/img/reload.png"></a>
+    </div>
 </div>
 <div onload="" class="feed-content" id="news-feed">
     <p>
