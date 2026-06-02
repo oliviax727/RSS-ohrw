@@ -10,9 +10,9 @@ const SECTION_COLOR_DICT = new Map([
     ["local", ["darkgoldenrod", "goldenrod"]],
     ["global", ["chocolate", "darkorange"]],
 
-    ["political-local", ["darkgreen", "green"]],
-    ["political-australia", ["darkslategray", "slategray"]],
-    ["political-global", ["darkred", "red"]],
+    ["politics-local", ["darkgreen", "green"]],
+    ["politics-australia", ["darkslategray", "slategray"]],
+    ["politics-global", ["darkred", "red"]],
 
     ["satire", ["mediumturquoise", "turquoise"]],
 

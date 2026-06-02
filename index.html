@@ -21,7 +21,7 @@
     <link rel="alternate" type="application/rss+xml" title="News Feed" href="src/data/test_feed.xml">
 </head>
 
-<body>
+<body onload="initPage();">
     <!-- Sidebar div (only on crunch) -->
     <div hidden id="menu-wrapper" w3-include-html="src/layout/menu.html"></div>
 
@@ -38,8 +38,3 @@
     <div id="footer-wrapper" class="footer-wrapper" w3-include-html="src/layout/footer.html">
     </div>
 </body>
-
-<!-- Post-load scripts -->
-<script>
-    initPage();
-</script>
