@@ -5,12 +5,17 @@
 
 .feed-navbar {
     position: sticky;
+    position: -webkit-sticky;
+    top: 0;
     min-height: 55%;
     min-width: 100%;
     display: inline;
-    background-color: darkblue;
+    background-color: darkmagenta;
     padding: 2%;
     margin-top: 5%;
+    border: solid;
+    border-color: black;
+    border-width: 3px;
 }
 
 .navbar-rss {
@@ -31,4 +36,15 @@
 
 .feed-content {
     padding: 3%;
+    background-color: lightgray;
+}
+
+/* Feed Item */
+
+.news-item {
+    padding: 3%;
+    background-color: darkgray;
+    border: solid;
+    border-color: black;
+    border-width: 3px;
 }
