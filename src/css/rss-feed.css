@@ -45,6 +45,14 @@
   width: 24%;
 }
 
+.feed-navbar-rss {
+    justify-content: left;
+}
+
+.feed-navbar-reload {
+    justify-content: right;
+}
+
 .feed-navbar img {
   vertical-align: middle;
   object-fit: cover;
@@ -57,7 +65,7 @@
 .feed-content {
   display: block;
   padding: 3%;
-  background-color: var(--light-gray);
+  background-color: var(--pale-wash-color);
   min-height: inherit;
 }
 
@@ -71,24 +79,33 @@
   align-items: center;
 
   padding: 3%;
-  background-color: var(--dark-gray);
+  background-color: var(--pale-dark-color);
   border: solid;
   border-color: black;
   border-width: 3px;
 }
 
 .item-inline {
-  display: block;
+  display: table;
   padding-inline: 2%;
   max-height: fit-content;
 }
 
+.item-link {
+  display: table-column;
+  vertical-align: middle;
+
+  min-width: max-content;
+  max-width: max-content;
+}
+
 .item-image {
+  display: table-cell;
   vertical-align: middle;
   object-fit: cover;
 }
 
-.item-link {
-  max-width: max-content;
-  min-width: max-content;
+.item-content {
+  display: table-cell;
+  text-align: left;
 }
