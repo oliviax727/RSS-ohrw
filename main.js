@@ -59,7 +59,7 @@ function initPage() {
     if (page != null) {
         changeSection(page);
     } else {
-        goToSection('home', false);
+        goToSection('primary', false);
     }
 }
 
