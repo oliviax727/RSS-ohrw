@@ -58,16 +58,38 @@
 .feed-content {
     display: block;
     padding: 3%;
-    background-color: lightgray;
+    background-color: #DDD;
     min-height: inherit;
 }
 
 /* Feed Item */
 
 .news-item {
+    display: inline-flex;
+    max-height: max-content;
+
+    justify-content: center;
+    align-items: center;
+
     padding: 3%;
-    background-color: #666;
+    background-color: #444;
     border: solid;
     border-color: black;
     border-width: 3px;
+}
+
+.item-inline {
+    display: block;
+    padding-inline: 2%;
+    max-height: fit-content;
+}
+
+.item-image {
+    vertical-align: middle;
+    object-fit: cover;
+}
+
+.item-link {
+    max-width: max-content;
+    min-width: max-content;
 }
