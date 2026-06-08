@@ -6,20 +6,20 @@ console.info("This message should appear if the javascript integration has worke
 
 // Constants
 const SECTION_COLOR_DICT = new Map([
-    ["primary", ["darkmagenta", "magenta"]],
-    ["local", ["darkgoldenrod", "goldenrod"]],
-    ["global", ["chocolate", "darkorange"]],
+    ["primary", 300],
+    ["local", 45],
+    ["global", 25],
 
-    ["politics-local", ["darkgreen", "green"]],
-    ["politics-australia", ["darkslategray", "slategray"]],
-    ["politics-global", ["darkred", "red"]],
+    ["politics-local", 120],
+    ["politics-australia", 180],
+    ["politics-global", 0],
 
-    ["satire", ["mediumturquoise", "turquoise"]],
+    ["satire", 195],
 
-    ["publications-astronomy", ["darkslateblue", "slateblue"]],
-    ["publications-other", ["darkblue", "blue"]],
+    ["publications-astronomy", 250],
+    ["publications-other", 240],
 
-    ["sci-tech", ["blueviolet", "darkviolet"]]
+    ["tech", 270]
 ]);
 
 const CURRENT_DATE = new Date();
@@ -215,15 +215,7 @@ function updateSectionNames(section) {
 
 // Update ribbon/menu background colors
 function updateBackgroundColors(section) {
-    primary = document.getElementsByClassName("primary-color-css");
-    for (var i = 0; i < primary.length; i++) {
-        primary[i].style.backgroundColor = SECTION_COLOR_DICT.get(section)[0];
-    }
-
-    secondary = document.getElementsByClassName("secondary-color-css");
-    for (var i = 0; i < secondary.length; i++) {
-        secondary[i].style.backgroundColor = SECTION_COLOR_DICT.get(section)[1];
-    }
+    document.documentElement.style.setProperty('--base-hue', SECTION_COLOR_DICT.get(section));
 }
 
 // Change all age values in spans
