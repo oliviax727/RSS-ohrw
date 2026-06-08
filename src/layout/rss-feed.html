@@ -1,26 +1,28 @@
 <!DOCTYPE html>
+
 <head>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="src/css/rss-feed.css">
 </head>
+
 <body>
-<div class="feed-navbar">
-    <div class="feed-navbar-item feed-navbar-button">
-        <a onclick="" href="src/data/test_feed.xml"><img src="src/img/rss.png"></a>
+    <div class="feed-navbar">
+        <div class="feed-navbar-item feed-navbar-button">
+            <a onclick="" href="src/data/test_feed.xml"><img src="src/img/rss.png"></a>
+        </div>
+        <div class="feed-navbar-item central-navbar">
+            <span class="current-date"></span>
+        </div>
+        <div class="feed-navbar-item feed-navbar-button">
+            <a onclick=""><img src="src/img/reload.png"></a>
+        </div>
     </div>
-    <div class="feed-navbar-item central-navbar">
-        <span class="current-date"></span>
-    </div>
-    <div class="feed-navbar-item feed-navbar-button">
-        <a onclick=""><img src="src/img/reload.png"></a>
-    </div>
-</div>
-<div onload="" class="feed-content" id="news-feed">
-    <p>
+    <div onload="" class="feed-content" id="news-feed">
+        <p>
         <div w3-include-html="src/layout/rss-object.htm"></div>
-    </p>
-    <p>
+        </p>
+        <p>
         <div w3-include-html="src/layout/rss-object.htm"></div>
-    </p>
-</div>
+        </p>
+    </div>
 </body>
