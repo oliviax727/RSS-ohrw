@@ -8,7 +8,7 @@
 <body>
     <div class="feed-navbar">
         <div class="feed-navbar-item feed-navbar-button feed-navbar-rss">
-            <a onclick="" href="src/data/test_feed.xml"><img src="src/img/rss.png"></a>
+            <a id="rss-feed-link" href="src/data/test_feed.xml"><img src="src/img/rss.png"></a>
         </div>
         <div class="feed-navbar-item central-navbar">
             <span class="current-date"></span>
@@ -17,7 +17,7 @@
             <a onclick=""><img src="src/img/reload.png"></a>
         </div>
     </div>
-    <div onload="" class="feed-content" id="news-feed">
+    <div onload="" class="feed-content" id="rss-news-feed">
         <p>
         <div w3-include-html="src/layout/rss-object.htm"></div>
         </p>

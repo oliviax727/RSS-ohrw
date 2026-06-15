@@ -29,7 +29,7 @@ let timeInterval = 1000;
 
 const CRUNCH_SIZE = 1120;
 
-let currentSection = "primary";
+let currentSection
 
 // ===== ACTIVE UPDATING ===== //
 
@@ -223,7 +223,6 @@ function updatePage(section) {
     updateBackgroundColors(section);
     updateAges();
     updateCurrentDates();
-    currentSection = section;
 }
 
 // Update section names

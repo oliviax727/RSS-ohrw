@@ -10,6 +10,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@types/rss": "^0.0.32"
+    "@types/rss": "^0.0.32",
+    "uuid": "^14.0.0"
   }
 }
