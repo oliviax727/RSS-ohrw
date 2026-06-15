@@ -2,13 +2,15 @@
 
 import { LoadRSS } from "./load-rss.js";
 
-let feed = new LoadRSS.Feed(new Map([
+let feed = new LoadRSS.ObjectXML.Feed(new Map([
        ["W3 Test XML", "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml"],
        ["ABC News", "https://www.abc.net.au/news/feed/5313390/rss.xml"]
     ])
 );
 
-feed.createFeed()
+await feed.createFeed();
+
+console.log(feed.entryList);
 
 /*
 import RSS from 'rss';
