@@ -1,10 +1,21 @@
 /// <reference types="node" />
 
+import { LoadRSS } from "./load-rss.js";
+
+let feed = new LoadRSS.Feed(new Map([
+       ["W3 Test XML", "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml"],
+       ["ABC News", "https://www.abc.net.au/news/feed/5313390/rss.xml"]
+    ])
+);
+
+feed.createFeed()
+
+/*
 import RSS from 'rss';
 import { saveAs } from 'file-saver';
 
 function testCreateRSSFeed() {
-    /* lets create an rss feed */
+    // lets create an rss feed
     var feed = new RSS({
         title: 'title',
         description: 'description',
@@ -58,7 +69,7 @@ function testCreateRSSFeed() {
         ]
     });
 
-    /* loop over data and add to feed */
+    // loop over data and add to feed
     feed.item({
         title: 'item title',
         description: 'use this for the content. It can include html.',
@@ -93,3 +104,4 @@ function testCreateRSSFeed() {
 }
 
 testCreateRSSFeed();
+*/
