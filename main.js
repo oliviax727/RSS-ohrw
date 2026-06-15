@@ -25,9 +25,11 @@ const SECTION_COLOR_DICT = new Map([
 const CURRENT_DATE = new Date();
 
 let timer = null;
-let timerinterval = 1000;
+let timeInterval = 1000;
 
 const CRUNCH_SIZE = 1120;
+
+let currentSection = "primary";
 
 // ===== ACTIVE UPDATING ===== //
 
@@ -133,6 +135,10 @@ function crunch() {
     let ribbonmain = document.getElementsByClassName("ribbon-main");
     let ribboncrunch = document.getElementsByClassName("ribbon-crunch");
 
+    // RSS feed
+    let rssMain = document.getElementsByClassName("item-link");
+    let rssCrunch = document.getElementsByClassName("item-crunch");
+
     // Don't crunch if there's nothing to crunch
     if (centrediv == null && centreext == null) {
         return;
@@ -163,6 +169,15 @@ function crunch() {
             ribboncrunch[i].style.display = "inline-block";
         }
 
+        // Change RSS feed structure
+        for (let i = 0; i < rssMain.length; i++) {
+            console.log("crunch: "+rssMain[i])
+            rssMain[i].style.display = "none";
+        }
+        for (let i = 0; i < rssCrunch.length; i++) {
+            rssCrunch[i].style.display = "table-cell";
+        }
+
     } else {
 
         // Resize main content
@@ -187,6 +202,14 @@ function crunch() {
         for (let i = 0; i < ribbonmain.length; i++) {
             ribbonmain[i].style.display = "inline-block";
         }
+
+        // Change RSS feed structure
+        for (let i = 0; i < rssMain.length; i++) {
+            rssMain[i].style.display = "table-column";
+        }
+        for (let i = 0; i < rssCrunch.length; i++) {
+            rssCrunch[i].style.display = "none";
+        }
     }
 }
 
@@ -200,6 +223,7 @@ function updatePage(section) {
     updateBackgroundColors(section);
     updateAges();
     updateCurrentDates();
+    currentSection = section;
 }
 
 // Update section names
@@ -399,7 +423,7 @@ function createAutoMiner(override = false) {
         if (!override) {
             bones.innerHTML = parseInt(bones.innerHTML) - 100;
         }
-        timer = window.setInterval(dig4Bones, timerinterval);
+        timer = window.setInterval(dig4Bones, timeInterval);
         createbutton.hidden = true;
         upgradebutton.hidden = false;
         level.innerHTML = 1;
@@ -419,12 +443,12 @@ function upgradeAutoMiner(noalert = false, override = false) {
     }
 
     if ((gold.innerHTML >= 1 && bones.innerHTML >= 500) || override) {
-        if (timerinterval <= 100) {
-            timerinterval = 1;
+        if (timeInterval <= 100) {
+            timeInterval = 1;
             if (!noalert) { alert("Miner Fully Upgraded!"); }
             document.getElementById("upgrade-auto").hidden = true;
         } else {
-            timerinterval -= 100;
+            timeInterval -= 100;
         }
 
         console.log("Upgrading Miner ...");
@@ -435,7 +459,7 @@ function upgradeAutoMiner(noalert = false, override = false) {
             bones.innerHTML = parseInt(bones.innerHTML) - 500;
         }
         window.clearInterval(timer);
-        timer = window.setInterval(dig4Bones, timerinterval);
+        timer = window.setInterval(dig4Bones, timeInterval);
 
         if (level.innerHTML == 11) {
             level.innerHTML = "Max"
