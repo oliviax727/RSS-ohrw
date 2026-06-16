@@ -7,38 +7,38 @@
 
 <body>
   <div class="ribbon ribbon-crunch" id="menu-button">
-    <a onclick="toggleMenu(true);"><img src="src/img/menu.png"></a>
+    <a onclick="mhtml.toggleMenu(true);"><img src="src/img/menu.png"></a>
   </div>
 
   <div class="ribbon ribbon-main ribbon-crunch" id="name">OHRW's News Feed</div>
 
   <div class="ribbon ribbon-main" id="navbar">
-    <a onclick="goToSection('primary')">Primary</a>
-    <a onclick="goToSection('local')">Local</a>
-    <a onclick="goToSection('global')">Global</a>
+    <a onclick="mhtml.goToSection('primary');">Primary</a>
+    <a onclick="mhtml.goToSection('local');">Local</a>
+    <a onclick="mhtml.goToSection('global');">Global</a>
 
     <div hidden class="dropdown" id="drop-wrapper-politics">
       <div hidden class="dropdown-content" id="drop-politics">
-        <a onclick="goToSection('politics-local')">Local (WA)</a>
-        <a onclick="goToSection('politics-australia')">Australia</a>
-        <a onclick="goToSection('politics-global')">Global (and US)</a>
+        <a onclick="mhtml.goToSection('politics-local');">Local (WA)</a>
+        <a onclick="mhtml.goToSection('politics-australia');">Australia</a>
+        <a onclick="mhtml.goToSection('politics-global');">Global (and US)</a>
       </div>
     </div>
 
-    <a class="dropbtn" onclick="showSubList('politics')" onmouseleave="hideSubList('politics')">Politics</a>
+    <a class="dropbtn" onclick="mhtml.showSubList('politics');" onmouseleave="mhtml.hideSubList('politics');">Politics</a>
 
-    <a onclick="goToSection('satire')">Satire</a>
+    <a onclick="mhtml.goToSection('satire');">Satire</a>
 
     <div hidden class="dropdown" id="drop-wrapper-publications">
       <div hidden class="dropdown-content" id="drop-publications">
-        <a onclick="goToSection('publications-astronomy')">Astronomy/Astrophysics</a>
-        <a onclick="goToSection('publications-other')">Other Academic</a>
+        <a onclick="mhtml.goToSection('publications-astronomy');">Astronomy/Astrophysics</a>
+        <a onclick="mhtml.goToSection('publications-other');">Other Academic</a>
       </div>
     </div>
 
-    <a class="dropbtn" onclick="showSubList('publications')" onmouseleave="hideSubList('publications')">Publications</a>
+    <a class="dropbtn" onclick="mhtml.showSubList('publications');" onmouseleave="mhtml.hideSubList('publications');">Publications</a>
 
-    <a onclick="goToSection('tech')">Sci/Tech</a>
+    <a onclick="mhtml.goToSection('tech');">Sci/Tech</a>
   </div>
 
   <div class="ribbon ribbon-main" id="sectionname">Primary</div>

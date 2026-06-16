@@ -6,35 +6,35 @@
 </head>
 
 <body>
-    <div id="sidebar-ribbon" onmouseleave="toggleMenu(false);">
+    <div id="sidebar-ribbon" onmouseleave="mhtml.toggleMenu(false);">
         <div class="menu" id="sectionname-menu-wrapper">
             Section - <br><span id="sectionname-menu"></span>
         </div>
 
         <div class="menu" id="navbar-menu">
-            <a onclick="goToSection('primary')">Primary</a>
-            <a onclick="goToSection('local')">Local</a>
-            <a onclick="goToSection('global')">Global</a>
+            <a onclick="mhtml.goToSection('primary');">Primary</a>
+            <a onclick="mhtml.goToSection('local');">Local</a>
+            <a onclick="mhtml.goToSection('global');">Global</a>
 
             <span>Politics</span>
             <div class="sublist" id="politics-sublist">
-                <a onclick="goToSection('politics-local')">Local</a>
-                <a onclick="goToSection('politics-australia')">Australia</a>
-                <a onclick="goToSection('politics-global')">Global</a>
+                <a onclick="mhtml.goToSection('politics-local');">Local</a>
+                <a onclick="mhtml.goToSection('politics-australia');">Australia</a>
+                <a onclick="mhtml.goToSection('politics-global');">Global</a>
             </div>
 
-            <a onclick="goToSection('satire')">Satire</a>
+            <a onclick="mhtml.goToSection('satire');">Satire</a>
 
             <span>Publications</span>
             <div class="sublist menu" id="publications-sublist">
-                <a onclick="goToSection('publications-astronomy')">Astronomy</a>
-                <a onclick="goToSection('publications-other')">Other</a>
+                <a onclick="mhtml.goToSection('publications-astronomy');">Astronomy</a>
+                <a onclick="mhtml.goToSection('publications-other');">Other</a>
             </div>
 
-            <a onclick="goToSection('tech')">Sci/Tech</a>
+            <a onclick="mhtml.goToSection('tech');">Sci/Tech</a>
         </div>
     </div>
 
-    <div id="decolourbox" onclick="toggleMenu(false);"></div>
+    <div id="decolourbox" onclick="mhtml.toggleMenu(false);"></div>
 
 </body>
