@@ -22,14 +22,18 @@ const SECTION_COLOR_DICT = new Map([
     ["tech", 270]
 ]);
 
+const CRUNCH_SIZE = 1120;
+
+const DEFAULT_SECTION = 'primary';
+
+// ===== MAIN CONSTANTS ===== //
+
 const CURRENT_DATE = new Date();
+
+const IDENTITY = () => { };
 
 let timer = null;
 let timeInterval = 1000;
-
-const CRUNCH_SIZE = 1120;
-
-let currentSection
 
 // ===== ACTIVE UPDATING ===== //
 
@@ -40,18 +44,10 @@ function changeSection(section) {
     // Get contentdiv, remove internal components, and then add includeHTML attribute
     contentdiv = document.getElementById("content-wrapper");
     contentdiv.innerHTML = "";
-    contentdiv.setAttribute("w3-include-html", "src/html/" + section + ".html");
+    contentdiv.setAttribute("html-ref", "src/html/" + section + ".html");
 
     // Re-call include HTML
-    loadPage(() => {
-        try {
-            updatePage(section);
-        } catch (error) {
-            console.log("Did not switch to section: " + section + "; " + error);
-        } finally {
-            console.log("Switched to section: " + section);
-        }
-    });
+    loadPage(section);
 }
 
 function initPage() {
@@ -61,17 +57,29 @@ function initPage() {
     if (page != null) {
         changeSection(page);
     } else {
-        goToSection('primary', false);
+        goToSection(DEFAULT_SECTION, false);
     }
 }
 
-function loadPage(_callback = (() => { })) {
+function loadPage(section) {
     // Load the page
-    includeHTML(() => {
-        _callback();
-        crunch();
-        console.log(document.cookie);
-    });
+
+    includeHTML(
+        (file) => {
+            console.log("Loaded file: "+file)  
+        },
+        () => {
+            try {
+                updatePage(section);
+                crunch();
+            } catch (error) {
+                console.log("Did not switch to section: " + section + "; " + error);
+            } finally {
+                console.log("Switched to section: " + section);
+            }
+            console.log("Cookies = "+document.cookie);
+        }
+    );
 }
 
 // Save bones and change URL - avoids me having to copy the header everywhere
@@ -171,7 +179,6 @@ function crunch() {
 
         // Change RSS feed structure
         for (let i = 0; i < rssMain.length; i++) {
-            console.log("crunch: "+rssMain[i])
             rssMain[i].style.display = "none";
         }
         for (let i = 0; i < rssCrunch.length; i++) {
@@ -282,40 +289,15 @@ function updateCurrentDates() {
     }
 }
 
-// Alter footer if body is too big
-// NB: DOES NOT EXECUTE
-function expandToWindow() {
-    var footer, footerwrapper
-
-    footerwrapper = document.getElementById("footer-wrapper");
-    footer = document.getElementById("footer");
-
-    // Don't expand if footer hasn't loaded yet
-    if (footerwrapper == null || footer == null) {
-        return;
-    }
-
-    if (document.body.clientHeight > window.innerHeight) {
-        footerwrapper.style.position = "relative";
-        footer.style.position = "relative";
-    } else {
-        footerwrapper.style.position = "absolute";
-        footer.style.position = "fixed";
-    }
-}
-
 // ===== FILE HANDLING ===== //
 
 // Read file via XHTTP and use it
-function read(_callback, file) {
+function readHTML(file, _callback) {
     // Create an XMLHttpRequest object
     const xhttp = new XMLHttpRequest();
 
     // On data retreival
-    xhttp.onload = function () {
-        console.log("Loaded " + file)
-        _callback();
-    }
+    xhttp.onreadystatechange = _callback;
 
     // Send a request
     xhttp.open("GET", file);
@@ -324,60 +306,52 @@ function read(_callback, file) {
 }
 
 // XHTML integration to allow all of the pages to be inserted into eachother (W3 Schools)
-function includeHTML(_callback, _fileload = null) {
+function includeHTML(_recurse = IDENTITY, _then = IDENTITY) {
     var z, i, elmnt, file, xhttp;
 
     // Loop through a collection of all HTML elements:
-    z = document.getElementsByTagName("*");
+    elmnt = document.querySelector("[html-ref]");
 
-    for (i = 0; i < z.length; i++) {
-        elmnt = z[i];
+    if (elmnt == null) {
+        _then();
+        return;
+    }
 
-        // search for elements with a certain atrribute:
-        file = elmnt.getAttribute("w3-include-html");
+    // search for elements with a certain atrribute:
+    file = elmnt.getAttribute("html-ref");
 
-        if (file) {
-            // Make an HTTP request using the attribute value as the file name:
-            xhttp = new XMLHttpRequest();
+    recursive_callback = function () {
+        if (this.readyState == 4) {
 
-            // Wait for state change
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4) {
-
-                    // Catch errors
-                    if (this.status == 200) { elmnt.innerHTML = this.responseText; }
-                    else if (this.status == 404) { elmnt.innerHTML = "404 Page not found."; }
-                    else {
-                        elmnt.innerHTML =
-                            "There was some unidentified issue stopping the webpage from loading." +
-                            "\nError Status: " + this.status;
-                    }
-
-                    // Remove the attribute, and call this function once more:
-                    elmnt.removeAttribute("w3-include-html");
-
-                    // Recursive call
-                    console.log("Loaded " + file);
-                    includeHTML(_callback);
-
-                    // Load bones in footer
-                    if (file == 'src/layout/footer.html') {
-                        loadBones();
-                    }
-
-                    // XHTTP doesn't like async/await, so just do it every time the XHTTP is loaded
-                    _callback();
-                }
+            // Catch errors
+            if (this.status == 200) { elmnt.innerHTML = this.responseText; }
+            else if (this.status == 404) { elmnt.innerHTML = "404 Page not found."; }
+            else {
+                elmnt.innerHTML =
+                    "There was some unidentified issue stopping the webpage from loading." +
+                    "\nError Status: " + this.status;
             }
 
-            // Open file
-            xhttp.open("GET", file, true);
-            xhttp.send();
+            // Remove the attribute, and call this function once more:
+            elmnt.removeAttribute("html-ref");
 
-            // Exit the function:
-            return;
+            // XHTTP doesn't like async/await, so just do it every time the XHTTP is loaded
+            _recurse(file);
+
+            // Load bones in footer
+            if (file == 'src/layout/footer.html') {
+                loadBones();
+            }
+
+            // Recursive call
+            includeHTML(_recurse, _then);
         }
     }
+    
+    readHTML(file, recursive_callback);
+
+    // Exit the function:
+    return;
 }
 
 // ===== BONES ===== //
