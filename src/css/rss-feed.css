@@ -75,6 +75,7 @@
 .news-item {
   display: inline-flex;
   max-height: max-content;
+  min-height: max-content;
 
   justify-content: center;
   align-items: center;
@@ -87,23 +88,34 @@
 }
 
 .item-inline {
-  display: table;
+  display: inline-flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-self: stretch;
+
   padding-inline: 2%;
-  max-height: fit-content;
 }
 
 .item-link {
-  display: table-column;
   vertical-align: middle;
+}
 
-  min-width: max-content;
-  max-width: max-content;
+.item-cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  text-align: justify;
+  margin-block: 1em;
+  max-width: 13ch;
+  min-width: 13ch;
 }
 
 .item-image {
-  display: table-cell;
   vertical-align: middle;
   object-fit: cover;
+  min-height: 13ch;
+  max-height: 13ch;
 }
 
 .item-content {

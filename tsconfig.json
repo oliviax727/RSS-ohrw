@@ -5,7 +5,6 @@
     "exclude": [
         "node_modules",
         "./*.ts",
-        "./src/scripts/js/*",
         "./src/scripts/app/*",
     ],
 
@@ -29,6 +28,6 @@
             "dom.iterable"
         ],
         "rootDir": "./src/scripts/ts",
-        "outDir": "./src/scripts/js",
+        "outDir": "./src/scripts/app",
     },
 }
