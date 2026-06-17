@@ -6,6 +6,7 @@ console.info("This message should appear if the javascript integration has worke
 import Helpers from './src/scripts/js/helpers.js';
 import MainHTML from './src/scripts/js/main.js';
 import BoneMiner from './src/scripts/js/game.js';
+import ReaderState, { ModifyRSSHTML } from './src/scripts/js/rss.js';
 
 // Constants
 const SECTION_COLOR_DICT = new Map([
@@ -29,6 +30,8 @@ const CRUNCH_SIZE = 1120;
 
 const DEFAULT_SECTION = 'primary';
 
+// Main HTML functions
+
 let mhtml = new MainHTML(SECTION_COLOR_DICT, CRUNCH_SIZE, DEFAULT_SECTION);
 
 window.help = Helpers;
@@ -36,3 +39,9 @@ window.bm = BoneMiner;
 
 window.onload = mhtml.initPage;
 window.onresize = mhtml.crunch;
+
+// Additional RSS functions
+
+let rssData = new ReaderState()
+
+window.mrh = ModifyRSSHTML;
