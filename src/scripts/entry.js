@@ -1,1 +1,1 @@
-console.log("entry.js integrated");
+console.log("Entry javascript integrated.");
