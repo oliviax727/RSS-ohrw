@@ -1,6 +1,4 @@
 TODO/REMINDER:
-- Expand/Minimise Window -> rss.js
-- Reload Window -> rss.js
 - Call app functions (with a main function for initialisation) -> entry.js
 - Complete ObjectHTML and attributes for Feed Class -> load-rss.ts
 - Save and load read/dismissed uuids to cookies, use document.help.(get|set)cookie -> load-rss.ts
