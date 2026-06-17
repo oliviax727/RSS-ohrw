@@ -1,7 +1,15 @@
-
+TODO/REMINDER:
+- Expand/Minimise Window -> rss.js
+- Reload Window -> rss.js
+- Call app functions (with a main function for initialisation) -> entry.js
+- Complete ObjectHTML and attributes for Feed Class -> load-rss.ts
+- Save and load read/dismissed uuids to cookies, use document.help.(get|set)cookie -> load-rss.ts
+- Display the RSS information (color two buttons light gray/theme colour if read/dismissed) -> display-rss.ts
+- "Dismiss" feed item -> dismiss-rss-item.ts
+- Aggregate XML data over a week? See if I can call that from the files -> load-rss.ts
 
 Pipelines:
-(compilation) src/ts/*.ts -> [tsc] -> src/javascript/*.js -> [npm to cdn] -> src/app/*.js
+(compilation) src/ts/*.ts -> [tsc] -> [npm to cdn] -> src/app/*.js
 (rss deconversion) xml format -> html format
 (calling rss feeds) [Somehow when accessing the github api or the webpage itself it produces the updated rss xml file]
 (updating/reloading rss feeds) [Reloading the page or reading a link marks the link as read and added to the json, or use cookies!]

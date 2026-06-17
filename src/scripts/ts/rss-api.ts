@@ -35,6 +35,9 @@ export namespace LoadRSS {
             date?: Date;
 
             parentData: ParentData;
+
+            read: boolean;
+            dismissed: boolean;
         }
 
         // RSS Feed
@@ -69,7 +72,9 @@ export namespace LoadRSS {
             // Sort feed array based on date
             sortFeed(): void {
                 this.entryList.sort((a: Entry, b: Entry) => {
-                    if (a.date !== undefined && b.date !== undefined) {
+                    if (a.dismissed != b.dismissed) {
+                        return (+a.dismissed) - (+b.dismissed)
+                    } else if (a.date !== undefined && b.date !== undefined) {
                         return (+b.date) - (+a.date);
                     } else {
                         return b.uuid - a.uuid;
@@ -107,7 +112,9 @@ export namespace LoadRSS {
                     title: xmlItem.title as string,
                     description: xmlItem.contentSnippet as string,
                     date: typeof xmlItem.pubDate === "string" ? new Date(xmlItem.pubDate) : undefined,
-                    parentData: itemParent
+                    parentData: itemParent,
+                    read: false,
+                    dismissed: false
                 };
             }
         }

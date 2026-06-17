@@ -1,4 +1,7 @@
 (
+    # Clear app folder
+    rm -rf ./src/scripts/app/*
+
     # Compile to js folder
     tsc
 

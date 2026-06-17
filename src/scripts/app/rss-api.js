@@ -63,7 +63,9 @@ export var LoadRSS;
                     title: xmlItem.title,
                     description: xmlItem.contentSnippet,
                     date: typeof xmlItem.pubDate === "string" ? new Date(xmlItem.pubDate) : undefined,
-                    parentData: itemParent
+                    parentData: itemParent,
+                    read: false,
+                    dismissed: false
                 };
             }
         }
