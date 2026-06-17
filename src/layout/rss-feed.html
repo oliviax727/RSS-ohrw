@@ -5,17 +5,23 @@
     <link rel="stylesheet" href="src/css/rss-feed.css">
 </head>
 
-<body>
+<body onload="">
     <div class="feed-navbar">
         <div class="feed-navbar-item feed-navbar-button feed-navbar-rss">
-            <a id="rss-feed-max" href="src/data/test_feed.xml"><img src="src/img/icons/fullscreen.png"></a>
-            <a id="rss-feed-min" href="src/data/test_feed.xml" hidden><img src="src/img/icons/minimize.png"></a>
+            <div id="rss-feed-max" class="icon-button">
+                <img onclick="" src="src/img/icons/fullscreen.png">
+            </div>
+            <div hidden id="rss-feed-min" class="icon-button">
+                <img onclick="" src="src/img/icons/minimize.png">
+            </div>
         </div>
         <div class="feed-navbar-item central-navbar">
             <span class="current-date"></span>
         </div>
         <div class="feed-navbar-item feed-navbar-button feed-navbar-reload">
-            <a onclick=""><img src="src/img/icons/refresh.png"></a>
+            <div class="icon-button">
+                <img onclick="" src="src/img/icons/refresh.png">
+            </div>
         </div>
     </div>
     <div onload="" class="feed-content" id="rss-news-feed">
