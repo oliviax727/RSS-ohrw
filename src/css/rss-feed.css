@@ -45,11 +45,11 @@
   width: 24%;
 }
 
-.feed-navbar-rss {
+.feed-navbar-left {
     justify-content: left;
 }
 
-.feed-navbar-reload {
+.feed-navbar-right {
     justify-content: right;
 }
 
