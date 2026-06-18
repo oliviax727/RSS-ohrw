@@ -12,7 +12,7 @@
                 <img src="src/img/icons/menu.png">
             </a>
             <a onclick="mrh.toggleFullscreen(true);" class="rss-feed-max icon-button">
-                <img onload="mrh.checkFullscreen();" src="src/img/icons/fullscreen.png">
+                <img src="src/img/icons/fullscreen.png">
             </a>
             <a hidden onclick="mrh.toggleFullscreen(false);" class="rss-feed-min icon-button">
                 <img src="src/img/icons/minimize.png">
@@ -38,4 +38,5 @@
         <div html-ref="src/layout/rss-object.htm"></div>
         </p>
     </div>
+    <img onload="console.log('Loaded Feed'); mrh.checkFullScreen();"" >
 </body>

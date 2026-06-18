@@ -46,7 +46,7 @@ export class ModifyRSSHTML {
         var feedWindow = document.getElementById("rss-feed-wrapper");
 
         var elementsToHide =
-            ["menu-wrapper", "ribbon-wrapper", "footer-wrapper", "sidebar"]
+            ["ribbon-wrapper", "footer-wrapper", "sidebar"]
                 .map((id) => document.getElementById(id));
 
         if (toggleflag) {
