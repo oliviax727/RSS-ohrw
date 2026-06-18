@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import Parser, {} from 'https://cdn.jsdelivr.net/npm/rss-parser';
+import Parser, {} from 'https://esm.sh/rss-parser';
 export var LoadRSS;
 (function (LoadRSS) {
     // Load RSS object from XML
@@ -29,7 +29,10 @@ export var LoadRSS;
             // Sort feed array based on date
             sortFeed() {
                 this.entryList.sort((a, b) => {
-                    if (a.date !== undefined && b.date !== undefined) {
+                    if (a.dismissed != b.dismissed) {
+                        return (+a.dismissed) - (+b.dismissed);
+                    }
+                    else if (a.date !== undefined && b.date !== undefined) {
                         return (+b.date) - (+a.date);
                     }
                     else {

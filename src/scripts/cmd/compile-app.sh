@@ -9,7 +9,7 @@
     js_files=(./src/scripts/app/*)
     line_regex='^(?!(.*(\/\/)))(import\h+(\S+\h+)+from\s+)('\''\S+'\'')(\h|;)*$'
     modl_regex='(?<=from\s'\'')(\w|[\-\_\.])+(?='\''|\h|;)'
-    cdn_http='https://cdn.jsdelivr.net/npm/'
+    cdn_http='https://esm.sh/'
 
     for js_file in "${js_files[@]}"; do
         line="$(ggrep -oP "$line_regex" $js_file)"
