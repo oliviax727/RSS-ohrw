@@ -37,11 +37,11 @@ let mhtml = new MainHTML(SECTION_COLOR_DICT, DEFAULT_CRUNCH_SIZE, DEFAULT_SECTIO
 window.help = Helpers;
 window.bm = BoneMiner;
 
-window.onload = () => { mhtml.initPage(); };
 window.onresize = mhtml.crunch;
 
 // Additional RSS functions
 
-let rssData = new ReaderState()
+let rssData = new ReaderState();
 
 window.mrh = ModifyRSSHTML;
+window.onload = () => { mhtml.initPage(mrh.checkFullscreen); };
