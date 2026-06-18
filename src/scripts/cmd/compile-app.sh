@@ -1,3 +1,4 @@
+<<comment
 (
     # Clear app folder
     rm -rf ./src/scripts/app/*
@@ -19,4 +20,16 @@
             gsed -i "s|$line|$new_line|" $js_file
         fi
     done
+)
+comment
+
+(
+    # Compile to js folder
+    tsc
+
+    # Babelify
+    ./node_modules/.bin/babel ./src/scripts/js --out-dir ./src/scripts/lib
+
+    # Browserify
+    browserify ./src/scripts/entry.js -o ./src/scripts/script.js
 )
