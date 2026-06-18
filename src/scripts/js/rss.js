@@ -15,7 +15,9 @@ export class ModifyRSSHTML {
 
         var container = document.getElementById("rss-feed-wrapper");
         container.innerHTML = ModifyRSSHTML.FEED_CONTAINER_INNER_HTML;
-        self.mhtml.loadPage(null);
+        self.mhtml.loadPage(null, () => {
+            ModifyRSSHTML.toggleFullscreen(fullscreen);
+        });
     }
 
     // ===== EXPAND/MINIMISE READER ===== //
@@ -51,7 +53,9 @@ export class ModifyRSSHTML {
 
         if (toggleflag) {
             elementsToHide.forEach((element) => {
-                element.style.display = 'none';
+                if (element != null) {
+                    element.style.display = 'none';
+                }
             })
 
             feedWindow.style.position = 'fixed';
@@ -72,7 +76,9 @@ export class ModifyRSSHTML {
             feedWindow.style.height = '';
 
             elementsToHide.forEach((element) => {
-                element.style.display = '';
+                if (element != null) {
+                    element.style.display = '';
+                }
             })
 
             self.mhtml.CRUNCH_SIZE = self.mhtml.DEFAULT_CRUNCH_SIZE;
