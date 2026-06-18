@@ -8,13 +8,16 @@ try {
     console.log("Entry javascript integrated. Imports work!");
 }
 
-import fs from "https://esm.sh/file-system";
+import rssApi from './app/rss-api.js';
+import displayRss from './app/display-rss.js';
+import dismissRssItem from './app/dismiss-rss-item.js';
 
-/*
-fs.readdir('./js', (err, files) => {
-    files.forEach(async file => {
-        const module = await import('./' + file)
-        console.log("Imported: "+file);
-    });
-});
-*/
+
+export default async function tsModuleEntry() {
+    console.log("hello");
+
+    //await rssApi();
+    //await displayRss();
+    //await dismissRssItem();
+}
+

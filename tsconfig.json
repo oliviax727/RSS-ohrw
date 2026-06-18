@@ -5,7 +5,7 @@
     "exclude": [
         "node_modules",
         "./*.ts",
-        "./src/scripts/app/*",
+        "./src/scripts/js/*",
     ],
 
     // Visit https://aka.ms/tsconfig to read more about this file
@@ -28,6 +28,6 @@
             "dom.iterable"
         ],
         "rootDir": "./src/scripts/ts",
-        "outDir": "./src/scripts/app",
+        "outDir": "./src/scripts/js",
     },
 }

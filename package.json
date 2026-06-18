@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "@babel/plugin-transform-class-properties": "^8.0.1",
     "@types/file-saver": "^2.0.7",
     "@types/node": "^25.9.1",
     "@types/rss": "^0.0.32",
@@ -13,5 +14,10 @@
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
     "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^8.0.1",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2"
   }
 }

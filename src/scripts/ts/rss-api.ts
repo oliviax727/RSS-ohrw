@@ -2,6 +2,10 @@
 
 import Parser, { type Output } from 'rss-parser';
 
+export default function rssApi() {
+    console.log("rss-api module loaded");
+}
+
 export namespace LoadRSS {
 
     // Load RSS object into HTML
