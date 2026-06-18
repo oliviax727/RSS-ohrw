@@ -1,5 +1,6 @@
 import BoneMiner from "./game.js";
 import Helpers from "./helpers.js";
+import { ModifyRSSHTML } from "./rss.js";
 
 // Main HTML Class
 class MainHTML {
@@ -67,6 +68,7 @@ class MainHTML {
                     self.mhtml.updatePage(section);
                     self.mhtml.crunch();
                     BoneMiner.loadBones();
+                    ModifyRSSHTML.checkFullscreen();
                     _callback();
                 } catch (error) {
                     console.log("Did not switch to section: " + section + "; " + error);
