@@ -8,23 +8,26 @@
 <body onload="">
     <div class="feed-navbar">
         <div class="feed-navbar-item feed-navbar-button feed-navbar-left">
-            <a class="rss-feed-max" onclick="mrh.reloadFeed(false);" class="icon-button">
-                <img src="src/img/icons/refresh.png">
+            <a hidden onclick="mhtml.toggleMenu(true);" class="icon-button rss-feed-min">
+                <img src="src/img/icons/menu.png">
             </a>
-            <a hidden class="rss-feed-min" onclick="mrh.reloadFeed(true);" class="icon-button">
-                <img src="src/img/icons/refresh.png">
-            </a>
-        </div>
-        <div class="feed-navbar-item central-navbar">
-            <span class="current-date"></span>
-        </div>
-        <div class="feed-navbar-item feed-navbar-button feed-navbar-right">
-            <a onclick="mrh.toggleFullscreen(true);" class="rss-feed-max" class="icon-button">
+            <a onclick="mrh.toggleFullscreen(true);" class="rss-feed-max icon-button">
                 <img src="src/img/icons/fullscreen.png">
             </a>
-            <a hidden onclick="mrh.toggleFullscreen(false);" class="rss-feed-min" class="icon-button">
+            <a hidden onclick="mrh.toggleFullscreen(false);" class="rss-feed-min icon-button">
                 <img src="src/img/icons/minimize.png">
             </a>
+            <a onclick="mrh.reloadFeed(false);" class="rss-feed-max icon-button">
+                <img src="src/img/icons/refresh.png">
+            </a>
+            <a hidden onclick="mrh.reloadFeed(true);" class="rss-feed-min icon-button">
+                <img src="src/img/icons/refresh.png">
+            </a>
+        </div>
+        <div class="feed-navbar-item feed-navbar-button feed-navbar-right">
+            <span class="current-date"></span>
+            <span>—</span>
+            <span class="sectionname"></span>
         </div>
     </div>
     <div onload="" class="feed-content" id="rss-news-feed">
