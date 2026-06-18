@@ -128,8 +128,6 @@ export namespace LoadRSS {
     // Helper functions for the LoadRSS
     export namespace RSSHelper {
 
-        const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
-
         const rssParser: Parser<{}, {}> = new Parser();
 
         export function uuidURL(url: string): number {
@@ -147,8 +145,10 @@ export namespace LoadRSS {
 
         // Retreive XML file
         export async function getXML(url: string): Promise<Parser.Output<{}>> {
-            let feed = await rssParser.parseURL(CORS_PROXY+url);
-            return feed;
+            let responseXML = await fetch(url);
+            let textXML = await responseXML.text();
+
+            return await rssParser.parseString(textXML);
         }
     }
 
