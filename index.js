@@ -47,11 +47,4 @@ window.mrh = ModifyRSSHTML;
 
 window.onload = () => { 
     mhtml.initPage(self.mrh.checkFullscreen);
-    try {
-
-    } catch (error) {
-        console.log(error);
-    } finally {
-        
-    }
 };
