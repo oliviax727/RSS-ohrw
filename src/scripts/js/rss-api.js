@@ -80,6 +80,7 @@ export var LoadRSS;
     // Helper functions for the LoadRSS
     let RSSHelper;
     (function (RSSHelper) {
+        const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
         const rssParser = new Parser();
         function uuidURL(url) {
             function getHash(str, seed = 5381) {
@@ -95,7 +96,7 @@ export var LoadRSS;
         RSSHelper.uuidURL = uuidURL;
         // Retreive XML file
         async function getXML(url) {
-            let feed = await rssParser.parseURL(url);
+            let feed = await rssParser.parseURL(CORS_PROXY + url);
             return feed;
         }
         RSSHelper.getXML = getXML;
