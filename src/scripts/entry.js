@@ -8,4 +8,13 @@ try {
     console.log("Entry javascript integrated. Imports work!");
 }
 
-import Parser, {} from 'https://esm.sh/rss-parser';
+import fs from "https://esm.sh/file-system";
+
+/*
+fs.readdir('./js', (err, files) => {
+    files.forEach(async file => {
+        const module = await import('./' + file)
+        console.log("Imported: "+file);
+    });
+});
+*/
