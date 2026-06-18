@@ -2,7 +2,7 @@ import Helpers from "./helpers.js";
 
 // Modify the RSS Feed HTML element
 export class ModifyRSSHTML {
-    
+
     static FEED_CONTAINER_INNER_HTML = '<div html-ref="src/layout/rss-feed.html"></div>';
 
     static FULLSCREEN_CRUNCH_SIZE = 700;
@@ -15,14 +15,20 @@ export class ModifyRSSHTML {
 
         var container = document.getElementById("rss-feed-wrapper");
         container.innerHTML = ModifyRSSHTML.FEED_CONTAINER_INNER_HTML;
-        self.mhtml.loadPage(null,
-            () => {
-                ModifyRSSHTML.toggleFullscreen(fullscreen);
-            }
-        );
+        self.mhtml.loadPage(null);
     }
 
     // ===== EXPAND/MINIMISE READER ===== //
+
+    // Check if there is a fullscreen jquery parameter and then fullscreen if true
+    static checkFullscreen() {
+        const url = new URL(window.location.href);
+        const fullscreen = (url.searchParams.get('fullscreen') === 'true');
+
+        if (fullscreen) {
+            ModifyRSSHTML.toggleFullscreen(fullscreen);
+        }
+    }
 
     // Toggle the expand and contract window functions
     static toggleFullscreen(toggleflag) {
@@ -30,6 +36,10 @@ export class ModifyRSSHTML {
 
         ModifyRSSHTML.expandOrContractFeedWindow(toggleflag);
         ModifyRSSHTML.hideAndUnhideToggleButtons(toggleflag);
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('fullscreen', toggleflag);
+        window.history.pushState(null, '', url.toString());
     }
 
     static expandOrContractFeedWindow(toggleflag) {
@@ -37,7 +47,7 @@ export class ModifyRSSHTML {
 
         var elementsToHide =
             ["menu-wrapper", "ribbon-wrapper", "footer-wrapper", "sidebar"]
-            .map((id) => document.getElementById(id));
+                .map((id) => document.getElementById(id));
 
         if (toggleflag) {
             elementsToHide.forEach((element) => {
@@ -47,7 +57,7 @@ export class ModifyRSSHTML {
             feedWindow.style.position = 'fixed';
             feedWindow.style.top = '0';
             feedWindow.style.left = '0';
-            
+
             feedWindow.style.width = '100vw';
             feedWindow.style.height = '100vh';
 

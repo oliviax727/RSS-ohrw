@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <div id="sidebar-ribbon"> <!--onmouseleave="mhtml.toggleMenu(false);">-->
+    <div id="sidebar-ribbon" onmouseleave="mhtml.toggleMenu(false);">
         <div class="menu" id="sectionname-menu-wrapper">
             <span>Section - </span>
             <span class="sectionname"></span>
@@ -36,6 +36,6 @@
         </div>
     </div>
 
-    <div id="decolourbox" onclick="mhtml.toggleMenu(false);"></div>
+    <div id="decolourbox" onclick="mhtml.toggleMenu(false);" onmouseenter="mhtml.toggleMenu(false);"></div>
 
 </body>

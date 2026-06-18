@@ -34,23 +34,35 @@
   min-width: max-content;
 
   padding-inline: 1%;
-  min-width: 50%;
 }
 
 .feed-navbar-item * {
   margin-inline: 1%;
+  min-width: max-content;
 }
 
-.feed-navbar-button {
-  width: 24%;
+.feed-navbar .sectionname {
+  font-weight: normal;
+  width: initial;
+  min-width: initial;
+  display: initial;
+  width: initial;
+  float: initial;
+  justify-content: initial;
+  text-align: initial;
+  padding: initial;
 }
 
 .feed-navbar-left {
   justify-content: left;
+  float: left;
+  width: 33%;
 }
 
 .feed-navbar-right {
   justify-content: right;
+  float: right;
+  width: 66%;
 }
 
 .feed-navbar img {

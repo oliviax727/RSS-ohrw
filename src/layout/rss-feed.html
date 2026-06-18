@@ -5,14 +5,14 @@
     <link rel="stylesheet" href="src/css/rss-feed.css">
 </head>
 
-<body onload="">
+<body>
     <div class="feed-navbar">
-        <div class="feed-navbar-item feed-navbar-button feed-navbar-left">
+        <div class="feed-navbar-item feed-navbar-left">
             <a hidden onclick="mhtml.toggleMenu(true);" class="icon-button rss-feed-min">
                 <img src="src/img/icons/menu.png">
             </a>
             <a onclick="mrh.toggleFullscreen(true);" class="rss-feed-max icon-button">
-                <img src="src/img/icons/fullscreen.png">
+                <img onload="mrh.checkFullscreen();" src="src/img/icons/fullscreen.png">
             </a>
             <a hidden onclick="mrh.toggleFullscreen(false);" class="rss-feed-min icon-button">
                 <img src="src/img/icons/minimize.png">
@@ -24,10 +24,10 @@
                 <img src="src/img/icons/refresh.png">
             </a>
         </div>
-        <div class="feed-navbar-item feed-navbar-button feed-navbar-right">
+        <div class="feed-navbar-item feed-navbar-right">
             <span class="current-date"></span>
-            <span>—</span>
-            <span class="sectionname"></span>
+            <span class="rss-feed-max">—</span>
+            <span class="rss-feed-max sectionname"></span>
         </div>
     </div>
     <div onload="" class="feed-content" id="rss-news-feed">
