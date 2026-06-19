@@ -161,3 +161,7 @@ async function getXML(url: string): Promise<Parser.Output<object> | undefined> {
 // ===== TYPE EXPORTS ===== //
 
 export type EntryFunction = () => Promise<void>;
+
+export namespace e {
+    
+}

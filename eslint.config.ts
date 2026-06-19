@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
+import functional from "eslint-plugin-functional";
 
 export default defineConfig([
   {
@@ -19,13 +20,32 @@ export default defineConfig([
       "src/scripts/types/*.d.ts",
       "src/scripts/entry.js",
     ],
-    plugins: { js },
-    extends: ["js/recommended"],
+    plugins: { js, functional },
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
     languageOptions: {
-      globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+      },
     },
   },
-  tseslint.configs.recommended,
-  tseslint.configs.strict,
-  tseslint.configs.stylistic,
+  {
+    files: [
+      "src/scripts/ts/rss-modules.ts"
+    ],
+    plugins: { functional },
+    extends: [
+      functional.configs.recommended,
+      functional.configs.stylistic
+    ],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
 ]);
