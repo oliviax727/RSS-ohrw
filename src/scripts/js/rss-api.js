@@ -19,13 +19,18 @@ export var LoadRSS;
             async createFeed() {
                 const promisedEntries = Array.from(this.urlList).map(async ([name, url]) => {
                     console.log("Getting data from: " + url);
-                    let feedData = await RSSHelper.getXML(url);
+                    const feedData = await RSSHelper.getXML(url);
+                    if (feedData == undefined) {
+                        return undefined;
+                    }
                     const entriesToAdd = this.parsedXMLToEntries(feedData, name);
                     return entriesToAdd;
                 });
                 const unconcatenatedEntries = await Promise.all(promisedEntries);
                 unconcatenatedEntries.forEach((entrySet) => {
-                    this.entryList = [...this.entryList, ...entrySet];
+                    if (entrySet != undefined) {
+                        this.entryList = [...this.entryList, ...entrySet];
+                    }
                 });
                 this.sortFeed();
             }
@@ -95,9 +100,23 @@ export var LoadRSS;
         RSSHelper.uuidURL = uuidURL;
         // Retreive XML file
         async function getXML(url) {
-            let responseXML = await fetch(url);
-            let textXML = await responseXML.text();
-            return await rssParser.parseString(textXML);
+            let responseXML = undefined;
+            try {
+                responseXML = await fetch(url);
+            }
+            catch (error) {
+                console.log("An unknown error occured while fetching the XML file: " + url + ";\n" + error);
+            }
+            finally {
+                if (responseXML?.ok) {
+                    const textXML = await responseXML.text();
+                    return await rssParser.parseString(textXML);
+                }
+                else {
+                    console.log("A error occured HTTP. Code: " + responseXML?.status);
+                }
+            }
+            return undefined;
         }
         RSSHelper.getXML = getXML;
     })(RSSHelper = LoadRSS.RSSHelper || (LoadRSS.RSSHelper = {}));

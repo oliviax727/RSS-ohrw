@@ -59,15 +59,22 @@ export namespace LoadRSS {
 
                 const promisedEntries = Array.from(this.urlList).map(async ([name, url]: string[]) => {
                     console.log("Getting data from: " + url);
-                    let feedData = await RSSHelper.getXML(url);
+                    const feedData = await RSSHelper.getXML(url);
+
+                    if (feedData == undefined) {
+                        return undefined;
+                    }
+
                     const entriesToAdd = this.parsedXMLToEntries(feedData, name);
                     return entriesToAdd;
                 });
 
                 const unconcatenatedEntries = await Promise.all(promisedEntries);
 
-                unconcatenatedEntries.forEach((entrySet: Set<Entry>) => {
-                    this.entryList = [...this.entryList, ...entrySet];
+                unconcatenatedEntries.forEach((entrySet: Set<Entry> | undefined) => {
+                    if (entrySet != undefined) {
+                        this.entryList = [...this.entryList, ...entrySet];
+                    }
                 })
 
                 this.sortFeed();
@@ -144,14 +151,24 @@ export namespace LoadRSS {
         }
 
         // Retreive XML file
-        export async function getXML(url: string): Promise<Parser.Output<{}>> {
-            let responseXML = await fetch(url);
-            let textXML = await responseXML.text();
+        export async function getXML(url: string): Promise<Parser.Output<{}> | undefined> {
+            let responseXML = undefined;
+            
+            try {
+                responseXML = await fetch(url);
+            } catch (error: unknown) {
+                console.log("An unknown error occured while fetching the XML file: "+url+";\n" +error);
+            } finally {
+                if (responseXML?.ok) {
+                    const textXML = await responseXML.text();
+                    return await rssParser.parseString(textXML);
+                } else {
+                    console.log("A error occured HTTP. Code: " + responseXML?.status);
+                }
+            }
 
-            return await rssParser.parseString(textXML);
+            return undefined;
         }
     }
-
-
 
 }
