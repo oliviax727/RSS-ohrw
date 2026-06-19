@@ -15,11 +15,13 @@
         "skipLibCheck": true,
         "target": "es2022",
         "allowJs": true,
+        "checkJs": false,
         "resolveJsonModule": true,
         "moduleDetection": "force",
         "isolatedModules": true,
         "verbatimModuleSyntax": true,
         "declaration": true,
+        "declarationDir": "./src/scripts/types",
         // Transpile our TypeScript code to JavaScript
         "module": "esnext",
         // Include the DOM types
@@ -29,6 +31,6 @@
             "dom.iterable"
         ],
         "rootDir": "./src/scripts/ts",
-        "outDir": "./src/scripts/dist",
+        "outDir": "./src/scripts/dist"
     },
 }

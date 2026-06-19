@@ -1,6 +1,6 @@
 (
     # Remove contents of dist and app
-    rm -rf ./src/scripts/dist ./src/scripts/app
+    rm -rf ./src/scripts/dist/* ./src/scripts/app/* ./src/scripts/types/*
 
     # Compile to js folder
     tsc

@@ -6,20 +6,24 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
   {
     ignores: [
-      "bundle.js",
-      "index.js",
+      "*.ts",
+      "*.js",
       "src/scripts/dist/*",
       "src/scripts/app/*",
+      "src/scripts/lib/*",
     ],
   },
   {
     files: [
-      "src/scripts/ts/*.{js,mjs,cjs,ts,mts,cts}",
-      "src/scripts/entry.js"
+      "src/scripts/ts/*.ts",
+      "src/scripts/types/*.d.ts",
+      "src/scripts/entry.js",
     ],
     plugins: { js },
     extends: ["js/recommended"],
-    languageOptions: { globals: globals.browser },
+    languageOptions: {
+      globals: globals.browser,
+    },
   },
   tseslint.configs.recommended,
   tseslint.configs.strict,
