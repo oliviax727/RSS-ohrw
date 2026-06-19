@@ -3,10 +3,10 @@
 // End-user check JS works
 console.info("This message should appear if the javascript integration has worked.");
 
-import Helpers from './src/scripts/app/helpers.js';
-import MainHTML from './src/scripts/app/main.js';
-import BoneMiner from './src/scripts/app/game.js';
-import ReaderState, { ModifyRSSHTML } from './src/scripts/app/rss.js';
+import Helpers from './src/scripts/lib/helpers.js';
+import MainHTML from './src/scripts/lib/main.js';
+import BoneMiner from './src/scripts/lib/game.js';
+import ReaderState, { ModifyRSSHTML } from './src/scripts/lib/rss.js';
 
 // Constants
 const SECTION_COLOR_DICT = new Map([
