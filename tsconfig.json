@@ -5,7 +5,7 @@
     "exclude": [
         "node_modules",
         "./*.ts",
-        "./src/scripts/js/*",
+        "./src/scripts/lib/*",
     ],
 
     // Visit https://aka.ms/tsconfig to read more about this file
@@ -19,6 +19,7 @@
         "moduleDetection": "force",
         "isolatedModules": true,
         "verbatimModuleSyntax": true,
+        "declaration": true,
         // Transpile our TypeScript code to JavaScript
         "module": "esnext",
         // Include the DOM types
@@ -28,6 +29,6 @@
             "dom.iterable"
         ],
         "rootDir": "./src/scripts/ts",
-        "outDir": "./src/scripts/js",
+        "outDir": "./src/scripts/dist",
     },
 }
