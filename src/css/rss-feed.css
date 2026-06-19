@@ -13,6 +13,7 @@
   align-items: center;
 
   width: inherit;
+  overflow: hidden;
 
   min-height: max-content;
   max-height: 100%;
@@ -78,8 +79,7 @@
   display: block;
   padding: 3%;
   background-color: var(--pale-wash-color);
-  min-height: calc(100%-22px);
-  height: inherit;
+  height: fit-content;
 }
 
 /* Feed Item */
@@ -97,6 +97,9 @@
   border: solid;
   border-color: black;
   border-width: 3px;
+
+  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 .item-inline {
