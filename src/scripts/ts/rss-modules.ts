@@ -79,7 +79,7 @@ function sortFeed(entryList: readonly Entry[]): Entry[] {
         } else {
             return b.uuid - a.uuid;
         }
-    })
+    });
 }
 
 // Parsed XML data to entry
@@ -134,7 +134,7 @@ function getXML(url: string): TaskEither<unknown, Parser.Output<object>> {
                 () => rssParser.parseString(textXML),
                 _id
             )
-        )(
+    )(
         TE.tryCatch(
             () => fetch(url).then((responseXML: Response) => {
                 if (responseXML.ok) {
@@ -145,7 +145,7 @@ function getXML(url: string): TaskEither<unknown, Parser.Output<object>> {
             }),
             _id
         )
-    )
+    );
 }
 
 // ===== TYPE EXPORTS ===== //
