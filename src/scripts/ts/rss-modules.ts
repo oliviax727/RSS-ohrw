@@ -1,11 +1,20 @@
 /// <reference types="node" />
 
 import Parser from 'rss-parser';
+import type { Either } from 'fp-ts/Either';
+import type { LazyArg } from 'fp-ts/function';
+import * as Eth from 'fp-ts/Either';
 
 // ===== LOAD RSS INTO HTML ===== //
 
 
 // ===== LOAD XML INTO RSS ===== //
+
+// JSON File Data
+interface EntryURL {
+    name: string;
+    link: string;
+}
 
 // RSS parent data
 interface ParentData {
@@ -36,93 +45,81 @@ interface Entry {
 }
 
 // RSS Feed
-export class Feed {
+export async function createFeed(jsonFile: string, feedName: string): PromiseEither<unknown, Entry[]> {
+    return PE.map(sortFeed)(PE.mapAndFlatten(loadXML)(loadJSON(jsonFile, feedName)));
+}
 
-    urlList: Map<string, string>;
-    entryList = new Array<Entry>();
+async function loadJSON(file: string, selection: string): PromiseEither<unknown, EntryURL[]> {
+    await getXML("");
+    return _stub();
+}
 
-    constructor(urlList: Map<string, string>) {
-        this.urlList = urlList;
-    }
+// Generate the collection of items based on the feed
+export async function loadXML(urlList: EntryURL[]): PromiseEither<unknown, Entry[]> {
 
-    // Generate the collection of items based on the feed
-    async createFeed(): Promise<void> {
+    const promisedEntries = urlList.map(async (urlEntry: EntryURL) => {
+        console.log("Getting data for: " + urlEntry.name);
 
-        const promisedEntries = Array.from(this.urlList).map(async ([name, url]: string[]) => {
-            console.log("Getting data from: " + url);
-            const feedData = await getXML(url);
+        return PE.map(
+            (feedData: Parser.Output<object>) => parsedXMLToEntries(feedData, urlEntry.name)
+        )(getXML(urlEntry.link))
+    });
 
-            if (feedData == undefined) {
-                return undefined;
-            }
+    return promisedEntries.reduce(
+        (accPE, arrPE) =>
+            Promise.all([accPE, arrPE]).then(([acc, arr]) =>
+                Eth.isLeft(arr) ? acc : Eth.right([...(Eth.isLeft(acc) ? [] : acc.right), ...arr.right])
+            ),
+        Promise.resolve(Eth.right([] as Entry[]))
+    );
+}
 
-            const entriesToAdd = this.parsedXMLToEntries(feedData, name);
-            return entriesToAdd;
-        });
+// Sort feed array based on date
+function sortFeed(entryList: Entry[]): Entry[] {
+    return entryList.sort((a: Entry, b: Entry) => {
+        if (a.dismissed != b.dismissed) {
+            return (+a.dismissed) - (+b.dismissed)
+        } else if (a.date !== undefined && b.date !== undefined) {
+            return (+b.date) - (+a.date);
+        } else {
+            return b.uuid - a.uuid;
+        }
+    })
+}
 
-        const unconcatenatedEntries = await Promise.all(promisedEntries);
+// Parsed XML data to entry
+function parsedXMLToEntries(xmlData: Parser.Output<object>, feedName: string): Entry[] {
+    return xmlData.items.map(
+        (item: Parser.Item) => itemToEntry(item, channelToParentData(xmlData, feedName))
+    );
+}
 
-        unconcatenatedEntries.forEach((entrySet: Set<Entry> | undefined) => {
-            if (entrySet != undefined) {
-                this.entryList = [...this.entryList, ...entrySet];
-            }
-        })
+// Load parent channel data into ParentData object
+function channelToParentData(xmlData: Parser.Output<object>, feedName: string): ParentData {
+    return {
+        uuid: uuidURL(xmlData.link as string),
+        name: feedName,
+        title: xmlData.title as string,
+        link: xmlData.link as string,
+        imageName: xmlData.image?.title,
+        imageUrl: xmlData.image?.url
+    };
+}
 
-        this.sortFeed();
-    }
-
-    // Sort feed array based on date
-    sortFeed(): void {
-        this.entryList.sort((a: Entry, b: Entry) => {
-            if (a.dismissed != b.dismissed) {
-                return (+a.dismissed) - (+b.dismissed)
-            } else if (a.date !== undefined && b.date !== undefined) {
-                return (+b.date) - (+a.date);
-            } else {
-                return b.uuid - a.uuid;
-            }
-        })
-    }
-
-    // Parsed XML data to entry
-    parsedXMLToEntries(xmlData: Parser.Output<object>, feedName: string): Set<Entry> {
-        const channelData: ParentData = this.channelToParentData(xmlData, feedName);
-
-        const entries = new Set(xmlData.items.map((item: Parser.Item) => {
-            return this.itemToEntry(item, channelData);
-        }));
-
-        return entries;
-    }
-
-    // Load parent channel data into ParentData object
-    channelToParentData(xmlData: Parser.Output<object>, feedName: string): ParentData {
-        return {
-            uuid: uuidURL(xmlData.link as string),
-            name: feedName,
-            title: xmlData.title as string,
-            link: xmlData.link as string,
-            imageName: xmlData.image?.title,
-            imageUrl: xmlData.image?.url
-        };
-    }
-
-    itemToEntry(xmlItem: Parser.Item, itemParent: ParentData): Entry {
-        return {
-            uuid: uuidURL(xmlItem.link as string),
-            link: xmlItem.link as string,
-            title: xmlItem.title as string,
-            description: xmlItem.contentSnippet as string,
-            date: typeof xmlItem.pubDate === "string" ? new Date(xmlItem.pubDate) : undefined,
-            parentData: itemParent,
-            read: false,
-            dismissed: false
-        };
-    }
+function itemToEntry(xmlItem: Parser.Item, itemParent: ParentData): Entry {
+    return {
+        uuid: uuidURL(xmlItem.link as string),
+        link: xmlItem.link as string,
+        title: xmlItem.title as string,
+        description: xmlItem.contentSnippet as string,
+        date: typeof xmlItem.pubDate === "string" ? new Date(xmlItem.pubDate) : undefined,
+        parentData: itemParent,
+        read: false,
+        dismissed: false
+    };
 }
 
 // ===== FILE AND FETCH HANDLING ===== //
-
 
 const rssParser = new Parser<object, object>();
 
@@ -140,28 +137,74 @@ function uuidURL(url: string): number {
 }
 
 // Retreive XML file
-async function getXML(url: string): Promise<Parser.Output<object> | undefined> {
-    try {
-        const responseXML = await fetch(url);
-
-        if (responseXML?.ok) {
-            const textXML = await responseXML.text();
-            return await rssParser.parseString(textXML);
-        } else {
-            console.log("A error occured HTTP. Code: " + responseXML?.status);
-        }
-
-    } catch (error: unknown) {
-        console.log("An unknown error occured while fetching the XML file: " + url + ";\n" + error);
-    }
-
-    return undefined;
+async function getXML(url: string): PromiseEither<unknown, Parser.Output<object>> {
+    return PE.mapAndFlatten(
+        (textXML: string) =>
+            PE.tryCatch(
+                () => rssParser.parseString(textXML),
+                _id
+            )
+    )(
+        PE.tryCatch(
+            () => fetch(url).then((responseXML: Response) => {
+                if (responseXML?.ok) {
+                    return responseXML.text();
+                } else {
+                    throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
+                }
+            }),
+            _id
+        )
+    )
 }
 
 // ===== TYPE EXPORTS ===== //
 
 export type EntryFunction = () => Promise<void>;
 
-export namespace e {
+export type PromiseEither<E, A> = Promise<Either<E, A>>;
+
+export namespace PE {
+
+    export const fromPromise = <E, A>(outerEither: Either<E, Promise<A>>): PromiseEither<E, A> =>
+        Eth.isLeft(outerEither)
+            ? Promise.resolve(Eth.left<E, A>(outerEither.left))
+            : outerEither.right.then((value: A) => Eth.right<E, A>(value));
+
+    export const propagate = <E, A>(outerEither: Either<E, PromiseEither<E, A>>): PromiseEither<E, Either<E, A>> =>
+        fromPromise(outerEither);
+
+    export const tryCatch = <E, A>(f: LazyArg<Promise<A>>, onthrow: (e: unknown) => E): PromiseEither<E, A> =>
+        fromPromise(Eth.tryCatch(f, onthrow));
+
+    export const propagateAndFlatten = <E, A>(outerEither: Either<E, PromiseEither<E, A>>): PromiseEither<E, A> =>
+        propagate(outerEither).then(Eth.flatten);
+
+    export const flatten = <E, A>(outerPromise: PromiseEither<E, PromiseEither<E, A>>): PromiseEither<E, A> =>
+        outerPromise.then(propagateAndFlatten);
+
+    export const map = <A, B, E>(f: (a: A) => B): ((fa: PromiseEither<E, A>) => PromiseEither<E, B>) =>
+        <E>(fa: PromiseEither<E, A>) => fa.then(Eth.map(f));
+
+    export const mapAndFlatten = <A, B, E>(f: (a: A) => PromiseEither<E, B>): ((fa: PromiseEither<E, A>) => PromiseEither<E, B>) =>
+        (fa: PromiseEither<E, A>) => fa.then(Eth.map(f)).then(propagateAndFlatten);
+
+    export const resolveAndThrow = <Err, A>(promisedEither: PromiseEither<Err, A>): Promise<A> =>
+        promisedEither.then((either: Either<Err, A>) => {
+            if (Eth.isLeft(either)) {
+                throw either.left;
+            }
+
+            return either.right;
+        })
+
+}
+
+export const _throw = (error: unknown): void => { throw error; };
+export const _id = <A>(error: A): A => error;
+export const _stub = (): Either<unknown, any> => Eth.left(new Error("Unknown Error") as unknown);
+
+class E {
+    abc = 5;
     
 }

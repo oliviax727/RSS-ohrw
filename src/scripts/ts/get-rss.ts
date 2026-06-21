@@ -1,18 +1,24 @@
 /// <reference types="node" />
 
-import { Feed } from "./rss-modules";
+import { PE, loadXML } from "./rss-modules";
 import type { EntryFunction } from "./rss-modules";
 
 const main: EntryFunction = async function () {
-    const feed = new Feed(new Map([
-        ["W3 Test XML", "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml"],
-        ["ABC News", "https://www.abc.net.au/news/feed/5313390/rss.xml"]
-    ])
+    const feed = await PE.resolveAndThrow(
+        loadXML([
+            {
+                name: "W3 Test XML",
+                link: "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml"
+            },
+            {
+                name: "ABC News",
+                link: "https://www.abc.net.au/news/feed/5313390/rss.xml"
+            }
+        ])
     );
 
-    await feed.createFeed();
 
-    console.log(feed.entryList);
+    console.log(feed);
 }
 
 export default main;

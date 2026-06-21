@@ -1,4 +1,9 @@
-import Parser from 'rss-parser';
+import type { Either } from 'fp-ts/Either';
+import type { LazyArg } from 'fp-ts/function';
+interface EntryURL {
+    name: string;
+    link: string;
+}
 interface ParentData {
     uuid: number;
     name: string;
@@ -17,15 +22,21 @@ interface Entry {
     read: boolean;
     dismissed: boolean;
 }
-export declare class Feed {
-    urlList: Map<string, string>;
-    entryList: Entry[];
-    constructor(urlList: Map<string, string>);
-    createFeed(): Promise<void>;
-    sortFeed(): void;
-    parsedXMLToEntries(xmlData: Parser.Output<object>, feedName: string): Set<Entry>;
-    channelToParentData(xmlData: Parser.Output<object>, feedName: string): ParentData;
-    itemToEntry(xmlItem: Parser.Item, itemParent: ParentData): Entry;
-}
+export declare function createFeed(jsonFile: string, feedName: string): PromiseEither<unknown, Entry[]>;
+export declare function loadXML(urlList: EntryURL[]): PromiseEither<unknown, Entry[]>;
 export type EntryFunction = () => Promise<void>;
+export type PromiseEither<E, A> = Promise<Either<E, A>>;
+export declare namespace PE {
+    const fromPromise: <E, A>(outerEither: Either<E, Promise<A>>) => PromiseEither<E, A>;
+    const propagate: <E, A>(outerEither: Either<E, PromiseEither<E, A>>) => PromiseEither<E, Either<E, A>>;
+    const tryCatch: <E, A>(f: LazyArg<Promise<A>>, onthrow: (e: unknown) => E) => PromiseEither<E, A>;
+    const propagateAndFlatten: <E, A>(outerEither: Either<E, PromiseEither<E, A>>) => PromiseEither<E, A>;
+    const flatten: <E, A>(outerPromise: PromiseEither<E, PromiseEither<E, A>>) => PromiseEither<E, A>;
+    const map: <A, B, E>(f: (a: A) => B) => ((fa: PromiseEither<E, A>) => PromiseEither<E, B>);
+    const mapAndFlatten: <A, B, E>(f: (a: A) => PromiseEither<E, B>) => ((fa: PromiseEither<E, A>) => PromiseEither<E, B>);
+    const resolveAndThrow: <Err, A>(promisedEither: PromiseEither<Err, A>) => Promise<A>;
+}
+export declare const _throw: (error: unknown) => void;
+export declare const _id: <A>(error: A) => A;
+export declare const _stub: () => Either<unknown, any>;
 export {};

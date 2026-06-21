@@ -25,7 +25,7 @@ export default defineConfig([
       js.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
       tseslint.configs.strictTypeChecked,
-      tseslint.configs.stylisticTypeChecked,
+      tseslint.configs.stylisticTypeChecked
     ],
     languageOptions: {
       parserOptions: {
@@ -40,7 +40,9 @@ export default defineConfig([
     plugins: { functional },
     extends: [
       functional.configs.recommended,
-      functional.configs.stylistic
+      functional.configs.stylistic,
+      functional.configs.externalVanillaRecommended,
+      functional.configs.externalTypeScriptRecommended
     ],
     languageOptions: {
       parserOptions: {
