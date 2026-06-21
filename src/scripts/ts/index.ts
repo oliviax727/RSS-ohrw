@@ -13,10 +13,10 @@ const entry: EntryFunction = async function () {
         await DisplayRSS();
         await DismissRSSItem();
     } catch (error: unknown) {
-        console.log("An error occured while trying to load the bundled modules: "+error+";");
+        console.log("An error occured while trying to load the bundled modules: "+(error as string)+";");
         
         if (error instanceof Error) {
-            console.log("In: " + error.stack);
+            console.log("In: " + (error.stack ?? "[stack unavailable]"));
         } else {
             console.trace();
         }

@@ -19,7 +19,7 @@ const entry = async function () {
   } catch (error) {
     console.log("An error occured while trying to load the bundled modules: " + error + ";");
     if (error instanceof Error) {
-      console.log("In: " + error.stack);
+      console.log("In: " + (error.stack ?? "[stack unavailable]"));
     } else {
       console.trace();
     }

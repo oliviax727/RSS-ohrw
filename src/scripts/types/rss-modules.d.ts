@@ -23,12 +23,12 @@ interface Entry {
     dismissed: boolean;
 }
 export declare function createFeed(jsonFile: string, feedName: string): PromiseEither<unknown, Entry[]>;
-export declare function loadXML(urlList: EntryURL[]): PromiseEither<unknown, Entry[]>;
+export declare function loadXML(urlList: readonly EntryURL[]): PromiseEither<unknown, Entry[]>;
+export declare const HTTPS404 = "https://oliviax727.github.io/404";
 export type EntryFunction = () => Promise<void>;
 export type PromiseEither<E, A> = Promise<Either<E, A>>;
 export declare namespace PE {
-    const fromPromise: <E, A>(outerEither: Either<E, Promise<A>>) => PromiseEither<E, A>;
-    const propagate: <E, A>(outerEither: Either<E, PromiseEither<E, A>>) => PromiseEither<E, Either<E, A>>;
+    const propagate: <E, A>(outerEither: Either<E, Promise<A>>) => PromiseEither<E, A>;
     const tryCatch: <E, A>(f: LazyArg<Promise<A>>, onthrow: (e: unknown) => E) => PromiseEither<E, A>;
     const propagateAndFlatten: <E, A>(outerEither: Either<E, PromiseEither<E, A>>) => PromiseEither<E, A>;
     const flatten: <E, A>(outerPromise: PromiseEither<E, PromiseEither<E, A>>) => PromiseEither<E, A>;
@@ -38,5 +38,5 @@ export declare namespace PE {
 }
 export declare const _throw: (error: unknown) => void;
 export declare const _id: <A>(error: A) => A;
-export declare const _stub: () => Either<unknown, any>;
+export declare const _stub: () => Either<Error, never>;
 export {};
