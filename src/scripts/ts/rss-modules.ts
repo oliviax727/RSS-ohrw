@@ -2,8 +2,9 @@
 
 import Parser from 'rss-parser';
 import type { Either } from 'fp-ts/Either';
-import type { LazyArg } from 'fp-ts/function';
+import type { TaskEither } from 'fp-ts/TaskEither';
 import * as Eth from 'fp-ts/Either';
+import * as TE from 'fp-ts/TaskEither';
 
 // ===== LOAD RSS INTO HTML ===== //
 
@@ -45,33 +46,27 @@ interface Entry {
 }
 
 // RSS Feed
-export async function createFeed(jsonFile: string, feedName: string): PromiseEither<unknown, Entry[]> {
-    return PE.map(sortFeed)(PE.mapAndFlatten(loadXML)(loadJSON(jsonFile, feedName)));
+export function createFeed(jsonFile: string, feedName: string): TaskEither<unknown, Entry[]> {
+    return TE.map(sortFeed)(TE.flatMap(loadXML)(loadJSON(jsonFile, feedName)));
 }
 
 /* eslint-disable */
-async function loadJSON(file: string, selection: string): PromiseEither<unknown, EntryURL[]> {
-    await getXML("");
-    return _stub();
+function loadJSON(file: string, selection: string): TaskEither<unknown, EntryURL[]> {
+    return TE.left(new Error("Unknown Error"));
 }
 /* eslint-enable */
 
 // Generate the collection of items based on the feed
-export async function loadXML(urlList: readonly EntryURL[]): PromiseEither<unknown, Entry[]> {
-
-    return urlList.map(async (urlEntry: Readonly<EntryURL>) => {
-        return PE.map(
-            (feedData: Readonly<Parser.Output<object>>) => parsedXMLToEntries(feedData, urlEntry.name)
-        )(
-            getXML(urlEntry.link)
-        )})
-        .reduce(
-            (accPE, arrPE) =>
-                Promise.all([accPE, arrPE]).then(([acc, arr]) =>
-                    Eth.isLeft(arr) ? acc : Eth.right([...(Eth.isLeft(acc) ? [] : acc.right), ...arr.right])
-                ),
-            Promise.resolve(Eth.right([] as Entry[]))
-        );
+export function loadXML(urlList: readonly EntryURL[]): TaskEither<unknown, Entry[]> {
+    return TE.map((entries: readonly Entry[][]) => entries.flat())(
+        TE.traverseArray((urlEntry: Readonly<EntryURL>) =>
+            TE.map(
+                (feedData: Readonly<Parser.Output<object>>) => parsedXMLToEntries(feedData, urlEntry.name)
+            )(
+                getXML(urlEntry.link)
+            )
+        )(urlList)
+    );
 }
 
 // Sort feed array based on date
@@ -132,15 +127,15 @@ function uuidURL(url: string, seed = 5381): number {
 }
 
 // Retreive XML file
-async function getXML(url: string): PromiseEither<unknown, Parser.Output<object>> {
-    return PE.mapAndFlatten(
+function getXML(url: string): TaskEither<unknown, Parser.Output<object>> {
+    return TE.flatMap(
         (textXML: string) =>
-            PE.tryCatch(
+            TE.tryCatch(
                 () => rssParser.parseString(textXML),
                 _id
             )
     )(
-        PE.tryCatch(
+        TE.tryCatch(
             () => fetch(url).then((responseXML: Response) => {
                 if (responseXML.ok) {
                     return responseXML.text();
@@ -157,48 +152,21 @@ async function getXML(url: string): PromiseEither<unknown, Parser.Output<object>
 
 export const HTTPS404 = "https://oliviax727.github.io/404";
 
-export type EntryFunction = () => Promise<void>;
-
-export type PromiseEither<E, A> = Promise<Either<E, A>>;
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace PE {
-
-    export const propagate = <E, A>(outerEither: Either<E, Promise<A>>): PromiseEither<E, A> =>
-        Eth.isLeft(outerEither)
-            ? Promise.resolve(Eth.left<E, A>(outerEither.left))
-            : outerEither.right.then((value: A) => Eth.right<E, A>(value));
-
-    export const tryCatch = <E, A>(f: LazyArg<Promise<A>>, onthrow: (e: unknown) => E): PromiseEither<E, A> =>
-        propagate(Eth.tryCatch(f, onthrow));
-
-    export const propagateAndFlatten = <E, A>(outerEither: Either<E, PromiseEither<E, A>>): PromiseEither<E, A> =>
-        propagate(outerEither).then(Eth.flatten);
-
-    export const flatten = <E, A>(outerPromise: PromiseEither<E, PromiseEither<E, A>>): PromiseEither<E, A> =>
-        outerPromise.then(propagateAndFlatten);
-
-    export const map = <A, B, E>(f: (a: A) => B): ((fa: PromiseEither<E, A>) => PromiseEither<E, B>) =>
-        <E>(fa: PromiseEither<E, A>) => fa.then(Eth.map(f));
-
-    export const mapAndFlatten = <A, B, E>(f: (a: A) => PromiseEither<E, B>): ((fa: PromiseEither<E, A>) => PromiseEither<E, B>) =>
-        (fa: PromiseEither<E, A>) => fa.then(Eth.map(f)).then(propagateAndFlatten);
-
-    export const resolveAndThrow = <Err, A>(promisedEither: PromiseEither<Err, A>): Promise<A> =>
-        promisedEither.then((either: Either<Err, A>) => {
-            if (Eth.isLeft(either)) {
-                throw Eth.toError(either.left);
-            }
-
-            return either.right;
-        })
-
-}
+export type EntryFunction = () => Promise<void> | void;
 
 // eslint-disable-next-line functional/no-return-void, functional/no-throw-statements
-export const _throw = (error: unknown): void => { throw error; };
+export const _throw = (error: unknown): void => { throw Eth.toError(error); };
 
 export const _id = <A>(error: A): A => error;
 
 // eslint-disable-next-line functional/functional-parameters
-export const _stub = () => Eth.left(new Error("Unknown Error"));
+export const _stub = (): TaskEither<Error, never> => TE.left(new Error("Unknown Error"));
+
+export const decideUnsafe = <Err, A>(taskEither: TaskEither<Err, A>): Promise<A> =>
+    taskEither().then((either: Either<Err, A>) => {
+        if (Eth.isLeft(either)) {
+            throw Eth.toError(either.left);
+        }
+
+        return either.right;
+    });

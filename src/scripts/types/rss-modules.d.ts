@@ -1,5 +1,4 @@
-import type { Either } from 'fp-ts/Either';
-import type { LazyArg } from 'fp-ts/function';
+import type { TaskEither } from 'fp-ts/TaskEither';
 interface EntryURL {
     name: string;
     link: string;
@@ -22,21 +21,12 @@ interface Entry {
     read: boolean;
     dismissed: boolean;
 }
-export declare function createFeed(jsonFile: string, feedName: string): PromiseEither<unknown, Entry[]>;
-export declare function loadXML(urlList: readonly EntryURL[]): PromiseEither<unknown, Entry[]>;
+export declare function createFeed(jsonFile: string, feedName: string): TaskEither<unknown, Entry[]>;
+export declare function loadXML(urlList: readonly EntryURL[]): TaskEither<unknown, Entry[]>;
 export declare const HTTPS404 = "https://oliviax727.github.io/404";
-export type EntryFunction = () => Promise<void>;
-export type PromiseEither<E, A> = Promise<Either<E, A>>;
-export declare namespace PE {
-    const propagate: <E, A>(outerEither: Either<E, Promise<A>>) => PromiseEither<E, A>;
-    const tryCatch: <E, A>(f: LazyArg<Promise<A>>, onthrow: (e: unknown) => E) => PromiseEither<E, A>;
-    const propagateAndFlatten: <E, A>(outerEither: Either<E, PromiseEither<E, A>>) => PromiseEither<E, A>;
-    const flatten: <E, A>(outerPromise: PromiseEither<E, PromiseEither<E, A>>) => PromiseEither<E, A>;
-    const map: <A, B, E>(f: (a: A) => B) => ((fa: PromiseEither<E, A>) => PromiseEither<E, B>);
-    const mapAndFlatten: <A, B, E>(f: (a: A) => PromiseEither<E, B>) => ((fa: PromiseEither<E, A>) => PromiseEither<E, B>);
-    const resolveAndThrow: <Err, A>(promisedEither: PromiseEither<Err, A>) => Promise<A>;
-}
+export type EntryFunction = () => Promise<void> | void;
 export declare const _throw: (error: unknown) => void;
 export declare const _id: <A>(error: A) => A;
-export declare const _stub: () => Either<Error, never>;
+export declare const _stub: () => TaskEither<Error, never>;
+export declare const decideUnsafe: <Err, A>(taskEither: TaskEither<Err, A>) => Promise<A>;
 export {};

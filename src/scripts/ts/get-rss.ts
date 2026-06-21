@@ -1,10 +1,10 @@
 /// <reference types="node" />
 
-import { PE, loadXML } from "./rss-modules";
+import { loadXML, decideUnsafe } from "./rss-modules";
 import type { EntryFunction } from "./rss-modules";
 
 const main: EntryFunction = async function () {
-    const feed = await PE.resolveAndThrow(
+    const feed = await decideUnsafe(
         loadXML([
             {
                 name: "W3 Test XML",

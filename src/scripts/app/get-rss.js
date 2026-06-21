@@ -8,7 +8,7 @@ var _rssModules = require("./rss-modules");
 /// <reference types="node" />
 
 const main = async function () {
-  const feed = await _rssModules.PE.resolveAndThrow((0, _rssModules.loadXML)([{
+  const feed = await (0, _rssModules.decideUnsafe)((0, _rssModules.loadXML)([{
     name: "W3 Test XML",
     link: "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml"
   }, {
