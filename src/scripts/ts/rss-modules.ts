@@ -134,7 +134,7 @@ function getXML(url: string): TaskEither<unknown, Parser.Output<object>> {
                 () => rssParser.parseString(textXML),
                 _id
             )
-    )(
+        )(
         TE.tryCatch(
             () => fetch(url).then((responseXML: Response) => {
                 if (responseXML.ok) {
