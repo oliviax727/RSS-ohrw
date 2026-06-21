@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports._throw = exports._stub = exports._id = exports.HTTPS404 = void 0;
+exports.HTTPS404 = void 0;
 exports.createFeed = createFeed;
 exports.decideUnsafe = void 0;
 exports.loadXML = loadXML;
@@ -20,7 +20,7 @@ function createFeed(jsonFile, feedName) {
 }
 /* eslint-disable */
 function loadJSON(file, selection) {
-  return TE.left(new Error("Unknown Error"));
+  return _stub();
 }
 /* eslint-enable */
 // Generate the collection of items based on the feed
@@ -85,16 +85,9 @@ function getXML(url) {
 }
 // ===== TYPE EXPORTS ===== //
 const HTTPS404 = exports.HTTPS404 = "https://oliviax727.github.io/404";
-// eslint-disable-next-line functional/no-return-void, functional/no-throw-statements
-const _throw = error => {
-  throw Eth.toError(error);
-};
-exports._throw = _throw;
 const _id = error => error;
 // eslint-disable-next-line functional/functional-parameters
-exports._id = _id;
 const _stub = () => TE.left(new Error("Unknown Error"));
-exports._stub = _stub;
 const decideUnsafe = taskEither => taskEither().then(either => {
   if (Eth.isLeft(either)) {
     throw Eth.toError(either.left);

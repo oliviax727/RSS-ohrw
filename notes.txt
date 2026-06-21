@@ -2,22 +2,19 @@ TODO/REMINDER:
 primary.html
 - How to use newsreader
 
-load-rss.ts
-- Functional paradigm
-
-load-rss.ts/get-rss.ts
+rss-modules.ts/get-rss.ts
 - Figure out fetch error
 - Load JSON file
 
-load-rss.ts/display-rss.ts
+rss-modules.ts/display-rss.ts
 - Complete ObjectHTML and attributes for Feed class
 - Load JSON file and output to news sites in primary sidebar
 
-load-rss.ts/dismiss-rss-item.ts
+rss-modules/dismiss-rss-item.ts
 - Save and load read/dismissed uuids to cookies, use document.help.(get|set)cookie
 - Display the RSS information (color two buttons light gray/theme colour if read/dismissed)
 - "Dismiss" feed item -> dismiss-rss-item.ts
-- Aggregate XML data over a week? See if I can call that from the files -> load-rss.ts
+- Aggregate XML data over a week? See if I can call that from the files -> rss-modules
 
 Other:
 - Make a template version of this repo

@@ -25,8 +25,5 @@ export declare function createFeed(jsonFile: string, feedName: string): TaskEith
 export declare function loadXML(urlList: readonly EntryURL[]): TaskEither<unknown, Entry[]>;
 export declare const HTTPS404 = "https://oliviax727.github.io/404";
 export type EntryFunction = () => Promise<void> | void;
-export declare const _throw: (error: unknown) => void;
-export declare const _id: <A>(error: A) => A;
-export declare const _stub: () => TaskEither<Error, never>;
-export declare const decideUnsafe: <Err, A>(taskEither: TaskEither<Err, A>) => Promise<A>;
+export declare const decideUnsafe: <E, A>(taskEither: TaskEither<E, A>) => Promise<A>;
 export {};

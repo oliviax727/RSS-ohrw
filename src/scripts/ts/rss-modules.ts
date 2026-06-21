@@ -52,7 +52,7 @@ export function createFeed(jsonFile: string, feedName: string): TaskEither<unkno
 
 /* eslint-disable */
 function loadJSON(file: string, selection: string): TaskEither<unknown, EntryURL[]> {
-    return TE.left(new Error("Unknown Error"));
+    return _stub();
 }
 /* eslint-enable */
 
@@ -154,16 +154,13 @@ export const HTTPS404 = "https://oliviax727.github.io/404";
 
 export type EntryFunction = () => Promise<void> | void;
 
-// eslint-disable-next-line functional/no-return-void, functional/no-throw-statements
-export const _throw = (error: unknown): void => { throw Eth.toError(error); };
-
-export const _id = <A>(error: A): A => error;
+const _id = <A>(error: A): A => error;
 
 // eslint-disable-next-line functional/functional-parameters
-export const _stub = (): TaskEither<Error, never> => TE.left(new Error("Unknown Error"));
+const _stub = (): TaskEither<Error, never> => TE.left(new Error("Unknown Error"));
 
-export const decideUnsafe = <Err, A>(taskEither: TaskEither<Err, A>): Promise<A> =>
-    taskEither().then((either: Either<Err, A>) => {
+export const decideUnsafe = <E, A>(taskEither: TaskEither<E, A>): Promise<A> =>
+    taskEither().then((either: Either<E, A>) => {
         if (Eth.isLeft(either)) {
             throw Eth.toError(either.left);
         }
