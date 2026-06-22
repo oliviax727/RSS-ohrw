@@ -250,29 +250,29 @@ export class Cruncher {
 
     // Default oncrunch event
     static onCrunch() {
-        let toHide = document.querySelectorAll("hide-on-crunch");
-        let toShow = document.querySelectorAll("hide-on-relax");
-
+        let toHide = document.querySelectorAll("[hide-oncrunch]");
+        let toShow = document.querySelectorAll("[hide-onrelax]");
+        
         for (let i = 0; i < toHide.length; i++) {
-            toHide.style.display = "none";
+            toHide[i].style.display = "none";
         }
 
         for (let i = 0; i < toShow.length; i++) {
-            toHide.style.display = "";
+            toShow[i].style.display = "";
         }
     }
     
     // Default onrelax event
     static onRelax() {
-        let toHide = document.querySelectorAll("hide-on-relax");
-        let toShow = document.querySelectorAll("hide-on-crunch");
+        let toHide = document.querySelectorAll("[hide-onrelax]");
+        let toShow = document.querySelectorAll("[hide-oncrunch]");
 
         for (let i = 0; i < toHide.length; i++) {
             toHide.style.display = "none";
         }
 
         for (let i = 0; i < toShow.length; i++) {
-            toHide.style.display = "";
+            toShow.style.display = "";
         }
     }
 
