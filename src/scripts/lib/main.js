@@ -7,7 +7,7 @@ export class Navigator {
     // ===== ACTIVE UPDATING ===== //
 
     // Initialise Page
-    static initPage(_callback = Navigator.IDENTITY) {
+    static initPage(_callback = Helpers.IDENTITY) {
         const urlParams = new URLSearchParams(window.location.search);
         const page = urlParams.get('s');
 
@@ -19,7 +19,7 @@ export class Navigator {
     }
 
     // Change/update section
-    static changeSection(section, _callback = Navigator.IDENTITY) {
+    static changeSection(section, _callback = Helpers.IDENTITY) {
         var contentdiv;
 
         self.PageData.CURRENT_SECTION = section;
@@ -33,7 +33,7 @@ export class Navigator {
         Navigator.loadPage(section, _callback);
     }
 
-    static async loadPage(section, _callback = Navigator.IDENTITY) {
+    static async loadPage(section, _callback = Helpers.IDENTITY) {
         function recurse(file) {
             console.log("Loaded file: " + file)
         }
@@ -189,7 +189,7 @@ export class Navigator {
     }
 
     // XHTML integration to allow all of the pages to be inserted into eachother (W3 Schools)
-    static includeHTML(_recurse = Navigator.IDENTITY, _then = Navigator.IDENTITY) {
+    static includeHTML(_recurse = Helpers.IDENTITY, _then = Helpers.IDENTITY) {
         var z, i, elmnt, file, xhttp;
 
         // Loop through a collection of all HTML elements:
@@ -252,7 +252,7 @@ export class Cruncher {
     static onCrunch() {
         let toHide = document.querySelectorAll("[hide-oncrunch]");
         let toShow = document.querySelectorAll("[hide-onrelax]");
-        
+
         for (let i = 0; i < toHide.length; i++) {
             toHide[i].style.display = "none";
         }
@@ -268,11 +268,11 @@ export class Cruncher {
         let toShow = document.querySelectorAll("[hide-oncrunch]");
 
         for (let i = 0; i < toHide.length; i++) {
-            toHide.style.display = "none";
+            toHide[i].style.display = "none";
         }
 
         for (let i = 0; i < toShow.length; i++) {
-            toShow.style.display = "";
+            toShow[i].style.display = "";
         }
     }
 
