@@ -1,5 +1,6 @@
 console.log("Entry javascript integrated.");
 
-const entry = require('./app/index').default;
+const load = require;
+const entry = load('./app/index').default;
 
 entry();
