@@ -4,7 +4,7 @@ An RSS feed for my own personal use. Separate to my main website.
 
 https://oliviax727.github.io/RSS-ohrw
 
-### Welcome
+### About this Website
 
 This page is for an RSS News that I have made for myself. This webpage contains various news feeds ranging
 from political news to scientific publication. All for the purpose of staying informed.
