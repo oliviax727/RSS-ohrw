@@ -1,7 +1,8 @@
-import Helpers from "./helpers.js";
+import { Helpers } from "./helpers.js";
+import { Navigator, Cruncher } from "./main.js";
 
 // Modify the RSS Feed HTML element
-export class ModifyRSSHTML {
+export class ModifyFeed {
 
     static FEED_CONTAINER_INNER_HTML = '<div html-ref="src/layout/rss-feed.html"></div>';
 
@@ -14,9 +15,9 @@ export class ModifyRSSHTML {
         console.log("Reload toggled");
 
         var container = document.getElementById("rss-feed-wrapper");
-        container.innerHTML = ModifyRSSHTML.FEED_CONTAINER_INNER_HTML;
-        self.mhtml.loadPage(null, () => {
-            ModifyRSSHTML.toggleFullscreen(fullscreen);
+        container.innerHTML = ModifyFeed.FEED_CONTAINER_INNER_HTML;
+        Navigator.loadPage(null, () => {
+            ModifyFeed.toggleFullscreen(fullscreen);
         });
     }
 
@@ -28,7 +29,7 @@ export class ModifyRSSHTML {
         const fullscreen = (url.searchParams.get('fullscreen') === 'true');
 
         if (fullscreen) {
-            ModifyRSSHTML.toggleFullscreen(fullscreen);
+            ModifyFeed.toggleFullscreen(fullscreen);
         }
     }
 
@@ -36,8 +37,8 @@ export class ModifyRSSHTML {
     static toggleFullscreen(toggleflag) {
         console.log("Fullscreen toggled");
 
-        ModifyRSSHTML.expandOrContractFeedWindow(toggleflag);
-        ModifyRSSHTML.hideAndUnhideToggleButtons(toggleflag);
+        ModifyFeed.expandOrContractFeedWindow(toggleflag);
+        ModifyFeed.hideAndUnhideToggleButtons(toggleflag);
 
         const url = new URL(window.location.href);
         url.searchParams.set('fullscreen', toggleflag);
@@ -65,8 +66,8 @@ export class ModifyRSSHTML {
             feedWindow.style.width = '100vw';
             feedWindow.style.height = '100vh';
 
-            self.mhtml.CRUNCH_SIZE = ModifyRSSHTML.FULLSCREEN_CRUNCH_SIZE;
-            self.mhtml.crunch();
+            self.PageData.CRUNCH_SIZE = ModifyFeed.FULLSCREEN_CRUNCH_SIZE;
+            Cruncher.checkCrunch();
         } else {
             feedWindow.style.position = '';
             feedWindow.style.top = '';
@@ -81,8 +82,8 @@ export class ModifyRSSHTML {
                 }
             })
 
-            self.mhtml.CRUNCH_SIZE = self.mhtml.DEFAULT_CRUNCH_SIZE;
-            self.mhtml.crunch();
+            self.PageData.CRUNCH_SIZE = self.PageData.DEFAULT_CRUNCH_SIZE;
+            Cruncher.checkCrunch();
         }
     }
 
@@ -101,10 +102,37 @@ export class ModifyRSSHTML {
         }
     }
 
+    static crunchRSS() {
+        // RSS feed
+        let rssMain = document.getElementsByClassName("item-link");
+        let rssCrunch = document.getElementsByClassName("item-crunch");
+
+        // Change RSS feed structure
+        for (let i = 0; i < rssMain.length; i++) {
+            rssMain[i].style.display = "none";
+        }
+        for (let i = 0; i < rssCrunch.length; i++) {
+            rssCrunch[i].style.display = "table-cell";
+        }
+    }
+
+    static relaxRSS() {
+        let rssMain = document.getElementsByClassName("item-link");
+        let rssCrunch = document.getElementsByClassName("item-crunch");
+
+        // Change RSS feed structure
+        for (let i = 0; i < rssMain.length; i++) {
+            rssMain[i].style.display = "table-column";
+        }
+        for (let i = 0; i < rssCrunch.length; i++) {
+            rssCrunch[i].style.display = "none";
+        }
+    }
+
 }
 
 // Singular object to get/set important data for the files in app to use
-class ReaderState {
+export class ReaderState {
 
     // ===== READ OBJECTS AND DISMISSED OBJECTS ===== //
 
@@ -131,5 +159,3 @@ class ReaderState {
 
     }
 }
-
-export default ReaderState;

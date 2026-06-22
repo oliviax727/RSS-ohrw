@@ -6,39 +6,39 @@
 </head>
 
 <body>
-  <a onclick="mhtml.toggleMenu(true);" class="ribbon ribbon-crunch icon-button">
+  <a onclick="Navigator.toggleMenu(true);" class="ribbon ribbon-crunch icon-button">
     <img src="src/img/icons/menu.png">
   </a>
 
   <div class="ribbon ribbon-main ribbon-crunch" id="name">OHRW's News Feed</div>
 
   <div class="ribbon ribbon-main" id="navbar">
-    <a onclick="mhtml.goToSection('primary');">Primary</a>
-    <a onclick="mhtml.goToSection('local');">Local</a>
-    <a onclick="mhtml.goToSection('global');">Global</a>
+    <a onclick="Navigator.goToSection('primary');">Primary</a>
+    <a onclick="Navigator.goToSection('local');">Local</a>
+    <a onclick="Navigator.goToSection('global');">Global</a>
 
     <div hidden class="dropdown" id="drop-wrapper-politics">
       <div hidden class="dropdown-content" id="drop-politics">
-        <a onclick="mhtml.goToSection('politics-local');">Local (WA)</a>
-        <a onclick="mhtml.goToSection('politics-australia');">Australia</a>
-        <a onclick="mhtml.goToSection('politics-global');">Global (and US)</a>
+        <a onclick="Navigator.goToSection('politics-local');">Local (WA)</a>
+        <a onclick="Navigator.goToSection('politics-australia');">Australia</a>
+        <a onclick="Navigator.goToSection('politics-global');">Global (and US)</a>
       </div>
     </div>
 
-    <a class="dropbtn" onclick="mhtml.showSubList('politics');" onmouseleave="mhtml.hideSubList('politics');">Politics</a>
+    <a class="dropbtn" onclick="Navigator.showSubList('politics');" onmouseleave="Navigator.hideSubList('politics');">Politics</a>
 
-    <a onclick="mhtml.goToSection('satire');">Satire</a>
+    <a onclick="Navigator.goToSection('satire');">Satire</a>
 
     <div hidden class="dropdown" id="drop-wrapper-publications">
       <div hidden class="dropdown-content" id="drop-publications">
-        <a onclick="mhtml.goToSection('publications-astronomy');">Astronomy/Astrophysics</a>
-        <a onclick="mhtml.goToSection('publications-other');">Other Academic</a>
+        <a onclick="Navigator.goToSection('publications-astronomy');">Astronomy/Astrophysics</a>
+        <a onclick="Navigator.goToSection('publications-other');">Other Academic</a>
       </div>
     </div>
 
-    <a class="dropbtn" onclick="mhtml.showSubList('publications');" onmouseleave="mhtml.hideSubList('publications');">Publications</a>
+    <a class="dropbtn" onclick="Navigator.showSubList('publications');" onmouseleave="Navigator.hideSubList('publications');">Publications</a>
 
-    <a onclick="mhtml.goToSection('tech');">Sci/Tech</a>
+    <a onclick="Navigator.goToSection('tech');">Sci/Tech</a>
   </div>
 
   <div class="ribbon ribbon-main sectionname">Primary</div>

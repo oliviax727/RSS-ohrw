@@ -3,10 +3,10 @@
 // End-user check JS works
 console.info("This message should appear if the javascript integration has worked.");
 
-import Helpers from './src/scripts/lib/helpers.js';
-import MainHTML from './src/scripts/lib/main.js';
+import { Helpers, PageData } from './src/scripts/lib/helpers.js';
+import { Navigator, Cruncher } from './src/scripts/lib/main.js';
 import BoneMiner from './src/scripts/lib/game.js';
-import ReaderState, { ModifyRSSHTML } from './src/scripts/lib/rss.js';
+import { ReaderState, ModifyFeed } from './src/scripts/lib/rss.js';
 
 // Constants
 const SECTION_COLOR_DICT = new Map([
@@ -32,19 +32,37 @@ const DEFAULT_SECTION = 'primary';
 
 // Main HTML functions
 
-let mhtml = new MainHTML(SECTION_COLOR_DICT, DEFAULT_CRUNCH_SIZE, DEFAULT_SECTION);
+let data = new PageData(DEFAULT_CRUNCH_SIZE, DEFAULT_SECTION, SECTION_COLOR_DICT);
 
-window.help = Helpers;
-window.bm = BoneMiner;
+window.PageData = data;
 
-window.onresize = mhtml.crunch;
+window.Navigator = Navigator;
+window.Crunch = Cruncher;
+window.BoneMiner = BoneMiner;
 
 // Additional RSS functions
 
 let rssData = new ReaderState();
 
-window.mrh = ModifyRSSHTML;
+window.ReaderState = rssData;
+window.ModifyFeed = ModifyFeed;
+
+// Activate events
 
 window.onload = () => {
-    mhtml.initPage(self.mrh.checkFullscreen);
+    Navigator.initPage(ModifyFeed.checkFullscreen);
 };
+
+document.addEventListener("oncrunch", () => {
+    Cruncher.onCrunch();
+    Cruncher.crunchRibbon();
+    Cruncher.crunchContent();
+    ModifyFeed.crunchRSS();
+});
+
+document.addEventListener("onrelax", () => {
+    Cruncher.onRelax();
+    Cruncher.relaxRibbon();
+    Cruncher.relaxContent();
+    ModifyFeed.relaxRSS();
+});

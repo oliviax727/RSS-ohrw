@@ -8,19 +8,19 @@
 <body>
     <div class="feed-navbar">
         <div class="feed-navbar-item feed-navbar-left">
-            <a hidden onclick="mhtml.toggleMenu(true);" class="icon-button rss-feed-min">
+            <a hidden onclick="Navigator.toggleMenu(true);" class="icon-button rss-feed-min">
                 <img src="src/img/icons/menu.png">
             </a>
-            <a onclick="mrh.toggleFullscreen(true);" class="rss-feed-max icon-button">
+            <a onclick="ModifyFeed.toggleFullscreen(true);" class="rss-feed-max icon-button">
                 <img src="src/img/icons/fullscreen.png">
             </a>
-            <a hidden onclick="mrh.toggleFullscreen(false);" class="rss-feed-min icon-button">
+            <a hidden onclick="ModifyFeed.toggleFullscreen(false);" class="rss-feed-min icon-button">
                 <img src="src/img/icons/minimize.png">
             </a>
-            <a onclick="mrh.reloadFeed(false);" class="rss-feed-max icon-button">
+            <a onclick="ModifyFeed.reloadFeed(false);" class="rss-feed-max icon-button">
                 <img src="src/img/icons/refresh.png">
             </a>
-            <a hidden onclick="mrh.reloadFeed(true);" class="rss-feed-min icon-button">
+            <a hidden onclick="ModifyFeed.reloadFeed(true);" class="rss-feed-min icon-button">
                 <img src="src/img/icons/refresh.png">
             </a>
         </div>
@@ -35,5 +35,5 @@
         <div html-ref="src/layout/rss-object.htm"></div>
         <div html-ref="src/layout/rss-object.htm"></div>
     </div>
-    <img onload="console.log('Loaded Feed'); mrh.checkFullScreen();"" >
+    <img onload="console.log('Loaded Feed'); ModifyFeed.checkFullScreen();"" >
 </body>
