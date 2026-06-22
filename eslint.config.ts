@@ -1,5 +1,4 @@
 import js from "@eslint/js";
-import globals from "globals";
 import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 import functional from "eslint-plugin-functional";
@@ -17,8 +16,6 @@ export default defineConfig([
   {
     files: [
       "src/scripts/ts/*.ts",
-      "src/scripts/types/*.d.ts",
-      "src/scripts/entry.js",
     ],
     plugins: { js, functional },
     extends: [
@@ -29,9 +26,12 @@ export default defineConfig([
     ],
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        projectService: true
       },
     },
+    rules: {
+      "indent": ["warn", "tab"]
+    }
   },
   {
     files: [

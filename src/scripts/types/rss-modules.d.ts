@@ -1,4 +1,4 @@
-import type { TaskEither } from 'fp-ts/TaskEither';
+import type { TaskEither } from "fp-ts/TaskEither";
 interface EntryURL {
     name: string;
     link: string;
@@ -25,5 +25,5 @@ export declare function createFeed(jsonFile: string, feedName: string): TaskEith
 export declare function loadXML(urlList: readonly EntryURL[]): TaskEither<unknown, Entry[]>;
 export declare const HTTPS404 = "https://oliviax727.github.io/404";
 export type EntryFunction = () => Promise<void> | void;
-export declare const decideUnsafe: <E, A>(taskEither: TaskEither<E, A>) => Promise<A>;
+export declare const decideUnsafe: <Err, A>(taskEither: TaskEither<Err, A>) => Promise<A>;
 export {};

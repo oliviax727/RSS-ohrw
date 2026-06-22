@@ -45,6 +45,6 @@ let rssData = new ReaderState();
 
 window.mrh = ModifyRSSHTML;
 
-window.onload = () => { 
+window.onload = () => {
     mhtml.initPage(self.mrh.checkFullscreen);
 };
