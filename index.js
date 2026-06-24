@@ -37,7 +37,6 @@ let data = new PageData(DEFAULT_CRUNCH_SIZE, DEFAULT_SECTION, SECTION_COLOR_DICT
 window.PageData = data;
 
 window.Navigator = Navigator;
-window.Crunch = Cruncher;
 window.BoneMiner = BoneMiner;
 
 // Additional RSS functions

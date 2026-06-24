@@ -1,4 +1,4 @@
-import { Helpers } from "./helpers.js";
+import { Helpers, Storer } from "./helpers.js";
 import { Navigator, Cruncher } from "./main.js";
 
 // Modify the RSS Feed HTML element
@@ -25,8 +25,7 @@ export class ModifyFeed {
 
     // Check if there is a fullscreen jquery parameter and then fullscreen if true
     static checkFullscreen() {
-        const url = new URL(window.location.href);
-        const fullscreen = (url.searchParams.get('fullscreen') === 'true');
+        const fullscreen = (Storer.getURLParams('fullscreen') === 'true');
 
         if (fullscreen) {
             ModifyFeed.toggleFullscreen(fullscreen);
@@ -40,9 +39,7 @@ export class ModifyFeed {
         ModifyFeed.expandOrContractFeedWindow(toggleflag);
         ModifyFeed.hideAndUnhideToggleButtons(toggleflag);
 
-        const url = new URL(window.location.href);
-        url.searchParams.set('fullscreen', toggleflag);
-        window.history.pushState(null, '', url.toString());
+        Storer.setURLParams('fullscreen', toggleflag, false);
     }
 
     static expandOrContractFeedWindow(toggleflag) {
