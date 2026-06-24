@@ -62,7 +62,7 @@ export class Storer {
         url.searchParams.set(name, value);
 
         if (navigate) {
-            window.location.search = url.toString();
+            window.location.href = url.toString();
         } else {
             window.history.pushState(null, '', url.toString());
         }
