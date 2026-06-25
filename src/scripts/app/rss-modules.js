@@ -3,12 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.HTTPS404 = void 0;
 exports.createFeed = createFeed;
-exports.decideUnsafe = void 0;
 exports.loadXML = loadXML;
+var _defaultModules = require("./default-modules");
 var _rssParser = _interopRequireDefault(require("rss-parser"));
-var E = _interopRequireWildcard(require("fp-ts/Either"));
 var TE = _interopRequireWildcard(require("fp-ts/TaskEither"));
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
@@ -20,7 +18,7 @@ function createFeed(jsonFile, feedName) {
 }
 /* eslint-disable */
 function loadJSON(file, selection) {
-  return _stub();
+  return (0, _defaultModules._stub)();
 }
 /* eslint-enable */
 // Generate the collection of items based on the feed
@@ -46,10 +44,10 @@ function parsedXMLToEntries(xmlData, feedName) {
 // Load parent channel data into ParentData object
 function channelToParentData(xmlData, feedName) {
   return {
-    uuid: uuidURL(xmlData.link ?? HTTPS404),
+    uuid: uuidURL(xmlData.link ?? _defaultModules.HTTPS404),
     name: feedName,
     title: xmlData.title ?? "Title not found.",
-    link: xmlData.link ?? HTTPS404,
+    link: xmlData.link ?? _defaultModules.HTTPS404,
     imageName: xmlData.image?.title,
     imageUrl: xmlData.image?.url
   };
@@ -75,23 +73,11 @@ function uuidURL(url, seed = 5381) {
 }
 // Retreive XML file
 function getXML(url) {
-  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _id))(TE.tryCatch(() => fetch(url).then(responseXML => {
+  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.tryCatch(() => fetch(url).then(responseXML => {
     if (responseXML.ok) {
       return responseXML.text();
     } else {
       throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
     }
-  }), _id));
+  }), _defaultModules._id));
 }
-// ===== TYPE EXPORTS ===== //
-const HTTPS404 = exports.HTTPS404 = "https://oliviax727.github.io/404";
-const _id = error => error;
-// eslint-disable-next-line functional/functional-parameters
-const _stub = () => TE.left(new Error("Unknown Error"));
-const decideUnsafe = taskEither => taskEither().then(either => {
-  if (E.isLeft(either)) {
-    throw E.toError(either.left);
-  }
-  return either.right;
-});
-exports.decideUnsafe = decideUnsafe;
