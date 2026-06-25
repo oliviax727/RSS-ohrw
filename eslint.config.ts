@@ -35,7 +35,10 @@ export default defineConfig([
   },
   {
     files: [
-      "src/scripts/ts/rss-modules.ts"
+      "src/scripts/ts/*.ts"
+    ],
+    ignores: [
+      "src/scripts/ts/index.ts"
     ],
     plugins: { functional },
     extends: [
