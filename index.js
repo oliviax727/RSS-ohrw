@@ -3,27 +3,27 @@
 // End-user check JS works
 console.info("This message should appear if the javascript integration has worked.");
 
-import { Helpers, PageData } from './src/scripts/lib/helpers.js';
+import { PageData } from './src/scripts/lib/helpers.js';
 import { Navigator, Cruncher } from './src/scripts/lib/main.js';
 import BoneMiner from './src/scripts/lib/game.js';
 import { ReaderState, ModifyFeed } from './src/scripts/lib/rss.js';
 
 // Constants
 const SECTION_COLOR_DICT = new Map([
-    ["primary", 300],
-    ["local", 45],
-    ["global", 25],
+	["primary", 300],
+	["local", 45],
+	["global", 25],
 
-    ["politics-local", 120],
-    ["politics-australia", 180],
-    ["politics-global", 0],
+	["politics-local", 120],
+	["politics-australia", 180],
+	["politics-global", 0],
 
-    ["satire", 195],
+	["satire", 195],
 
-    ["publications-astronomy", 250],
-    ["publications-other", 240],
+	["publications-astronomy", 250],
+	["publications-other", 240],
 
-    ["tech", 270]
+	["tech", 270]
 ]);
 
 const DEFAULT_CRUNCH_SIZE = 1120;
@@ -49,19 +49,19 @@ window.ModifyFeed = ModifyFeed;
 // Activate events
 
 window.onload = () => {
-    Navigator.initPage(ModifyFeed.checkFullscreen);
+	Navigator.initPage(ModifyFeed.checkFullscreen);
 };
 
 document.addEventListener("oncrunch", () => {
-    Cruncher.onCrunch();
-    Cruncher.crunchRibbon();
-    Cruncher.crunchContent();
-    ModifyFeed.crunchRSS();
+	Cruncher.onCrunch();
+	Cruncher.crunchRibbon();
+	Cruncher.crunchContent();
+	ModifyFeed.crunchRSS();
 });
 
 document.addEventListener("onrelax", () => {
-    Cruncher.onRelax();
-    Cruncher.relaxRibbon();
-    Cruncher.relaxContent();
-    ModifyFeed.relaxRSS();
+	Cruncher.onRelax();
+	Cruncher.relaxRibbon();
+	Cruncher.relaxContent();
+	ModifyFeed.relaxRSS();
 });

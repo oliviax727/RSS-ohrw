@@ -1,6 +1,7 @@
+# Compile typescript modules and entry files into a single browser-friendly bundle
 (
-    # Remove contents of dist and app
-    rm -rf ./src/scripts/dist/* ./src/scripts/app/* ./src/scripts/types/*
+    # Remove contents of app and types
+    rm -rf ./src/scripts/app/* ./src/scripts/types/*
 
     # Compile to js folder
     tsc
@@ -8,6 +9,14 @@
     # Babelify
     ./node_modules/.bin/babel ./src/scripts/dist --out-dir ./src/scripts/app
 
+    # Transpile ES module entry file for Browserify compatibility
+    ./node_modules/.bin/babel ./src/scripts/entry.js --out-file ./src/scripts/entry.cjs
+
     # Browserify
-    browserify ./src/scripts/entry.js | terser --compress > ./bundle.js
+    npx browserify ./src/scripts/entry.cjs | npx terser --compress > ./bundle.js
+
+    # Clean temporary files
+    rm -f ./src/scripts/entry.cjs ./src/scripts/dist/*
+
+    # Keep the app and type files for any potential js or type importing
 )

@@ -1,3 +1,4 @@
+# Propagate changes from the content template file to every file in the html directory
 (
     html_files=(src/html/*.html)
 

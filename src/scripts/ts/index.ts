@@ -19,16 +19,16 @@ const getRSS: OutputFunction = async function () {
 		]),
 	);
 
-	return JSON.stringify(feed);
+	return feed;
 };
 
 const displayRSS: OutputFunction = function () { 
 	return "Display RSS";
-}
+};
 
 const dismissRSSItem: OutputFunction = function () {
 	return "Dismiss RSS Item";
-}
+};
 
 const entry: EntryFunction = async function () {
 	console.log("Loading bundled modules ...");

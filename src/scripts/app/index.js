@@ -19,7 +19,7 @@ const getRSS = async function () {
     name: "ABC News",
     link: "https://www.abc.net.au/news/feed/5313390/rss.xml"
   }]));
-  return JSON.stringify(feed);
+  return feed;
 };
 const displayRSS = function () {
   return "Display RSS";

@@ -11,7 +11,7 @@ export const HTTPS404 = "https://oliviax727.github.io/404";
 
 export type EntryFunction = () => Promise<void> | void;
 
-export type OutputFunction = () => Promise<string> | string;
+export type OutputFunction = () => Promise<object | string> | object | string;
 
 export const _id = <A>(error: A): A => error;
 
