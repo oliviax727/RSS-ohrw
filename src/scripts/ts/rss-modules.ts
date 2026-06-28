@@ -182,6 +182,8 @@ function getXMLText(url: string): TaskEither<unknown, string> {
 				}
 
 				throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
+			}).catch((reason: unknown) => {
+				throw reason;
 			}),
 		_id,
 	);

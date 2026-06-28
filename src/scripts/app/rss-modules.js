@@ -104,5 +104,7 @@ function getXMLText(url) {
       return responseXML.text();
     }
     throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
+  }).catch(reason => {
+    throw reason;
   }), _defaultModules._id);
 }
