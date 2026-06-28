@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createFeed = createFeed;
-exports.loadXML = loadXML;
 var _defaultModules = require("./default-modules.js");
 var _rssParser = _interopRequireDefault(require("rss-parser"));
 var TE = _interopRequireWildcard(require("fp-ts/TaskEither"));
@@ -16,11 +15,13 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e
 function createFeed(jsonFile, feedName) {
   return TE.map(sortFeed)(TE.flatMap(loadXML)(loadJSON(jsonFile, feedName)));
 }
-/* eslint-disable */
+// Load a JSON file and then return the selected feed
 function loadJSON(file, selection) {
-  return (0, _defaultModules._stub)();
+  return TE.flatMap(feed => {
+    const selectedFeed = feed.get(selection);
+    return selectedFeed !== undefined ? TE.right(selectedFeed) : TE.left(new Error("Selected feed does not exist in JSON"));
+  })(getFeedMap(file));
 }
-/* eslint-enable */
 // Generate the collection of items based on the feed
 function loadXML(urlList) {
   return TE.map(entries => entries.flat())(TE.traverseArray(urlEntry => TE.map(feedData => parsedXMLToEntries(feedData, urlEntry.name))(getXML(urlEntry.link)))(urlList));
@@ -71,9 +72,27 @@ function uuidURL(url, seed = 5381) {
   // hash * 33 + charCode (bitwise shift for efficiency: hash << 5 is hash * 32)
   (seed, char) => (seed << 5) + seed + char.charCodeAt(0), seed) >>> 0;
 }
+// Get the JSON data as a feed map
+function getFeedMap(fileName) {
+  return TE.map(jsonModule => {
+    const protoFeed = jsonModule.default ?? jsonModule;
+    return new Map(Object.entries(protoFeed).map(([feedName, entryRecord]) => [feedName, Object.entries(entryRecord).map(([name, link]) => ({
+      name,
+      link
+    }))]));
+  })(getJSON("./src/data/" + fileName + ".json"));
+}
+// Retreive JSON file
+function getJSON(file) {
+  return TE.tryCatch(() => import(file, {
+    with: {
+      type: "json"
+    }
+  }), _defaultModules._id);
+}
 // Retreive XML file
-function getXML(url) {
-  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.tryCatch(() => fetch(url).then(responseXML => {
+function getXML(file) {
+  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.tryCatch(() => fetch(file).then(responseXML => {
     if (responseXML.ok) {
       return responseXML.text();
     } else {

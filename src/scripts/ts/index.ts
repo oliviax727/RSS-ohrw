@@ -3,10 +3,10 @@
 import * as T from "fp-ts/Task";
 import * as Console from "fp-ts/Console";
 import { decideUnsafe, type EntryFunction, type OutputFunction } from './default-modules';
-import { loadXML } from "./rss-modules.js";
+import { createFeed } from "./rss-modules.js";
 
 const getRSS: OutputFunction = async function () {
-	const feed = await decideUnsafe(
+	/*const feed = await decideUnsafe(
 		loadXML([
 			{
 				name: "W3 Test XML",
@@ -17,7 +17,9 @@ const getRSS: OutputFunction = async function () {
 				link: "https://www.abc.net.au/news/feed/5313390/rss.xml",
 			},
 		]),
-	);
+	);*/
+
+	const feed = await decideUnsafe(createFeed("newsreader", "test-feed"));
 
 	return feed;
 };

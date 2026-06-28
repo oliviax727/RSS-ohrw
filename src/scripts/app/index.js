@@ -12,13 +12,19 @@ function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r
 /// <reference types="node" />
 
 const getRSS = async function () {
-  const feed = await (0, _defaultModules.decideUnsafe)((0, _rssModules.loadXML)([{
-    name: "W3 Test XML",
-    link: "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml"
-  }, {
-    name: "ABC News",
-    link: "https://www.abc.net.au/news/feed/5313390/rss.xml"
-  }]));
+  /*const feed = await decideUnsafe(
+      loadXML([
+          {
+              name: "W3 Test XML",
+              link: "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml",
+          },
+          {
+              name: "ABC News",
+              link: "https://www.abc.net.au/news/feed/5313390/rss.xml",
+          },
+      ]),
+  );*/
+  const feed = await (0, _defaultModules.decideUnsafe)((0, _rssModules.createFeed)("newsreader", "test-feed"));
   return feed;
 };
 const displayRSS = function () {

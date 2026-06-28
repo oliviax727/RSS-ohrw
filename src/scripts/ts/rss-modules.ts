@@ -1,6 +1,6 @@
 /// <reference types="node" />
 
-import { _stub, _id, HTTPS404 } from "./default-modules.js";
+import { _id, HTTPS404 } from "./default-modules.js";
 import Parser from "rss-parser";
 import type { TaskEither } from "fp-ts/TaskEither";
 import * as TE from "fp-ts/TaskEither";
@@ -14,6 +14,16 @@ interface EntryURL {
 	name: string;
 	link: string;
 }
+
+// JSON Module types
+interface JSONModule {
+	default?: unknown;
+}
+
+type JSONFeedRecord = Readonly<Record<string, Readonly<Record<string, string>>>>;
+
+// JSON File Data Container
+type FeedMap = Map<string, EntryURL[]>;
 
 // RSS parent data
 interface ParentData {
@@ -48,14 +58,19 @@ export function createFeed(jsonFile: string, feedName: string): TaskEither<unkno
 	return TE.map(sortFeed)(TE.flatMap(loadXML)(loadJSON(jsonFile, feedName)));
 }
 
-/* eslint-disable */
+// Load a JSON file and then return the selected feed
 function loadJSON(file: string, selection: string): TaskEither<unknown, EntryURL[]> {
-	return _stub();
+	return TE.flatMap((feed: FeedMap) => {
+		const selectedFeed = feed.get(selection);
+
+		return selectedFeed !== undefined
+			? TE.right(selectedFeed)
+			: TE.left(new Error("Selected feed does not exist in JSON"));
+	})(getFeedMap(file));
 }
-/* eslint-enable */
 
 // Generate the collection of items based on the feed
-export function loadXML(urlList: readonly EntryURL[]): TaskEither<unknown, Entry[]> {
+function loadXML(urlList: readonly EntryURL[]): TaskEither<unknown, Entry[]> {
 	return TE.map((entries: readonly Entry[][]) => entries.flat())(
 		TE.traverseArray((urlEntry: Readonly<EntryURL>) =>
 			TE.map((feedData: Readonly<Parser.Output<object>>) => parsedXMLToEntries(feedData, urlEntry.name))(
@@ -80,7 +95,9 @@ function sortFeed(entryList: readonly Entry[]): Entry[] {
 
 // Parsed XML data to entry
 function parsedXMLToEntries(xmlData: Readonly<Parser.Output<object>>, feedName: string): Entry[] {
-	return xmlData.items.map((item: Readonly<Parser.Item>) => itemToEntry(item, channelToParentData(xmlData, feedName)));
+	return xmlData.items.map((item: Readonly<Parser.Item>) =>
+		itemToEntry(item, channelToParentData(xmlData, feedName)),
+	);
 }
 
 // Load parent channel data into ParentData object
@@ -122,12 +139,34 @@ function uuidURL(url: string, seed = 5381): number {
 	);
 }
 
+// Get the JSON data as a feed map
+function getFeedMap(fileName: string): TaskEither<unknown, FeedMap> {
+	return TE.map((jsonModule: Readonly<JSONModule>) => {
+		const protoFeed = ((jsonModule.default ?? jsonModule) as JSONFeedRecord);
+
+		return new Map(
+			Object.entries(protoFeed).map(([feedName, entryRecord]) => [
+				feedName,
+				Object.entries(entryRecord).map(([name, link]) => ({ name, link })),
+			]),
+		);
+	})(getJSON("./src/data/"+fileName+".json"));
+}
+
+// Retreive JSON file
+function getJSON(file: string): TaskEither<unknown, JSONModule> {
+	return TE.tryCatch(
+		() => import(file, { with: { type: "json" } }) as Promise<JSONModule>,
+		_id
+	);
+}
+
 // Retreive XML file
-function getXML(url: string): TaskEither<unknown, Parser.Output<object>> {
+function getXML(file: string): TaskEither<unknown, Parser.Output<object>> {
 	return TE.flatMap((textXML: string) => TE.tryCatch(() => rssParser.parseString(textXML), _id))(
 		TE.tryCatch(
 			() =>
-				fetch(url).then((responseXML: Response) => {
+				fetch(file).then((responseXML: Response) => {
 					if (responseXML.ok) {
 						return responseXML.text();
 					} else {
