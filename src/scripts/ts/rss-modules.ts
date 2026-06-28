@@ -128,6 +128,7 @@ function itemToEntry(xmlItem: Readonly<Parser.Item>, itemParent: Readonly<Parent
 // ===== FILE AND FETCH HANDLING ===== //
 
 const rssParser = new Parser<object, object>();
+const RSS_CORS_PROXY = "https://rss-proxy.oliviahrwalters.workers.dev/?url=";
 
 function uuidURL(url: string, seed = 5381): number {
 	return (
@@ -164,16 +165,24 @@ function getJSON(file: string): TaskEither<unknown, JSONModule> {
 // Retreive XML file
 function getXML(file: string): TaskEither<unknown, Parser.Output<object>> {
 	return TE.flatMap((textXML: string) => TE.tryCatch(() => rssParser.parseString(textXML), _id))(
-		TE.tryCatch(
-			() =>
-				fetch(file).then((responseXML: Response) => {
-					if (responseXML.ok) {
-						return responseXML.text();
-					} else {
-						throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
-					}
-				}),
-			_id,
-		),
+		TE.orElse(() => getXMLText(getProxyURL(file)))(getXMLText(file)),
+	);
+}
+
+function getProxyURL(url: string): string {
+	return RSS_CORS_PROXY + encodeURIComponent(url);
+}
+
+function getXMLText(url: string): TaskEither<unknown, string> {
+	return TE.tryCatch(
+		() =>
+			fetch(url).then((responseXML: Response) => {
+				if (responseXML.ok) {
+					return responseXML.text();
+				}
+
+				throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
+			}),
+		_id,
 	);
 }

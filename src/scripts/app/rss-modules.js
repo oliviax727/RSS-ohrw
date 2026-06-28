@@ -67,6 +67,7 @@ function itemToEntry(xmlItem, itemParent) {
 }
 // ===== FILE AND FETCH HANDLING ===== //
 const rssParser = new _rssParser.default();
+const RSS_CORS_PROXY = "https://rss-proxy.oliviahrwalters.workers.dev/?url=";
 function uuidURL(url, seed = 5381) {
   return Array.from(url).reduce(
   // hash * 33 + charCode (bitwise shift for efficiency: hash << 5 is hash * 32)
@@ -92,11 +93,16 @@ function getJSON(file) {
 }
 // Retreive XML file
 function getXML(file) {
-  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.tryCatch(() => fetch(file).then(responseXML => {
+  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.orElse(() => getXMLText(getProxyURL(file)))(getXMLText(file)));
+}
+function getProxyURL(url) {
+  return RSS_CORS_PROXY + encodeURIComponent(url);
+}
+function getXMLText(url) {
+  return TE.tryCatch(() => fetch(url).then(responseXML => {
     if (responseXML.ok) {
       return responseXML.text();
-    } else {
-      throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
     }
-  }), _defaultModules._id));
+    throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
+  }), _defaultModules._id);
 }
