@@ -2,7 +2,6 @@ TODO/REMINDER:
 
 rss-modules.ts
 - Complete ObjectHTML and attributes for Feed class
-- Load JSON file and output to news sites in primary sidebar
 
 - Save and load read/dismissed uuids to cookies, use document.help.(get|set)cookie
 - Display the RSS information (color two buttons light gray/theme colour if read/dismissed)
