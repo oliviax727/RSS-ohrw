@@ -4,6 +4,7 @@ import { _id, HTTPS404 } from "./default-modules.js";
 import Parser from "rss-parser";
 import type { TaskEither } from "fp-ts/TaskEither";
 import * as TE from "fp-ts/TaskEither";
+import * as M from "fp-ts/Map";
 
 // ===== LOAD RSS INTO HTML ===== //
 
@@ -51,6 +52,23 @@ interface Entry {
 
 	read: boolean;
 	dismissed: boolean;
+}
+
+// Produce RSS Feed as HTML object as string
+export function createFeedList(jsonFile: string): TaskEither<unknown, HTMLElement> {
+	return TE.map((feedMap: FeedMap) => {
+		return domParser.parseFromString(
+			Array.from(
+				M.map((entryUrlList: readonly EntryURL[]) => {
+					return entryUrlList.reduce(
+						(acc, val) => acc + "<li><a href='"+val.link+"'>" + val.name + "</a></li>\n",
+						"",
+					);
+				})(feedMap),
+			).reduce((acc, [key, val]) => acc + "<h4>" + key + "</h4>\n<ul>\n" + val + "</ul>\n", ""),
+			"text/html",
+		).body;
+	})(getFeedMap(jsonFile));
 }
 
 // RSS Feed
@@ -128,6 +146,7 @@ function itemToEntry(xmlItem: Readonly<Parser.Item>, itemParent: Readonly<Parent
 // ===== FILE AND FETCH HANDLING ===== //
 
 const rssParser = new Parser<object, object>();
+const domParser = new DOMParser();
 const RSS_CORS_PROXY = "https://rss-proxy.oliviahrwalters.workers.dev/?url=";
 
 function uuidURL(url: string, seed = 5381): number {
@@ -143,7 +162,7 @@ function uuidURL(url: string, seed = 5381): number {
 // Get the JSON data as a feed map
 function getFeedMap(fileName: string): TaskEither<unknown, FeedMap> {
 	return TE.map((jsonModule: Readonly<JSONModule>) => {
-		const protoFeed = ((jsonModule.default ?? jsonModule) as JSONFeedRecord);
+		const protoFeed = (jsonModule.default ?? jsonModule) as JSONFeedRecord;
 
 		return new Map(
 			Object.entries(protoFeed).map(([feedName, entryRecord]) => [
@@ -151,40 +170,41 @@ function getFeedMap(fileName: string): TaskEither<unknown, FeedMap> {
 				Object.entries(entryRecord).map(([name, link]) => ({ name, link })),
 			]),
 		);
-	})(getJSON("./src/data/"+fileName+".json"));
+	})(getJSON("./src/data/" + fileName + ".json"));
 }
 
 // Retreive JSON file
 function getJSON(file: string): TaskEither<unknown, JSONModule> {
-	return TE.tryCatch(
-		() => import(file, { with: { type: "json" } }) as Promise<JSONModule>,
-		_id
-	);
+	return TE.tryCatch(() => import(file, { with: { type: "json" } }) as Promise<JSONModule>, _id);
 }
 
 // Retreive XML file
 function getXML(file: string): TaskEither<unknown, Parser.Output<object>> {
 	return TE.flatMap((textXML: string) => TE.tryCatch(() => rssParser.parseString(textXML), _id))(
-		TE.orElse(() => getXMLText(getProxyURL(file)))(getXMLText(file)),
+		TE.orElse(() => tryGetXML(getProxyURL(file)))(tryGetXML(file)),
 	);
 }
 
+// Adds the cloudfare proxy to the URL
 function getProxyURL(url: string): string {
 	return RSS_CORS_PROXY + encodeURIComponent(url);
 }
 
-function getXMLText(url: string): TaskEither<unknown, string> {
+// Attempts to get an XML file (sub-function of getXML)
+function tryGetXML(url: string): TaskEither<unknown, string> {
 	return TE.tryCatch(
 		() =>
-			fetch(url).then((responseXML: Response) => {
-				if (responseXML.ok) {
-					return responseXML.text();
-				}
+			fetch(url)
+				.then((responseXML: Response) => {
+					if (responseXML.ok) {
+						return responseXML.text();
+					}
 
-				throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
-			}).catch((reason: unknown) => {
-				throw reason;
-			}),
+					throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
+				})
+				.catch((reason: unknown) => {
+					throw reason;
+				}),
 		_id,
 	);
 }

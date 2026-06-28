@@ -17,5 +17,6 @@ interface Entry {
     read: boolean;
     dismissed: boolean;
 }
+export declare function createFeedList(jsonFile: string): TaskEither<unknown, HTMLElement>;
 export declare function createFeed(jsonFile: string, feedName: string): TaskEither<unknown, Entry[]>;
 export {};

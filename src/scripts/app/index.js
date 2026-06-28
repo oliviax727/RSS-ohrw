@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.loadRSS = exports.displayNewsreaderLinks = void 0;
 var T = _interopRequireWildcard(require("fp-ts/Task"));
 var Console = _interopRequireWildcard(require("fp-ts/Console"));
 var _defaultModules = require("./default-modules");
@@ -12,29 +12,21 @@ function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r
 /// <reference types="node" />
 
 const getRSS = async function () {
-  /*const feed = await decideUnsafe(
-      loadXML([
-          {
-              name: "W3 Test XML",
-              link: "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml",
-          },
-          {
-              name: "ABC News",
-              link: "https://www.abc.net.au/news/feed/5313390/rss.xml",
-          },
-      ]),
-  );*/
   const feed = await (0, _defaultModules.decideUnsafe)((0, _rssModules.createFeed)("newsreader", "test-feed"));
   return feed;
 };
+const displayNewsreaderLinks = async function () {
+  return await (0, _defaultModules.decideUnsafe)((0, _rssModules.createFeedList)("newsreader"));
+};
+exports.displayNewsreaderLinks = displayNewsreaderLinks;
 const displayRSS = function () {
   return "Display RSS";
 };
 const dismissRSSItem = function () {
   return "Dismiss RSS Item";
 };
-const entry = async function () {
-  console.log("Loading bundled modules ...");
+const loadRSS = async function () {
+  console.log("Loading RSS Feed ...");
   try {
     await T.traverseSeqArray(func => async () => {
       const output = await func();
@@ -48,7 +40,7 @@ const entry = async function () {
       console.trace();
     }
   } finally {
-    console.log("Modules successfully loaded and executed.");
+    console.log("Loaded RSS Feed");
   }
 };
-var _default = exports.default = entry;
+exports.loadRSS = loadRSS;

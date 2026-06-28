@@ -4,13 +4,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createFeed = createFeed;
+exports.createFeedList = createFeedList;
 var _defaultModules = require("./default-modules.js");
 var _rssParser = _interopRequireDefault(require("rss-parser"));
 var TE = _interopRequireWildcard(require("fp-ts/TaskEither"));
+var M = _interopRequireWildcard(require("fp-ts/Map"));
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 /// <reference types="node" />
 
+// Produce RSS Feed as HTML object as string
+function createFeedList(jsonFile) {
+  return TE.map(feedMap => {
+    return domParser.parseFromString(Array.from(M.map(entryUrlList => {
+      return entryUrlList.reduce((acc, val) => acc + "<li><a href='" + val.link + "'>" + val.name + "</a></li>\n", "");
+    })(feedMap)).reduce((acc, [key, val]) => acc + "<h4>" + key + "</h4>\n<ul>\n" + val + "</ul>\n", ""), "text/html").body;
+  })(getFeedMap(jsonFile));
+}
 // RSS Feed
 function createFeed(jsonFile, feedName) {
   return TE.map(sortFeed)(TE.flatMap(loadXML)(loadJSON(jsonFile, feedName)));
@@ -67,6 +77,7 @@ function itemToEntry(xmlItem, itemParent) {
 }
 // ===== FILE AND FETCH HANDLING ===== //
 const rssParser = new _rssParser.default();
+const domParser = new DOMParser();
 const RSS_CORS_PROXY = "https://rss-proxy.oliviahrwalters.workers.dev/?url=";
 function uuidURL(url, seed = 5381) {
   return Array.from(url).reduce(
@@ -93,12 +104,14 @@ function getJSON(file) {
 }
 // Retreive XML file
 function getXML(file) {
-  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.orElse(() => getXMLText(getProxyURL(file)))(getXMLText(file)));
+  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.orElse(() => tryGetXML(getProxyURL(file)))(tryGetXML(file)));
 }
+// Adds the cloudfare proxy to the URL
 function getProxyURL(url) {
   return RSS_CORS_PROXY + encodeURIComponent(url);
 }
-function getXMLText(url) {
+// Attempts to get an XML file (sub-function of getXML)
+function tryGetXML(url) {
   return TE.tryCatch(() => fetch(url).then(responseXML => {
     if (responseXML.ok) {
       return responseXML.text();
