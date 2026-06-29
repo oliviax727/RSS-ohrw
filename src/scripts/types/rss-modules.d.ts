@@ -7,7 +7,7 @@ interface ParentData {
     imageUrl?: string;
     imageName?: string;
 }
-interface Entry {
+export interface Entry {
     uuid: number;
     title: string;
     link: string;
@@ -17,6 +17,7 @@ interface Entry {
     read: boolean;
     dismissed: boolean;
 }
-export declare function createFeedList(jsonFile: string): TaskEither<unknown, HTMLElement>;
-export declare function createFeed(jsonFile: string, feedName: string): TaskEither<unknown, Entry[]>;
+export declare const createFeedHTML: (jsonFile: string, feedName: string) => TaskEither<unknown, HTMLElement>;
+export declare const createFeedList: (jsonFile: string) => TaskEither<unknown, HTMLElement>;
+export declare const createFeed: (jsonFile: string, feedName: string) => TaskEither<unknown, Entry[]>;
 export {};

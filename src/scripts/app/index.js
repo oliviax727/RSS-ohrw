@@ -11,20 +11,11 @@ var _rssModules = require("./rss-modules.js");
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 /// <reference types="node" />
 
-const getRSS = async function () {
-  const feed = await (0, _defaultModules.decideUnsafe)((0, _rssModules.createFeed)("newsreader", "test-feed"));
-  return feed;
-};
-const displayNewsreaderLinks = async function () {
-  return await (0, _defaultModules.decideUnsafe)((0, _rssModules.createFeedList)("newsreader"));
-};
+const getRSS = async () => await (0, _defaultModules.decideUnsafe)((0, _rssModules.createFeed)("newsreader", "test-feed"));
+const displayNewsreaderLinks = async () => await (0, _defaultModules.decideUnsafe)((0, _rssModules.createFeedList)("newsreader"));
 exports.displayNewsreaderLinks = displayNewsreaderLinks;
-const displayRSS = function () {
-  return "Display RSS";
-};
-const dismissRSSItem = function () {
-  return "Dismiss RSS Item";
-};
+const displayRSS = () => "Display RSS";
+const dismissRSSItem = () => "Dismiss RSS Item";
 const loadRSS = async function () {
   console.log("Loading RSS Feed ...");
   try {

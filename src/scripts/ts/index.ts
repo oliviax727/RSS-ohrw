@@ -2,32 +2,24 @@
 
 import * as T from "fp-ts/Task";
 import * as Console from "fp-ts/Console";
-import { decideUnsafe, type EntryFunction, type OutputFunction } from './default-modules';
+import { decideUnsafe } from './default-modules';
+import type { EntryFunction, OutputFunction } from './default-modules';
 import { createFeed, createFeedList } from "./rss-modules.js";
+import type { Entry } from "./rss-modules.js";
 
-const getRSS: OutputFunction = async function () {
-	const feed = await decideUnsafe(createFeed("newsreader", "test-feed"));
+const getRSS: OutputFunction<Entry[]> = async () => await decideUnsafe(createFeed("newsreader", "test-feed"));
 
-	return feed;
-};
+const displayNewsreaderLinks: OutputFunction<HTMLElement> = async () => await decideUnsafe(createFeedList("newsreader"));
 
-const displayNewsreaderLinks = async function () {
-	return await decideUnsafe(createFeedList("newsreader"));
-};
+const displayRSS: OutputFunction<string> = () => "Display RSS";
 
-const displayRSS: OutputFunction = function () { 
-	return "Display RSS";
-};
-
-const dismissRSSItem: OutputFunction = function () {
-	return "Dismiss RSS Item";
-};
+const dismissRSSItem: OutputFunction<string> = () => "Dismiss RSS Item";
 
 const loadRSS: EntryFunction = async function () {
 	console.log("Loading RSS Feed ...");
 
 	try {
-		await T.traverseSeqArray((func: OutputFunction) => async () => {
+		await T.traverseSeqArray((func: OutputFunction<unknown>) => async () => {
 			const output = await func();
 			Console.log(output)();
 		})([getRSS, displayRSS, dismissRSSItem])();
