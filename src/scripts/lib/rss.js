@@ -5,9 +5,6 @@ import { Navigator, Cruncher } from "./main.js";
 
 // Modify the RSS Feed HTML element
 export class ModifyFeed {
-
-	static FEED_CONTAINER_INNER_HTML = '<div html-ref="src/layout/rss-feed.html"></div>';
-
 	static FULLSCREEN_CRUNCH_SIZE = 700;
 
 	// ===== LOAD AND RELOAD FEED ===== //
@@ -16,18 +13,20 @@ export class ModifyFeed {
 	static reloadFeed(fullscreen) {
 		console.log("Reload toggled");
 
-		var container = document.getElementById("rss-feed-wrapper");
-		container.innerHTML = ModifyFeed.FEED_CONTAINER_INNER_HTML;
-		Navigator.loadPage(null, () => {
-			ModifyFeed.toggleFullscreen(fullscreen);
-		});
+		self.Newsreader.initializeNewsreader().then(() =>
+			Navigator.loadPage(null, () => {
+				ModifyFeed.checkFullscreen(fullscreen);
+			}),
+		);
 	}
 
 	// ===== EXPAND/MINIMISE READER ===== //
 
 	// Check if there is a fullscreen jquery parameter and then fullscreen if true
 	static checkFullscreen() {
-		const fullscreen = (Storer.getURLParams('fullscreen') === 'true');
+		const fullscreen = Storer.getURLParams("fullscreen") === "true";
+
+		fullscreen == null ? false : fullscreen;
 
 		if (fullscreen) {
 			ModifyFeed.toggleFullscreen(fullscreen);
@@ -41,43 +40,45 @@ export class ModifyFeed {
 		ModifyFeed.expandOrContractFeedWindow(toggleflag);
 		ModifyFeed.hideAndUnhideToggleButtons(toggleflag);
 
-		Storer.setURLParams('fullscreen', toggleflag, false);
+		Storer.setURLParams("fullscreen", toggleflag, false);
 	}
 
 	static expandOrContractFeedWindow(toggleflag) {
 		var feedWindow = document.getElementById("rss-feed-wrapper");
 
-		var elementsToHide =
-			["ribbon-wrapper", "footer-wrapper", "sidebar"]
-				.map((id) => document.getElementById(id));
+		var elementsToHide = [
+			"ribbon-wrapper",
+			"footer-wrapper",
+			"sidebar",
+		].map((id) => document.getElementById(id));
 
 		if (toggleflag) {
 			elementsToHide.forEach((element) => {
 				if (element != null) {
-					element.style.display = 'none';
+					element.style.display = "none";
 				}
 			});
 
-			feedWindow.style.position = 'fixed';
-			feedWindow.style.top = '0';
-			feedWindow.style.left = '0';
+			feedWindow.style.position = "fixed";
+			feedWindow.style.top = "0";
+			feedWindow.style.left = "0";
 
-			feedWindow.style.width = '100vw';
-			feedWindow.style.height = '100vh';
+			feedWindow.style.width = "100vw";
+			feedWindow.style.height = "100vh";
 
 			self.PageData.CRUNCH_SIZE = ModifyFeed.FULLSCREEN_CRUNCH_SIZE;
 			Cruncher.checkCrunch();
 		} else {
-			feedWindow.style.position = '';
-			feedWindow.style.top = '';
-			feedWindow.style.left = '';
+			feedWindow.style.position = "";
+			feedWindow.style.top = "";
+			feedWindow.style.left = "";
 
-			feedWindow.style.width = '';
-			feedWindow.style.height = '';
+			feedWindow.style.width = "";
+			feedWindow.style.height = "";
 
 			elementsToHide.forEach((element) => {
 				if (element != null) {
-					element.style.display = '';
+					element.style.display = "";
 				}
 			});
 
@@ -87,7 +88,7 @@ export class ModifyFeed {
 	}
 
 	static hideAndUnhideToggleButtons(toggleflag) {
-		const toggle = (flag) => flag ? 'none' : 'inline';
+		const toggle = (flag) => (flag ? "none" : "inline");
 
 		var min_buttons = document.getElementsByClassName("rss-feed-min");
 		var max_buttons = document.getElementsByClassName("rss-feed-max");
@@ -127,34 +128,27 @@ export class ModifyFeed {
 			rssCrunch[i].style.display = "none";
 		}
 	}
-
 }
 
 // Singular object to get/set important data for the files in app to use
 export class ReaderState {
-
 	// ===== READ OBJECTS AND DISMISSED OBJECTS ===== //
 
-	readIDs = new Set([]);
-	dismissedIDs = new Set([]);
+	entryDataMap = new Map([[]]);
 
 	// ===== LOAD/SAVE DATA FROM COOKIES ===== //
 
-	loadIDs() {
+	loadIDs() {}
 
-	}
-
-	saveIDs() {
-
-	}
+	saveIDs() {}
 
 	// ===== APPEND AND REMOVE DATA ===== //
 
-	appendItem(uuid) {
+	dismissItem(uuid) {
 		return uuid;
 	}
 
-	removeItem(uuid) {
+	readItem(uuid) {
 		return uuid;
 	}
 }

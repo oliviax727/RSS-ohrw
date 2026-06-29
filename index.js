@@ -1,12 +1,14 @@
 // ===== SETUP ===== //
 
 // End-user check JS works
-console.info("This message should appear if the javascript integration has worked.");
+console.info(
+	"This message should appear if the javascript integration has worked.",
+);
 
-import { PageData } from './src/scripts/lib/helpers.js';
-import { Navigator, Cruncher } from './src/scripts/lib/main.js';
-import BoneMiner from './src/scripts/lib/game.js';
-import { ReaderState, ModifyFeed } from './src/scripts/lib/rss.js';
+import { PageData } from "./src/scripts/lib/helpers.js";
+import { Navigator, Cruncher } from "./src/scripts/lib/main.js";
+import BoneMiner from "./src/scripts/lib/game.js";
+import { ReaderState, ModifyFeed } from "./src/scripts/lib/rss.js";
 
 // Constants
 const SECTION_COLOR_DICT = new Map([
@@ -23,16 +25,20 @@ const SECTION_COLOR_DICT = new Map([
 	["publications-astronomy", 250],
 	["publications-other", 240],
 
-	["tech", 270]
+	["tech", 270],
 ]);
 
 const DEFAULT_CRUNCH_SIZE = 1120;
 
-const DEFAULT_SECTION = 'primary';
+const DEFAULT_SECTION = "primary";
 
 // Main HTML functions
 
-let data = new PageData(DEFAULT_CRUNCH_SIZE, DEFAULT_SECTION, SECTION_COLOR_DICT);
+let data = new PageData(
+	DEFAULT_CRUNCH_SIZE,
+	DEFAULT_SECTION,
+	SECTION_COLOR_DICT,
+);
 
 window.PageData = data;
 

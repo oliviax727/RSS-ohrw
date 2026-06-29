@@ -9,16 +9,20 @@ import * as TE from "fp-ts/TaskEither";
 
 export const HTTPS404 = "https://oliviax727.github.io/404";
 
-export type EntryFunction = () => Promise<void> | void;
+// eslint-disable-next-line no-unused-vars
+export type IOFunction<I, O> = (i: I) => Promise<O> | O;
 
-export type OutputFunction<A> = () => Promise<A> | A;
+export type OutputFunction<O> = IOFunction<void, O>;
+
+export type EntryFunction<I> = IOFunction<I, void>;
 
 // ===== STANDARD HELPER FUNCTIONS ===== //
 
 export const _id = <A>(error: A): A => error;
 
 // eslint-disable-next-line functional/functional-parameters
-export const _stub = (): TaskEither<Error, never> => TE.left(new Error("Unknown Error"));
+export const _stub = (): TaskEither<Error, never> =>
+	TE.left(new Error("Unknown Error"));
 
 export const decideUnsafe = <Err, A>(taskEither: TaskEither<Err, A>): Promise<A> =>
 	taskEither().then((either: Either<Err, A>) => {
@@ -34,7 +38,8 @@ export const decideUnsafe = <Err, A>(taskEither: TaskEither<Err, A>): Promise<A>
 const RSS_CORS_PROXY = "https://rss-proxy.oliviahrwalters.workers.dev/?url=";
 
 // Adds the cloudfare proxy to the URL
-export const getProxyURL = (url: string): string => RSS_CORS_PROXY + encodeURIComponent(url);
+export const getProxyURL = (url: string): string =>
+	RSS_CORS_PROXY + encodeURIComponent(url);
 
 // Convert a URL into a UUID
 export const uuidURL = (url: string, seed = 5381): number =>

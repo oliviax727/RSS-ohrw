@@ -7,6 +7,11 @@ interface ParentData {
     imageUrl?: string;
     imageName?: string;
 }
+export interface EntryData {
+    read: boolean;
+    dismissed: boolean;
+}
+export type EntryDataMap = Readonly<Map<number, EntryData>>;
 export interface Entry {
     uuid: number;
     title: string;
@@ -14,10 +19,8 @@ export interface Entry {
     description: string;
     date?: Date;
     parentData: ParentData;
-    read: boolean;
-    dismissed: boolean;
+    data: EntryData;
 }
-export declare const createFeedHTML: (jsonFile: string, feedName: string) => TaskEither<unknown, HTMLElement>;
+export declare const createRSSFeed: (jsonFile: string, feedName: string, entryData: EntryDataMap) => TaskEither<unknown, HTMLElement>;
 export declare const createFeedList: (jsonFile: string) => TaskEither<unknown, HTMLElement>;
-export declare const createFeed: (jsonFile: string, feedName: string) => TaskEither<unknown, Entry[]>;
 export {};

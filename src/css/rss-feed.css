@@ -16,7 +16,7 @@
   overflow: hidden;
 
   min-height: max-content;
-  max-height: 100%;
+  max-height: none;
   min-width: 100%;
 
   background-color: var(--vibrant-dark-color);
@@ -30,8 +30,8 @@
   display: inline-flex;
   align-items: center;
 
-  min-height: inherit;
-  height: 100%;
+  min-height: max-content;
+  height: auto;
   min-width: max-content;
 
   padding-inline: 1%;

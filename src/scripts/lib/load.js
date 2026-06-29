@@ -1,6 +1,5 @@
 // A class for loading objects into the webpage
 export class DynamicLoader {
-
 	// Wait for the page to load
 	static waitForLoad(callback) {
 		if (document.readyState === "complete") {
@@ -8,9 +7,13 @@ export class DynamicLoader {
 			return;
 		}
 
-		window.addEventListener("load", () => {
-			void callback();
-		}, { once: true });
+		window.addEventListener(
+			"load",
+			() => {
+				void callback();
+			},
+			{ once: true },
+		);
 	}
 
 	// Wait for one or more elements matching the selector to exist.
@@ -39,12 +42,35 @@ export class DynamicLoader {
 		});
 	}
 
-	// Set any feedlist div to the module-derived feed list
-	static async dynamicLoad(selector, data) {
-		const selectedElements = await DynamicLoader.waitForSelectorLoad(selector);
+	// Set any selected div to some innerHTML data
+	static async dynamicLoad(selector, data, useAttribute = "") {
+		const selectedElements =
+			await DynamicLoader.waitForSelectorLoad(selector);
 
-		for (let i = 0; i < selectedElements.length; i++) {
-			selectedElements[i].innerHTML = data;
+		if (useAttribute !== "") {
+			for (let i = 0; i < selectedElements.length; i++) {
+				selectedElements[i].innerHTML = await data(
+					selectedElements[i].getAttribute(useAttribute),
+				);
+			}
+		} else {
+			for (let i = 0; i < selectedElements.length; i++) {
+				selectedElements[i].innerHTML = data;
+			}
 		}
 	}
+
+	static ensureStylesheet = (href) => {
+		if (
+			document.querySelector(`link[rel="stylesheet"][href="${href}"]`) !==
+			null
+		) {
+			return;
+		}
+
+		const styleLink = document.createElement("link");
+		styleLink.rel = "stylesheet";
+		styleLink.href = href;
+		document.head.appendChild(styleLink);
+	};
 }

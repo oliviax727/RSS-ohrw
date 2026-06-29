@@ -3,12 +3,11 @@ import { Helpers, Storer, Retriever } from "./helpers.js";
 
 // Main HTML Class
 export class Navigator {
-
 	// ===== ACTIVE UPDATING ===== //
 
 	// Initialise Page
 	static initPage(_callback = Helpers.IDENTITY) {
-		const page = Storer.getURLParams('s');
+		const page = Storer.getURLParams("s");
 
 		if (page != null) {
 			Navigator.changeSection(page, _callback);
@@ -44,7 +43,9 @@ export class Navigator {
 				BoneMiner.loadBones();
 				_callback();
 			} catch (error) {
-				console.log("Did not switch to section: " + section + "; " + error);
+				console.log(
+					"Did not switch to section: " + section + "; " + error,
+				);
 				console.log(error.stack);
 			} finally {
 				console.log("Switched to section: " + section);
@@ -63,7 +64,7 @@ export class Navigator {
 			BoneMiner.saveBones();
 		}
 
-		Storer.setURLParams('s', section, true);
+		Storer.setURLParams("s", section, true);
 	}
 
 	// ===== TOGGLE FUNCTIONS ===== //
@@ -109,7 +110,8 @@ export class Navigator {
 
 	// Update webpage CSS and span elements
 	static updatePage(section) {
-		let sectionToSwitch = (section == null ? self.PageData.CURRENT_SECTION : section);
+		let sectionToSwitch =
+			section == null ? self.PageData.CURRENT_SECTION : section;
 		Navigator.updateSectionNames(sectionToSwitch);
 		Navigator.updateBackgroundColors(sectionToSwitch);
 		Navigator.updateAges();
@@ -129,7 +131,7 @@ export class Navigator {
 	static updateBackgroundColors(section) {
 		let hue = self.PageData.SECTION_COLOR_DICT.get(section) ?? 300;
 
-		document.documentElement.style.setProperty('--base-hue', hue);
+		document.documentElement.style.setProperty("--base-hue", hue);
 	}
 
 	// Change all age values in spans
@@ -146,11 +148,14 @@ export class Navigator {
 			agedate.setHours(0, 0, 0, 0);
 
 			// Take year difference and set it inside the HTML
-			let agediff = new Date(self.PageData.CURRENT_DATE - agedate).getFullYear() - 1970;
+			let agediff =
+				new Date(self.PageData.CURRENT_DATE - agedate).getFullYear() -
+				1970;
 
 			// Show date if tag is flagged
 			if (span.hasAttribute("showdate")) {
-				span.innerHTML = agediff + " (" + agedate.toLocaleDateString('en-AU') + ");";
+				span.innerHTML =
+					agediff + " (" + agedate.toLocaleDateString("en-AU") + ");";
 			} else {
 				span.innerHTML = agediff;
 			}
@@ -292,7 +297,6 @@ export class Cruncher {
 			sidebar.style.borderLeft = "solid";
 		}
 	}
-
 }
 
 window.onresize = Cruncher.checkCrunch;

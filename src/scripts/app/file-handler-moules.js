@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.parseHTML = exports.getXML = exports.getJSON = exports.getFeedMap = void 0;
+exports.setHTMLChildInnerHTML = exports.setHTMLChildAttributes = exports.setHTMLAttributes = exports.parseHTMLSafe = exports.parseHTML = exports.loadHTML = exports.getXML = exports.getJSON = exports.getFeedMap = void 0;
 var _defaultModules = require("./default-modules.js");
 var _rssParser = _interopRequireDefault(require("rss-parser"));
 var TE = _interopRequireWildcard(require("fp-ts/TaskEither"));
@@ -13,11 +13,69 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e
 const rssParser = new _rssParser.default();
 const domParser = new DOMParser();
 // ===== HTML HANDLING ===== //
+// Fetch a HTML file and return it as an element object
+const loadHTML = file => TE.flatMap(parseHTML)(loadHTMLText(file));
+// Load a HTML file as text
+exports.loadHTML = loadHTML;
+const loadHTMLText = file => TE.tryCatch(() => fetch(file).then(responseHTML => {
+  if (responseHTML.ok) {
+    return responseHTML.text();
+  }
+  throw new Error("A error occured HTTP. Code: " + responseHTML.status.toString());
+}).catch(reason => {
+  throw reason;
+}), _defaultModules._id);
 // Parse a string to a HTML file
-const parseHTML = html => domParser.parseFromString(html, "text/html").body;
+const parseHTML = html => TE.tryCatch(() => Promise.resolve(domParser.parseFromString(html, "text/html").body), _defaultModules._id);
+// Parse a string to a HTML file - assume HTML is working all well
+exports.parseHTML = parseHTML;
+const parseHTMLSafe = html => domParser.parseFromString(html, "text/html").body;
+// Makes sure HTML attributes in string form are being properly converted
+exports.parseHTMLSafe = parseHTMLSafe;
+const encodeHTMLAttributeValue = value => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+// Escapes all characters that are potentially dangerous
+const escapeRegexText = value => value.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+// Takes a HTML string modifies the opening tag of the element
+const setHTMLAttribute = (html, attribute, value) => {
+  const openTagPattern = /^<([^\s>]+)([^>]*)>/u;
+  const nextAttribute = ` ${attribute}="${encodeHTMLAttributeValue(value)}"`;
+  const attributePattern = new RegExp(`\\s${escapeRegexText(attribute)}="[^"]*"`, "u");
+  return html.replace(openTagPattern, (_match, tagName, attributes) => {
+    const nextAttributes = attributePattern.test(attributes) ? attributes.replace(attributePattern, nextAttribute) : attributes + nextAttribute;
+    return `<${tagName}${nextAttributes}>`;
+  });
+};
+// Modify a HTML Element's attributes w/o side effects
+const setHTMLAttributes = attributeMap => element => parseHTMLSafe(Object.entries(attributeMap).reduce((html, [attribute, value]) => setHTMLAttribute(html, attribute, value), element.outerHTML));
+// Modify child element inner HTML w/o side effects
+exports.setHTMLAttributes = setHTMLAttributes;
+const setHTMLChildInnerHTML = childHTMLMap => element => {
+  const nextElement = parseHTMLSafe(element.outerHTML);
+  Object.entries(childHTMLMap).forEach(([selector, html]) => {
+    const childElement = nextElement.querySelector(selector);
+    if (childElement !== null) {
+      childElement.innerHTML = html;
+    }
+  });
+  return nextElement;
+};
+// Modify child element attributes w/o side effects
+exports.setHTMLChildInnerHTML = setHTMLChildInnerHTML;
+const setHTMLChildAttributes = childAttributeMap => element => {
+  const nextElement = parseHTMLSafe(element.outerHTML);
+  Object.entries(childAttributeMap).forEach(([selector, attributeMap]) => {
+    const childElement = nextElement.querySelector(selector);
+    if (childElement !== null) {
+      Object.entries(attributeMap).forEach(([attribute, value]) => {
+        childElement.setAttribute(attribute, value);
+      });
+    }
+  });
+  return nextElement;
+};
 // ===== JSON HANDLING ===== //
 // Get the JSON data as a feed map
-exports.parseHTML = parseHTML;
+exports.setHTMLChildAttributes = setHTMLChildAttributes;
 const getFeedMap = fileName => TE.map(jsonModule => {
   const protoFeed = jsonModule.default ?? jsonModule;
   return new Map(Object.entries(protoFeed).map(([feedName, entryRecord]) => [feedName, Object.entries(entryRecord).map(([name, link]) => ({

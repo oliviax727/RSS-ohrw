@@ -1,5 +1,4 @@
 export class Helpers {
-
 	static IDENTITY = () => {};
 
 	// ===== HANDY FUNCTIONS ===== //
@@ -46,17 +45,17 @@ export class Storer {
 		document.cookie = [
 			name + "=" + value,
 			"path=" + path,
-			"max-age=" + Helpers.factrorial(factorial_age)
+			"max-age=" + Helpers.factrorial(factorial_age),
 		].join("; ");
 	}
 
 	static getCookie(name) {
 		const value = `; ${document.cookie}`;
 		const parts = value.split(`; ${name}=`);
-		return parts.pop().split(';').shift();
+		return parts.pop().split(";").shift();
 	}
 
-	static setURLParams(name, value, navigate=true) {
+	static setURLParams(name, value, navigate = true) {
 		const url = new URL(window.location.href);
 
 		url.searchParams.set(name, value);
@@ -64,7 +63,7 @@ export class Storer {
 		if (navigate) {
 			window.location.href = url.toString();
 		} else {
-			window.history.pushState(null, '', url.toString());
+			window.history.pushState(null, "", url.toString());
 		}
 	}
 
@@ -77,7 +76,6 @@ export class Storer {
 }
 
 export class Retriever {
-	
 	// ===== FILE HANDLING ===== //
 
 	// Read file via XHTTP and use it
@@ -110,14 +108,16 @@ export class Retriever {
 		// Recursively call this function after every XHTTP request
 		function recursive_callback() {
 			if (this.readyState == 4) {
-
 				// Catch errors
-				if (this.status == 200) { elmnt.innerHTML = this.responseText; }
-				else if (this.status == 404) { elmnt.innerHTML = "404 Page not found."; }
-				else {
+				if (this.status == 200) {
+					elmnt.innerHTML = this.responseText;
+				} else if (this.status == 404) {
+					elmnt.innerHTML = "404 Page not found.";
+				} else {
 					elmnt.innerHTML =
 						"There was some unidentified issue stopping the webpage from loading." +
-						"\nError Status: " + this.status;
+						"\nError Status: " +
+						this.status;
 				}
 
 				// Remove the attribute, and call this function once more:

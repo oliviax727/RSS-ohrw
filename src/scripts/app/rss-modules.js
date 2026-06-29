@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createFeedList = exports.createFeedHTML = exports.createFeed = void 0;
+exports.createRSSFeed = exports.createFeedList = void 0;
 var _defaultModules = require("./default-modules.js");
 var _fileHandlerMoules = require("./file-handler-moules.js");
 var TE = _interopRequireWildcard(require("fp-ts/TaskEither"));
@@ -13,11 +13,49 @@ function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r
 
 // ===== TOP-LEVEL HTML RETURNS ===== //
 // Produce RSS Feed as HTML object
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-const createFeedHTML = (jsonFile, feedName) => (0, _defaultModules._stub)();
+const createRSSFeed = (jsonFile, feedName, entryData) => {
+  const rssObjectHTML = (0, _fileHandlerMoules.loadHTML)("src/layout/rss-object.htm");
+  const rssFeedHTML = (0, _fileHandlerMoules.loadHTML)("src/layout/rss-feed.htm");
+  return TE.flatMap(rssFeedHTML => TE.flatMap(rssObjectHTML => TE.map(entries => (0, _fileHandlerMoules.setHTMLChildInnerHTML)({
+    ".feed-content": createFeedString(entries, rssObjectHTML)
+  })(rssFeedHTML))(createFeed(jsonFile, feedName, entryData)))(rssObjectHTML))(rssFeedHTML);
+};
+// Create a new feed object from the entry data
+exports.createRSSFeed = createRSSFeed;
+const createFeedString = (entryData, rssObjectHTML) => entryData.map(entry => createFeedObject(entry, rssObjectHTML).outerHTML).join("\n");
+// Create a new feed object from the entry data
+const createFeedObject = (entryData, rssHTMLObject) => formatFeedObjectHTML(entryData)(rssHTMLObject);
+// Format the feed object's HTML
+const formatFeedObjectHTML = entryData => element => {
+  const modifiedHeader = (0, _fileHandlerMoules.setHTMLAttributes)({
+    "data-dismissed": String(entryData.data.dismissed),
+    "data-read": String(entryData.data.read),
+    "data-entry-uuid": entryData.uuid.toString()
+  })(element);
+  const modifiedText = (0, _fileHandlerMoules.setHTMLChildInnerHTML)({
+    ".item-title": entryData.title,
+    ".item-channel": entryData.parentData.name,
+    ".item-date": entryData.date?.toLocaleDateString() ?? "",
+    ".item-desc": entryData.description,
+    ".item-dismiss": entryData.data.dismissed ? "Dismiss Story" : "Restore Story"
+  })(modifiedHeader);
+  const modifiedFormItems = (0, _fileHandlerMoules.setHTMLChildAttributes)({
+    ".item-image": {
+      src: entryData.parentData.imageUrl ?? "src/img/favicons/SN_1006.jpg",
+      alt: entryData.parentData.imageName ?? entryData.parentData.name
+    },
+    ".item-read": {
+      href: entryData.link,
+      onclick: `ReaderState.readItem(${entryData.uuid.toString()});`
+    },
+    ".item-dismiss": {
+      onclick: `ReaderState.dismissItem(${entryData.uuid.toString()});`
+    }
+  })(modifiedText);
+  return modifiedFormItems;
+};
 // Produce list of RSS feed sources as HTML object
-exports.createFeedHTML = createFeedHTML;
-const createFeedList = jsonFile => TE.map(feedMap => {
+const createFeedList = jsonFile => TE.flatMap(feedMap => {
   return (0, _fileHandlerMoules.parseHTML)(Array.from(M.map(entryUrlList => {
     return entryUrlList.reduce((acc, val) => acc + "<li><a href='" + val.link + "'>" + val.name + "</a></li>\n", "");
   })(feedMap)).reduce((acc, [key, val]) => acc + "<h4>" + key + "</h4>\n<ul>\n" + val + "</ul>\n", ""));
@@ -25,19 +63,18 @@ const createFeedList = jsonFile => TE.map(feedMap => {
 // ===== LOAD JSON INTO XML INTO RSS ===== //
 // RSS Feed
 exports.createFeedList = createFeedList;
-const createFeed = (jsonFile, feedName) => TE.map(sortFeed)(TE.flatMap(loadXML)(loadJSON(jsonFile, feedName)));
+const createFeed = (jsonFile, feedName, entryData) => TE.map(sortFeed)(TE.flatMap(urlList => loadXML(urlList, entryData))(loadJSON(jsonFile, feedName)));
 // Load a JSON file and then return the selected feed
-exports.createFeed = createFeed;
 const loadJSON = (file, selection) => TE.flatMap(feed => {
   const selectedFeed = feed.get(selection);
   return selectedFeed !== undefined ? TE.right(selectedFeed) : TE.left(new Error("Selected feed does not exist in JSON"));
 })((0, _fileHandlerMoules.getFeedMap)(file));
 // Generate the collection of items based on the feed
-const loadXML = urlList => TE.map(entries => entries.flat())(TE.traverseArray(urlEntry => TE.map(feedData => parsedXMLToEntries(feedData, urlEntry.name))((0, _fileHandlerMoules.getXML)(urlEntry.link)))(urlList));
+const loadXML = (urlList, entryData) => TE.map(entries => entries.flat())(TE.traverseArray(urlEntry => TE.map(feedData => parsedXMLToEntries(feedData, urlEntry.name, entryData))((0, _fileHandlerMoules.getXML)(urlEntry.link)))(urlList));
 // Sort feed array based on date
 const sortFeed = entryList => [...entryList].sort((a, b) => {
-  if (a.dismissed != b.dismissed) {
-    return +a.dismissed - +b.dismissed;
+  if (a.data.dismissed != b.data.dismissed) {
+    return +a.data.dismissed - +b.data.dismissed;
   } else if (a.date !== undefined && b.date !== undefined) {
     return +b.date - +a.date;
   } else {
@@ -46,7 +83,7 @@ const sortFeed = entryList => [...entryList].sort((a, b) => {
 });
 // ===== PARSE XML DATA ===== //
 // Parsed XML data to entry
-const parsedXMLToEntries = (xmlData, feedName) => xmlData.items.map(item => itemToEntry(item, channelToParentData(xmlData, feedName)));
+const parsedXMLToEntries = (xmlData, feedName, entryData) => xmlData.items.map(item => itemToEntry(item, channelToParentData(xmlData, feedName), entryData));
 // Load parent channel data into ParentData object
 const channelToParentData = (xmlData, feedName) => ({
   uuid: (0, _defaultModules.uuidURL)(xmlData.link ?? _defaultModules.HTTPS404),
@@ -56,13 +93,18 @@ const channelToParentData = (xmlData, feedName) => ({
   imageName: xmlData.image?.title,
   imageUrl: xmlData.image?.url
 });
-const itemToEntry = (xmlItem, itemParent) => ({
-  uuid: (0, _defaultModules.uuidURL)(xmlItem.link ?? itemParent.link),
-  link: xmlItem.link ?? itemParent.link,
-  title: xmlItem.title ?? itemParent.title,
-  description: xmlItem.contentSnippet ?? "Description not found.",
-  date: typeof xmlItem.pubDate === "string" ? new Date(xmlItem.pubDate) : undefined,
-  parentData: itemParent,
-  read: false,
-  dismissed: false
-});
+const itemToEntry = (xmlItem, itemParent, entryData) => {
+  const uuid = (0, _defaultModules.uuidURL)(xmlItem.link ?? itemParent.link);
+  return {
+    uuid: uuid,
+    link: xmlItem.link ?? itemParent.link,
+    title: xmlItem.title ?? itemParent.title,
+    description: xmlItem.contentSnippet ?? "Description not found.",
+    date: typeof xmlItem.pubDate === "string" ? new Date(xmlItem.pubDate) : undefined,
+    parentData: itemParent,
+    data: entryData.get(uuid) ?? {
+      read: false,
+      dismissed: false
+    }
+  };
+};
