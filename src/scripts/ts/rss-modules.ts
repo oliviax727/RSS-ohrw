@@ -1,30 +1,13 @@
 /// <reference types="node" />
 
-import { _id, HTTPS404 } from "./default-modules.js";
-import Parser from "rss-parser";
+import { HTTPS404, uuidURL } from "./default-modules.js";
+import { getFeedMap, getXML, parseHTML } from "./file-handler-moules.js";
+import type { EntryURL, FeedMap, rssData, rssItem } from "./file-handler-moules.js";
 import type { TaskEither } from "fp-ts/TaskEither";
 import * as TE from "fp-ts/TaskEither";
 import * as M from "fp-ts/Map";
 
-// ===== LOAD RSS INTO HTML ===== //
-
-// ===== LOAD XML INTO RSS ===== //
-
-// JSON File Data
-interface EntryURL {
-	name: string;
-	link: string;
-}
-
-// JSON Module types
-interface JSONModule {
-	default?: unknown;
-}
-
-type JSONFeedRecord = Readonly<Record<string, Readonly<Record<string, string>>>>;
-
-// JSON File Data Container
-type FeedMap = Map<string, EntryURL[]>;
+// ===== TYPE DEFINITIONS ===== //
 
 // RSS parent data
 interface ParentData {
@@ -54,22 +37,30 @@ interface Entry {
 	dismissed: boolean;
 }
 
-// Produce RSS Feed as HTML object as string
+// ===== TOP-LEVEL HTML RETURNS ===== //
+
+// Produce RSS Feed as HTML object
+/*export function createFeedHTML(jsonFile: string, feedName: string): TaskEither<unknown, HTMLElement> {
+
+}*/
+
+// Produce list of RSS feed sources as HTML object
 export function createFeedList(jsonFile: string): TaskEither<unknown, HTMLElement> {
 	return TE.map((feedMap: FeedMap) => {
-		return domParser.parseFromString(
+		return parseHTML(
 			Array.from(
 				M.map((entryUrlList: readonly EntryURL[]) => {
 					return entryUrlList.reduce(
-						(acc, val) => acc + "<li><a href='"+val.link+"'>" + val.name + "</a></li>\n",
+						(acc, val) => acc + "<li><a href='" + val.link + "'>" + val.name + "</a></li>\n",
 						"",
 					);
 				})(feedMap),
 			).reduce((acc, [key, val]) => acc + "<h4>" + key + "</h4>\n<ul>\n" + val + "</ul>\n", ""),
-			"text/html",
-		).body;
+		);
 	})(getFeedMap(jsonFile));
 }
+
+// ===== LOAD JSON INTO XML INTO RSS ===== //
 
 // RSS Feed
 export function createFeed(jsonFile: string, feedName: string): TaskEither<unknown, Entry[]> {
@@ -91,7 +82,7 @@ function loadJSON(file: string, selection: string): TaskEither<unknown, EntryURL
 function loadXML(urlList: readonly EntryURL[]): TaskEither<unknown, Entry[]> {
 	return TE.map((entries: readonly Entry[][]) => entries.flat())(
 		TE.traverseArray((urlEntry: Readonly<EntryURL>) =>
-			TE.map((feedData: Readonly<Parser.Output<object>>) => parsedXMLToEntries(feedData, urlEntry.name))(
+			TE.map((feedData: Readonly<rssData>) => parsedXMLToEntries(feedData, urlEntry.name))(
 				getXML(urlEntry.link),
 			),
 		)(urlList),
@@ -111,15 +102,17 @@ function sortFeed(entryList: readonly Entry[]): Entry[] {
 	});
 }
 
+// ===== PARSE XML DATA ===== //
+
 // Parsed XML data to entry
-function parsedXMLToEntries(xmlData: Readonly<Parser.Output<object>>, feedName: string): Entry[] {
-	return xmlData.items.map((item: Readonly<Parser.Item>) =>
+function parsedXMLToEntries(xmlData: Readonly<rssData>, feedName: string): Entry[] {
+	return xmlData.items.map((item: Readonly<rssItem>) =>
 		itemToEntry(item, channelToParentData(xmlData, feedName)),
 	);
 }
 
 // Load parent channel data into ParentData object
-function channelToParentData(xmlData: Readonly<Parser.Output<object>>, feedName: string): ParentData {
+function channelToParentData(xmlData: Readonly<rssData>, feedName: string): ParentData {
 	return {
 		uuid: uuidURL(xmlData.link ?? HTTPS404),
 		name: feedName,
@@ -130,7 +123,7 @@ function channelToParentData(xmlData: Readonly<Parser.Output<object>>, feedName:
 	};
 }
 
-function itemToEntry(xmlItem: Readonly<Parser.Item>, itemParent: Readonly<ParentData>): Entry {
+function itemToEntry(xmlItem: Readonly<rssItem>, itemParent: Readonly<ParentData>): Entry {
 	return {
 		uuid: uuidURL(xmlItem.link ?? itemParent.link),
 		link: xmlItem.link ?? itemParent.link,
@@ -141,70 +134,4 @@ function itemToEntry(xmlItem: Readonly<Parser.Item>, itemParent: Readonly<Parent
 		read: false,
 		dismissed: false,
 	};
-}
-
-// ===== FILE AND FETCH HANDLING ===== //
-
-const rssParser = new Parser<object, object>();
-const domParser = new DOMParser();
-const RSS_CORS_PROXY = "https://rss-proxy.oliviahrwalters.workers.dev/?url=";
-
-function uuidURL(url: string, seed = 5381): number {
-	return (
-		Array.from(url).reduce(
-			// hash * 33 + charCode (bitwise shift for efficiency: hash << 5 is hash * 32)
-			(seed: number, char: string) => (seed << 5) + seed + char.charCodeAt(0),
-			seed,
-		) >>> 0
-	);
-}
-
-// Get the JSON data as a feed map
-function getFeedMap(fileName: string): TaskEither<unknown, FeedMap> {
-	return TE.map((jsonModule: Readonly<JSONModule>) => {
-		const protoFeed = (jsonModule.default ?? jsonModule) as JSONFeedRecord;
-
-		return new Map(
-			Object.entries(protoFeed).map(([feedName, entryRecord]) => [
-				feedName,
-				Object.entries(entryRecord).map(([name, link]) => ({ name, link })),
-			]),
-		);
-	})(getJSON("./src/data/" + fileName + ".json"));
-}
-
-// Retreive JSON file
-function getJSON(file: string): TaskEither<unknown, JSONModule> {
-	return TE.tryCatch(() => import(file, { with: { type: "json" } }) as Promise<JSONModule>, _id);
-}
-
-// Retreive XML file
-function getXML(file: string): TaskEither<unknown, Parser.Output<object>> {
-	return TE.flatMap((textXML: string) => TE.tryCatch(() => rssParser.parseString(textXML), _id))(
-		TE.orElse(() => tryGetXML(getProxyURL(file)))(tryGetXML(file)),
-	);
-}
-
-// Adds the cloudfare proxy to the URL
-function getProxyURL(url: string): string {
-	return RSS_CORS_PROXY + encodeURIComponent(url);
-}
-
-// Attempts to get an XML file (sub-function of getXML)
-function tryGetXML(url: string): TaskEither<unknown, string> {
-	return TE.tryCatch(
-		() =>
-			fetch(url)
-				.then((responseXML: Response) => {
-					if (responseXML.ok) {
-						return responseXML.text();
-					}
-
-					throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
-				})
-				.catch((reason: unknown) => {
-					throw reason;
-				}),
-		_id,
-	);
 }

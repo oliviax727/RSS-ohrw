@@ -6,21 +6,26 @@ Object.defineProperty(exports, "__esModule", {
 exports.createFeed = createFeed;
 exports.createFeedList = createFeedList;
 var _defaultModules = require("./default-modules.js");
-var _rssParser = _interopRequireDefault(require("rss-parser"));
+var _fileHandlerMoules = require("./file-handler-moules.js");
 var TE = _interopRequireWildcard(require("fp-ts/TaskEither"));
 var M = _interopRequireWildcard(require("fp-ts/Map"));
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 /// <reference types="node" />
 
-// Produce RSS Feed as HTML object as string
+// ===== TOP-LEVEL HTML RETURNS ===== //
+// Produce RSS Feed as HTML object
+/*export function createFeedHTML(jsonFile: string, feedName: string): TaskEither<unknown, HTMLElement> {
+
+}*/
+// Produce list of RSS feed sources as HTML object
 function createFeedList(jsonFile) {
   return TE.map(feedMap => {
-    return domParser.parseFromString(Array.from(M.map(entryUrlList => {
+    return (0, _fileHandlerMoules.parseHTML)(Array.from(M.map(entryUrlList => {
       return entryUrlList.reduce((acc, val) => acc + "<li><a href='" + val.link + "'>" + val.name + "</a></li>\n", "");
-    })(feedMap)).reduce((acc, [key, val]) => acc + "<h4>" + key + "</h4>\n<ul>\n" + val + "</ul>\n", ""), "text/html").body;
-  })(getFeedMap(jsonFile));
+    })(feedMap)).reduce((acc, [key, val]) => acc + "<h4>" + key + "</h4>\n<ul>\n" + val + "</ul>\n", ""));
+  })((0, _fileHandlerMoules.getFeedMap)(jsonFile));
 }
+// ===== LOAD JSON INTO XML INTO RSS ===== //
 // RSS Feed
 function createFeed(jsonFile, feedName) {
   return TE.map(sortFeed)(TE.flatMap(loadXML)(loadJSON(jsonFile, feedName)));
@@ -30,11 +35,11 @@ function loadJSON(file, selection) {
   return TE.flatMap(feed => {
     const selectedFeed = feed.get(selection);
     return selectedFeed !== undefined ? TE.right(selectedFeed) : TE.left(new Error("Selected feed does not exist in JSON"));
-  })(getFeedMap(file));
+  })((0, _fileHandlerMoules.getFeedMap)(file));
 }
 // Generate the collection of items based on the feed
 function loadXML(urlList) {
-  return TE.map(entries => entries.flat())(TE.traverseArray(urlEntry => TE.map(feedData => parsedXMLToEntries(feedData, urlEntry.name))(getXML(urlEntry.link)))(urlList));
+  return TE.map(entries => entries.flat())(TE.traverseArray(urlEntry => TE.map(feedData => parsedXMLToEntries(feedData, urlEntry.name))((0, _fileHandlerMoules.getXML)(urlEntry.link)))(urlList));
 }
 // Sort feed array based on date
 function sortFeed(entryList) {
@@ -48,6 +53,7 @@ function sortFeed(entryList) {
     }
   });
 }
+// ===== PARSE XML DATA ===== //
 // Parsed XML data to entry
 function parsedXMLToEntries(xmlData, feedName) {
   return xmlData.items.map(item => itemToEntry(item, channelToParentData(xmlData, feedName)));
@@ -55,7 +61,7 @@ function parsedXMLToEntries(xmlData, feedName) {
 // Load parent channel data into ParentData object
 function channelToParentData(xmlData, feedName) {
   return {
-    uuid: uuidURL(xmlData.link ?? _defaultModules.HTTPS404),
+    uuid: (0, _defaultModules.uuidURL)(xmlData.link ?? _defaultModules.HTTPS404),
     name: feedName,
     title: xmlData.title ?? "Title not found.",
     link: xmlData.link ?? _defaultModules.HTTPS404,
@@ -65,7 +71,7 @@ function channelToParentData(xmlData, feedName) {
 }
 function itemToEntry(xmlItem, itemParent) {
   return {
-    uuid: uuidURL(xmlItem.link ?? itemParent.link),
+    uuid: (0, _defaultModules.uuidURL)(xmlItem.link ?? itemParent.link),
     link: xmlItem.link ?? itemParent.link,
     title: xmlItem.title ?? itemParent.title,
     description: xmlItem.contentSnippet ?? "Description not found.",
@@ -74,50 +80,4 @@ function itemToEntry(xmlItem, itemParent) {
     read: false,
     dismissed: false
   };
-}
-// ===== FILE AND FETCH HANDLING ===== //
-const rssParser = new _rssParser.default();
-const domParser = new DOMParser();
-const RSS_CORS_PROXY = "https://rss-proxy.oliviahrwalters.workers.dev/?url=";
-function uuidURL(url, seed = 5381) {
-  return Array.from(url).reduce(
-  // hash * 33 + charCode (bitwise shift for efficiency: hash << 5 is hash * 32)
-  (seed, char) => (seed << 5) + seed + char.charCodeAt(0), seed) >>> 0;
-}
-// Get the JSON data as a feed map
-function getFeedMap(fileName) {
-  return TE.map(jsonModule => {
-    const protoFeed = jsonModule.default ?? jsonModule;
-    return new Map(Object.entries(protoFeed).map(([feedName, entryRecord]) => [feedName, Object.entries(entryRecord).map(([name, link]) => ({
-      name,
-      link
-    }))]));
-  })(getJSON("./src/data/" + fileName + ".json"));
-}
-// Retreive JSON file
-function getJSON(file) {
-  return TE.tryCatch(() => import(file, {
-    with: {
-      type: "json"
-    }
-  }), _defaultModules._id);
-}
-// Retreive XML file
-function getXML(file) {
-  return TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.orElse(() => tryGetXML(getProxyURL(file)))(tryGetXML(file)));
-}
-// Adds the cloudfare proxy to the URL
-function getProxyURL(url) {
-  return RSS_CORS_PROXY + encodeURIComponent(url);
-}
-// Attempts to get an XML file (sub-function of getXML)
-function tryGetXML(url) {
-  return TE.tryCatch(() => fetch(url).then(responseXML => {
-    if (responseXML.ok) {
-      return responseXML.text();
-    }
-    throw new Error("A error occured HTTP. Code: " + responseXML.status.toString());
-  }).catch(reason => {
-    throw reason;
-  }), _defaultModules._id);
 }
