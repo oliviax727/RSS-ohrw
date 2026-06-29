@@ -4,7 +4,6 @@
         "ABC News": "https://www.abc.net.au/news/feed/5313390/rss.xml"
     },
     "feed 2": {
-        "W3 Test XML": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/test_feed.xml",
-        "ABC News": "https://www.abc.net.au/news/feed/5313390/rss.xml"
+        "ArXiv": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
     }
 }

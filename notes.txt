@@ -1,9 +1,7 @@
 TODO/REMINDER:
 
 rss-modules.ts
-- Complete ObjectHTML and attributes for Feed class
-
-- Save and load read/dismissed uuids to cookies, use document.help.(get|set)cookie
+- Save and load read/dismissed uuids to cookies, use document.help.(get|set)cookie, try and save it in a format that's compact -> String compressor?
 - Display the RSS information (color two buttons light gray/theme colour if read/dismissed)
 - "Dismiss" feed item -> dismiss-rss-item.ts
 - Aggregate XML data over a week? See if I can call that from the files -> rss-modules
