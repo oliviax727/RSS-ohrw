@@ -13,10 +13,10 @@
     ./node_modules/.bin/babel ./src/scripts/entry.js --out-file ./src/scripts/entry.cjs
 
     # Transpile all library modules
-    lib_files=(./src/scripts/lib/*.js)
-    for file in "${lib_files[@]}"; do
-        ./node_modules/.bin/babel "${file}" --out-file "${file/js/cjs}"
-    done
+    #lib_files=(./src/scripts/lib/*.js)
+    #for file in "${lib_files[@]}"; do
+    #    ./node_modules/.bin/babel "${file}" --out-file "${file/js/cjs}"
+    #done
 
     # Browserify
     npx browserify ./src/scripts/entry.cjs | npx terser --compress > ./bundle.js

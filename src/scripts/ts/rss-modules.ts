@@ -88,9 +88,9 @@ const formatFeedObjectHTML =
 			const modifiedText = setHTMLChildInnerHTML({
 				".item-title": entryData.title,
 				".item-channel": entryData.parentData.name,
-				".item-date": entryData.date?.toLocaleDateString() ?? "",
+				".item-date": entryData.date?.toLocaleDateString() ?? "no date",
 				".item-desc": entryData.description,
-				".item-dismiss": entryData.data.dismissed ? "Dismiss Story" : "Restore Story",
+				".item-dismiss": entryData.data.dismissed ? "Restore Story" : "Dismiss Story",
 			})(modifiedHeader);
 
 			const modifiedFormItems = setHTMLChildAttributes({

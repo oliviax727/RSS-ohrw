@@ -15,7 +15,9 @@ export class ModifyFeed {
 
 		self.Newsreader.initializeNewsreader().then(() =>
 			Navigator.loadPage(null, () => {
-				ModifyFeed.checkFullscreen(fullscreen);
+				fullscreen == undefined
+					? ModifyFeed.checkFullscreen()
+					: ModifyFeed.toggleFullscreen(fullscreen);
 			}),
 		);
 	}

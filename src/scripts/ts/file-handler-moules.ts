@@ -67,11 +67,11 @@ export const parseHTML = (html: string): TaskEither<unknown, HTMLElement> =>
 export const parseHTMLSafe = (html: string): HTMLElement =>
 	domParser.parseFromString(html, "text/html").body;
 
-// Makes sure HTML attributes in string form are being properly converted
+// Replace & and " to prevent breaking strings
 const encodeHTMLAttributeValue = (value: string): string =>
 	value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
 
-// Escapes all characters that are potentially dangerous
+// Escapes all characters that are potentially dangerous for regex interpretation
 const escapeRegexText = (value: string): string =>
 	value.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
 
@@ -81,7 +81,7 @@ const setHTMLAttribute = (
 	attribute: string,
 	value: string,
 ): string => {
-	const openTagPattern = /^<([^\s>]+)([^>]*)>/u;
+	const openTagPattern = /^\s*<([^\s>]+)([^>]*)>/u;
 	const nextAttribute = ` ${attribute}="${encodeHTMLAttributeValue(value)}"`;
 	const attributePattern = new RegExp(`\\s${escapeRegexText(attribute)}="[^"]*"`, "u");
 

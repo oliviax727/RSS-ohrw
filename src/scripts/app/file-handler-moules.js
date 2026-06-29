@@ -30,14 +30,14 @@ const parseHTML = html => TE.tryCatch(() => Promise.resolve(domParser.parseFromS
 // Parse a string to a HTML file - assume HTML is working all well
 exports.parseHTML = parseHTML;
 const parseHTMLSafe = html => domParser.parseFromString(html, "text/html").body;
-// Makes sure HTML attributes in string form are being properly converted
+// Replace & and " to prevent breaking strings
 exports.parseHTMLSafe = parseHTMLSafe;
 const encodeHTMLAttributeValue = value => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
-// Escapes all characters that are potentially dangerous
+// Escapes all characters that are potentially dangerous for regex interpretation
 const escapeRegexText = value => value.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
 // Takes a HTML string modifies the opening tag of the element
 const setHTMLAttribute = (html, attribute, value) => {
-  const openTagPattern = /^<([^\s>]+)([^>]*)>/u;
+  const openTagPattern = /^\s*<([^\s>]+)([^>]*)>/u;
   const nextAttribute = ` ${attribute}="${encodeHTMLAttributeValue(value)}"`;
   const attributePattern = new RegExp(`\\s${escapeRegexText(attribute)}="[^"]*"`, "u");
   return html.replace(openTagPattern, (_match, tagName, attributes) => {
