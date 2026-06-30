@@ -7,4 +7,4 @@ export declare const _id: <A>(error: A) => A;
 export declare const _stub: () => TaskEither<Error, never>;
 export declare const decideUnsafe: <Err, A>(taskEither: TaskEither<Err, A>) => Promise<A>;
 export declare const getProxyURL: (url: string) => string;
-export declare const uuidURL: (url: string, seed?: number) => number;
+export declare const uuidURL: (url: string) => string;

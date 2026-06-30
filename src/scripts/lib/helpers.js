@@ -153,3 +153,11 @@ export class PageData {
 		this.CURRENT_DATE = new Date();
 	}
 }
+
+/**
+ * Most Base 64 encoders include header information that make compression pointless.
+ * This class encodes NUMBERS ONLY JSON into something more compact for URI/cookie storage.
+ */
+//export class Encoder {
+//
+//}

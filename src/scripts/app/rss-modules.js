@@ -23,14 +23,19 @@ const createRSSFeed = (jsonFile, feedName, entryData) => {
 // Create a new feed object from the entry data
 exports.createRSSFeed = createRSSFeed;
 const createFeedString = (entryData, rssObjectHTML) => entryData.map(entry => createFeedObject(entry, rssObjectHTML).outerHTML).join("\n");
+// Remove the body wrapper
+const getTemplateRoot = element => {
+  const firstChild = element.firstElementChild;
+  return element.tagName === "BODY" && firstChild instanceof HTMLElement ? firstChild : element;
+};
 // Create a new feed object from the entry data
-const createFeedObject = (entryData, rssHTMLObject) => formatFeedObjectHTML(entryData)(rssHTMLObject);
+const createFeedObject = (entryData, rssHTMLObject) => formatFeedObjectHTML(entryData)(getTemplateRoot(rssHTMLObject));
 // Format the feed object's HTML
 const formatFeedObjectHTML = entryData => element => {
   const modifiedHeader = (0, _fileHandlerMoules.setHTMLAttributes)({
     "data-dismissed": String(entryData.data.dismissed),
     "data-read": String(entryData.data.read),
-    "data-entry-uuid": entryData.uuid.toString()
+    "data-entry-uuid": entryData.uuid
   })(element);
   const modifiedText = (0, _fileHandlerMoules.setHTMLChildInnerHTML)({
     ".item-title": entryData.title,
@@ -46,13 +51,13 @@ const formatFeedObjectHTML = entryData => element => {
     },
     ".item-read": {
       href: entryData.link,
-      onclick: `ReaderState.readItem(${entryData.uuid.toString()});`
+      onclick: `ReaderState.readItem("${entryData.uuid}");`
     },
     ".item-dismiss": {
-      onclick: `ReaderState.dismissItem(${entryData.uuid.toString()});`
+      onclick: `ReaderState.dismissItem("${entryData.uuid}");`
     }
   })(modifiedText);
-  return modifiedFormItems;
+  return getTemplateRoot(modifiedFormItems);
 };
 // Produce list of RSS feed sources as HTML object
 const createFeedList = jsonFile => TE.flatMap(feedMap => {
@@ -78,7 +83,7 @@ const sortFeed = entryList => [...entryList].sort((a, b) => {
   } else if (a.date !== undefined && b.date !== undefined) {
     return +b.date - +a.date;
   } else {
-    return b.uuid - a.uuid;
+    return b.uuid.localeCompare(a.uuid);
   }
 });
 // ===== PARSE XML DATA ===== //
@@ -93,6 +98,7 @@ const channelToParentData = (xmlData, feedName) => ({
   imageName: xmlData.image?.title,
   imageUrl: xmlData.image?.url
 });
+// Create an Entry object
 const itemToEntry = (xmlItem, itemParent, entryData) => {
   const uuid = (0, _defaultModules.uuidURL)(xmlItem.link ?? itemParent.link);
   return {

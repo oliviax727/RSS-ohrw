@@ -30,7 +30,41 @@ const RSS_CORS_PROXY = "https://rss-proxy.oliviahrwalters.workers.dev/?url=";
 const getProxyURL = url => RSS_CORS_PROXY + encodeURIComponent(url);
 // Convert a URL into a UUID
 exports.getProxyURL = getProxyURL;
-const uuidURL = (url, seed = 5381) => Array.from(url).reduce(
-// hash * 33 + charCode (bitwise shift for efficiency: hash << 5 is hash * 32)
-(seed, char) => (seed << 5) + seed + char.charCodeAt(0), seed) >>> 0;
+const uuidURL = url => encodeIDBase64(urlToNumber(url));
 exports.uuidURL = uuidURL;
+const ASCII_LIST = [...Array.from({
+  length: 10
+}, (_e, i) => String.fromCharCode(i + 48)),
+// Numbers, Base 10, 0-9
+...Array.from({
+  length: 26
+}, (_e, i) => String.fromCharCode(i + 65)),
+// Alphabet, Capitalised, A-Z
+...Array.from({
+  length: 26
+}, (_e, i) => String.fromCharCode(i + 97)),
+// Alphabet, Lowercase, a-z
+// URI Query string Unreserved parameters (".", ",", ":" and "+" is for JSON object encoding)
+"-", "_"];
+// Convert a URL into a UUID
+const urlToNumber = url => Array.from(url).reduce((seed, char) => (seed << 7n) + BigInt(char.charCodeAt(0)), 0n);
+// Encode a number into base 64, uses the BigInt class
+const encodeIDBase64 = uuid => {
+  const max = log64BigInt(uuid); // Must be an integer given uuid
+  const base = 64n;
+  const radices = Array.from({
+    length: Number(max) + 1
+  }, (_e, i) => BigInt(Number(max) - i));
+  const initial = [uuid, ""];
+  const [, encoding] = radices.reduce(function ([remainder, encoded], radix) {
+    const place = base ** radix;
+    const digit = remainder / place;
+    const nextChar = ASCII_LIST[Number(digit)] ?? "";
+    return [remainder - digit * place, encoded + nextChar];
+  }, initial);
+  return encoding;
+};
+// Takes the truncated Base-64 Logarithim of a number
+const log64BigInt = n => log2BigInt(n) / log2BigInt(64n);
+// Takes the truncated Base-2 Logarithim of a number
+const log2BigInt = n => BigInt(n.toString(2).length - 1);

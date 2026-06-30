@@ -1,6 +1,6 @@
 import type { TaskEither } from "fp-ts/TaskEither";
 interface ParentData {
-    uuid: number;
+    uuid: string;
     name: string;
     title: string;
     link: string;
@@ -11,9 +11,9 @@ export interface EntryData {
     read: boolean;
     dismissed: boolean;
 }
-export type EntryDataMap = Readonly<Map<number, EntryData>>;
+export type EntryDataMap = Readonly<Map<string, EntryData>>;
 export interface Entry {
-    uuid: number;
+    uuid: string;
     title: string;
     link: string;
     description: string;

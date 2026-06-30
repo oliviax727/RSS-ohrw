@@ -19,7 +19,7 @@ Sections:
 - Global [CV]
 
 - Politics (Local) [About: Personal]
-- Politics (Australia) [About: Personal)
+- Politics (Australia) [About: Personal]
 - Politics (Global) [About: Political col.]
 
 - Satire [Turquoise?]

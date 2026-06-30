@@ -19,7 +19,7 @@ import * as M from "fp-ts/Map";
 
 // RSS parent data
 interface ParentData {
-	uuid: number;
+	uuid: string;
 	name: string;
 
 	title: string;
@@ -35,11 +35,11 @@ export interface EntryData {
 	dismissed: boolean;
 }
 
-export type EntryDataMap = Readonly<Map<number, EntryData>>;
+export type EntryDataMap = Readonly<Map<string, EntryData>>;
 
 // RSS entry object
 export interface Entry {
-	uuid: number;
+	uuid: string;
 
 	title: string;
 	link: string;
@@ -71,9 +71,18 @@ export const createRSSFeed = (jsonFile: string, feedName: string, entryData: Ent
 const createFeedString = (entryData: readonly Entry[], rssObjectHTML: Readonly<HTMLElement>): string =>
 	entryData.map((entry: Readonly<Entry>) => createFeedObject(entry, rssObjectHTML).outerHTML).join("\n");
 
+// Remove the body wrapper
+const getTemplateRoot = (element: Readonly<HTMLElement>): HTMLElement => {
+	const firstChild = element.firstElementChild;
+
+	return element.tagName === "BODY" && firstChild instanceof HTMLElement
+		? firstChild
+		: element;
+};
+
 // Create a new feed object from the entry data
 const createFeedObject = (entryData: Readonly<Entry>, rssHTMLObject: Readonly<HTMLElement>): HTMLElement =>
-	formatFeedObjectHTML(entryData)(rssHTMLObject);
+	formatFeedObjectHTML(entryData)(getTemplateRoot(rssHTMLObject));
 
 // Format the feed object's HTML
 const formatFeedObjectHTML =
@@ -82,7 +91,7 @@ const formatFeedObjectHTML =
 			const modifiedHeader = setHTMLAttributes({
 				"data-dismissed": String(entryData.data.dismissed),
 				"data-read": String(entryData.data.read),
-				"data-entry-uuid": entryData.uuid.toString(),
+				"data-entry-uuid": entryData.uuid,
 			})(element);
 
 			const modifiedText = setHTMLChildInnerHTML({
@@ -100,14 +109,14 @@ const formatFeedObjectHTML =
 				},
 				".item-read": {
 					href: entryData.link,
-					onclick: `ReaderState.readItem(${entryData.uuid.toString()});`,
+					onclick: `ReaderState.readItem("${entryData.uuid}");`,
 				},
 				".item-dismiss": {
-					onclick: `ReaderState.dismissItem(${entryData.uuid.toString()});`,
+					onclick: `ReaderState.dismissItem("${entryData.uuid}");`,
 				},
 			})(modifiedText);
 
-			return modifiedFormItems;
+			return getTemplateRoot(modifiedFormItems);
 		};
 
 // Produce list of RSS feed sources as HTML object
@@ -166,7 +175,7 @@ const sortFeed = (entryList: readonly Entry[]): Entry[] =>
 		} else if (a.date !== undefined && b.date !== undefined) {
 			return +b.date - +a.date;
 		} else {
-			return b.uuid - a.uuid;
+			return b.uuid.localeCompare(a.uuid);
 		}
 	});
 
@@ -186,6 +195,7 @@ const channelToParentData = (xmlData: Readonly<rssData>, feedName: string): Pare
 	imageUrl: xmlData.image?.url,
 });
 
+// Create an Entry object
 const itemToEntry = (xmlItem: Readonly<rssItem>, itemParent: Readonly<ParentData>, entryData: EntryDataMap): Entry => {
 	const uuid = uuidURL(xmlItem.link ?? itemParent.link);
 
