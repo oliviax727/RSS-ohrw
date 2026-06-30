@@ -195,8 +195,6 @@ export class ModifyFeed {
 			entries != undefined && entries !== ""
 				? Encoder.decodeEntryDataMap(entries)
 				: self.ReaderState.entryDataMap;
-
-		console.log(entries);
 	}
 
 	static reorderFeeds() {
@@ -239,15 +237,6 @@ export class ModifyFeed {
 			content.innerHTML = "";
 
 			content.append(...sorted);
-		}
-	}
-
-	// Alter every instance of set-xml-id
-	static setFeedIDs() {
-		var feeds = document.querySelectorAll("[set-xml-id]");
-
-		for (let i = 0; i < feeds.length; i++) {
-			feeds[i].setAttribute("data-xml-id", self.PageData.CURRENT_SECTION);
 		}
 	}
 }

@@ -10,12 +10,24 @@ class Newsreader {
 			await self.DynamicLoader.dynamicLoad(".feedlist", newsReaderLinks.innerHTML);
 
 			const setRSSFeed = async (feedName) => (await loadRSS([self.ReaderState.entryDataMap, feedName])).innerHTML;
+
+			Newsreader.setFeedIDs();
+
 			await self.DynamicLoader.dynamicLoad("[data-xml-id]", setRSSFeed, "data-xml-id");
 		} catch (error) {
 			console.log("The following error was encountered: " + error);
 			console.log(error.stack);
 		} finally {
 			console.log("Node Modules successfully loaded and executed.")
+		}
+	}
+
+	// Alter every instance of set-xml-id
+	static setFeedIDs() {
+		var feeds = document.querySelectorAll("[set-xml-id]");
+
+		for (let i = 0; i < feeds.length; i++) {
+			feeds[i].setAttribute("data-xml-id", self.PageData.CURRENT_SECTION);
 		}
 	}
 }

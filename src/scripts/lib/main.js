@@ -42,6 +42,13 @@ export class Navigator {
 				Cruncher.checkCrunch();
 				BoneMiner.loadBones();
 				_callback();
+
+				// Reload MathJax after new content is loaded
+				if (self.MathJax?.typesetPromise) {
+					self.MathJax.typesetPromise().catch((err) =>
+						console.log("MathJax error:", err),
+					);
+				}
 			} catch (error) {
 				console.log(
 					"Did not switch to section: " + section + "; " + error,
