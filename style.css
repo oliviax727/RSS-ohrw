@@ -51,10 +51,6 @@ a:link {
   color: var(--mid-mid-color);
 }
 
-a:visited {
-  color: var(--mid-dark-color);
-}
-
 a:active {
   color: var(--mid-light-color);
 }

@@ -192,9 +192,11 @@ export class ModifyFeed {
 	static getFeedFromCookies() {
 		const entries = Storer.getCookie("entries");
 		self.ReaderState.entryDataMap =
-			entries == undefined
+			entries != undefined && entries !== ""
 				? Encoder.decodeEntryDataMap(entries)
 				: self.ReaderState.entryDataMap;
+
+		console.log(entries);
 	}
 
 	static reorderFeeds() {
