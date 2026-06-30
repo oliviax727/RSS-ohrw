@@ -40,7 +40,7 @@ const formatFeedObjectHTML = entryData => element => {
   const modifiedText = (0, _fileHandlerMoules.setHTMLChildInnerHTML)({
     ".item-title": entryData.title,
     ".item-channel": entryData.parentData.name,
-    ".item-date": entryData.date?.toLocaleDateString() ?? "no date",
+    ".item-date": entryData.date == undefined ? "no date specified" : entryData.date.toISOString().substring(0, 10),
     ".item-desc": entryData.description,
     ".item-dismiss": entryData.data.dismissed ? "Restore Story" : "Dismiss Story"
   })(modifiedHeader);
@@ -50,11 +50,10 @@ const formatFeedObjectHTML = entryData => element => {
       alt: entryData.parentData.imageName ?? entryData.parentData.name
     },
     ".item-read": {
-      href: entryData.link,
-      onclick: `ReaderState.readItem("${entryData.uuid}");`
+      onclick: `ModifyFeed.changeItemState("${entryData.uuid}", true); window.open('${entryData.link}')`
     },
     ".item-dismiss": {
-      onclick: `ReaderState.dismissItem("${entryData.uuid}");`
+      onclick: `ModifyFeed.changeItemState("${entryData.uuid}", false);`
     }
   })(modifiedText);
   return getTemplateRoot(modifiedFormItems);

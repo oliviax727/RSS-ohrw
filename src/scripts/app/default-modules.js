@@ -44,7 +44,7 @@ const ASCII_LIST = [...Array.from({
   length: 26
 }, (_e, i) => String.fromCharCode(i + 97)),
 // Alphabet, Lowercase, a-z
-// URI Query string Unreserved parameters (".", ",", ":" and "+" is for JSON object encoding)
+// URI Query string Unreserved parameters
 "-", "_"];
 // Convert a URL into a UUID
 const urlToNumber = url => Array.from(url).reduce((seed, char) => (seed << 7n) + BigInt(char.charCodeAt(0)), 0n);

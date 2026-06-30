@@ -52,10 +52,9 @@ exports.setHTMLAttributes = setHTMLAttributes;
 const setHTMLChildInnerHTML = childHTMLMap => element => {
   const nextElement = parseHTMLSafe(element.outerHTML);
   Object.entries(childHTMLMap).forEach(([selector, html]) => {
-    const childElement = nextElement.querySelector(selector);
-    if (childElement !== null) {
+    nextElement.querySelectorAll(selector).forEach(childElement => {
       childElement.innerHTML = html;
-    }
+    });
   });
   return nextElement;
 };
@@ -64,12 +63,11 @@ exports.setHTMLChildInnerHTML = setHTMLChildInnerHTML;
 const setHTMLChildAttributes = childAttributeMap => element => {
   const nextElement = parseHTMLSafe(element.outerHTML);
   Object.entries(childAttributeMap).forEach(([selector, attributeMap]) => {
-    const childElement = nextElement.querySelector(selector);
-    if (childElement !== null) {
+    nextElement.querySelectorAll(selector).forEach(childElement => {
       Object.entries(attributeMap).forEach(([attribute, value]) => {
         childElement.setAttribute(attribute, value);
       });
-    }
+    });
   });
   return nextElement;
 };

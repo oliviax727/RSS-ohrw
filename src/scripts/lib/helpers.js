@@ -193,12 +193,14 @@ export class Encoder {
 		let dataArray = [];
 
 		entryData.forEach((val, key) => {
-			dataArray = [
-				...dataArray,
-				JSON.parse(
-					`[ "${key}", "${Encoder.combineBools([val.read, val.dismissed])}" ]`,
-				),
-			];
+			if (val != undefined && key != undefined) {
+				dataArray = [
+					...dataArray,
+					JSON.parse(
+						`[ "${key}", "${Encoder.combineBools([val.read, val.dismissed])}" ]`,
+					),
+				];
+			}
 		});
 
 		return Encoder.encodeBase64JSON(dataArray);

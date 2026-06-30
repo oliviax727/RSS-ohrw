@@ -117,11 +117,9 @@ export const setHTMLChildInnerHTML =
 
   		Object.entries(childHTMLMap).forEach(
   			([selector, html]: readonly [string, string]) => {
-  				const childElement = nextElement.querySelector(selector);
-
-  				if (childElement !== null) {
+  				nextElement.querySelectorAll(selector).forEach((childElement: Element) => {
   					childElement.innerHTML = html;
-  				}
+  				});
   			},
   		);
 
@@ -136,15 +134,13 @@ export const setHTMLChildAttributes =
 
   		Object.entries(childAttributeMap).forEach(
   			([selector, attributeMap]: readonly [string, Readonly<Record<string, string>>]) => {
-  				const childElement = nextElement.querySelector(selector);
-
-  				if (childElement !== null) {
+  				nextElement.querySelectorAll(selector).forEach((childElement) => {
   					Object.entries(attributeMap).forEach(
   						([attribute, value]: readonly [string, string]) => {
   							childElement.setAttribute(attribute, value);
   						},
   					);
-  				}
+  				});
   			},
   		);
 

@@ -130,32 +130,32 @@ export class ModifyFeed {
 			rssCrunch[i].style.display = "none";
 		}
 	}
-}
-
-// Singular object to get/set important data for the files in app to use
-export class ReaderState {
-	// ===== READ OBJECTS AND DISMISSED OBJECTS ===== //
-
-	entryDataMap = new Map([[]]);
 
 	// ===== APPEND AND REMOVE DATA ===== //
 
-	changeItemState(uuid, readOrDismiss) {
+	static changeItemState(uuid, readOrDismiss) {
 		// Get specific item
 		var item = document.querySelector(`[data-entry-uuid="${uuid}"]`);
 
 		const readOrDismissFunc = (readParam, stateBool) =>
 			readParam ? !stateBool : stateBool;
 
-		const entryDataDismissed =
-			self.ReaderState.entryDataMap.get(uuid).dismissed;
+		const entryData = self.ReaderState.entryDataMap.get(uuid) ?? {
+			read: false,
+			dismissed: false,
+		};
+
+		const entryDataDismissed = readOrDismissFunc(
+			!readOrDismiss,
+			entryData.dismissed,
+		);
+
+		const entryDataRead = readOrDismiss ? true : entryData.read;
 
 		// Update entry data map
 		self.ReaderState.entryDataMap.set(uuid, {
-			read: readOrDismiss
-				? true
-				: self.ReaderState.entryDataMap.get(uuid).read,
-			dismissed: readOrDismissFunc(!readOrDismiss, entryDataDismissed),
+			read: entryDataRead,
+			dismissed: entryDataDismissed,
 		});
 
 		// Set the document cookie
@@ -177,18 +177,73 @@ export class ReaderState {
 			}
 		}
 
+		// Update item data
+		item.setAttribute("data-dismissed", entryDataDismissed);
+		item.setAttribute("data-read", entryDataRead);
+
+		// Reorder the feeds
+		ModifyFeed.reorderFeeds();
+
 		console.log("Dismised or Read: " + uuid);
 	}
 
 	// ===== FEED MANAGEMENT ===== //
 
-	getFeedFromCookies() {
-		self.ReaderState.entryDataMap = Encoder.decodeEntryDataMap(
-			Storer.getCookie("entries"),
-		);
+	static getFeedFromCookies() {
+		const entries = Storer.getCookie("entries");
+		self.ReaderState.entryDataMap =
+			entries == undefined
+				? Encoder.decodeEntryDataMap(entries)
+				: self.ReaderState.entryDataMap;
 	}
 
-	reorderFeeds() {
-		return 4;
+	static reorderFeeds() {
+		console.log("Reordering Feed ...");
+
+		// Get specific item
+		var feeds = document.querySelectorAll("[data-xml-id]");
+
+		const getEntry = (htmlElement) => {
+			const dateCheck = new Date(
+				htmlElement.querySelector(".item-date").innerHTML,
+			);
+
+			return {
+				dismissed: htmlElement.getAttribute("data-dismissed") == "true",
+				date: dateCheck == "Invalid Date" ? undefined : dateCheck,
+				uuid: htmlElement.getAttribute("data-entry-uuid"),
+			};
+		};
+
+		for (let i = 0; i < feeds.length; i++) {
+			var items = feeds[i].querySelectorAll(".news-item");
+			var content = feeds[i].querySelector(".feed-content");
+
+			const sorted = Array.from(items);
+
+			sorted.sort((aElm, bElm) => {
+				const a = getEntry(aElm);
+				const b = getEntry(bElm);
+
+				if (a.dismissed != b.dismissed) {
+					return +a.dismissed - +b.dismissed;
+				} else if (a.date !== undefined && b.date !== undefined) {
+					return +b.date - +a.date;
+				} else {
+					return b.uuid.localeCompare(a.uuid);
+				}
+			});
+
+			content.innerHTML = "";
+
+			content.append(...sorted);
+		}
 	}
+}
+
+// Singular object to get/set important data for the files in app to use
+export class ReaderState {
+	// ===== READ OBJECTS AND DISMISSED OBJECTS ===== //
+
+	entryDataMap = new Map([[]]);
 }

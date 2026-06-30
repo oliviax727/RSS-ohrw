@@ -1,10 +1,14 @@
 TODO/REMINDER:
+This repo:
+- Set data-xml-id to page name if a given flag 'set-rss-id' is set
+- Test cookies on main webpage
+- Populate feed links
 
-rss-modules.ts
-- Save and load read/dismissed uuids to cookies, use document.help.(get|set)cookie, try and save it in a format that's compact -> String compressor?
-- Display the RSS information (color two buttons light gray/theme colour if read/dismissed)
-- "Dismiss" feed item -> dismiss-rss-item.ts
-- Aggregate XML data over a week? See if I can call that from the files -> rss-modules
+Other:
+- Update both repos with new code
+- Rewrite about section on homepage using zero-md
+- Go to repo links to the actual repo for each repo
+- Sitemap?
 
 
 Pipelines:

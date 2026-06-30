@@ -97,7 +97,7 @@ const formatFeedObjectHTML =
 			const modifiedText = setHTMLChildInnerHTML({
 				".item-title": entryData.title,
 				".item-channel": entryData.parentData.name,
-				".item-date": entryData.date?.toLocaleDateString() ?? "no date",
+				".item-date": entryData.date == undefined ? "no date specified" : entryData.date.toISOString().substring(0, 10),
 				".item-desc": entryData.description,
 				".item-dismiss": entryData.data.dismissed ? "Restore Story" : "Dismiss Story",
 			})(modifiedHeader);
@@ -108,11 +108,10 @@ const formatFeedObjectHTML =
 					alt: entryData.parentData.imageName ?? entryData.parentData.name,
 				},
 				".item-read": {
-					href: entryData.link,
-					onclick: `ReaderState.changeItemState("${entryData.uuid}", true);`,
+					onclick: `ModifyFeed.changeItemState("${entryData.uuid}", true); window.open('${entryData.link}')`,
 				},
 				".item-dismiss": {
-					onclick: `ReaderState.changeItemState("${entryData.uuid}", false);`,
+					onclick: `ModifyFeed.changeItemState("${entryData.uuid}", false);`,
 				},
 			})(modifiedText);
 
