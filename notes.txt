@@ -1,13 +1,11 @@
 TODO/REMINDER:
 This repo:
-- Set data-xml-id to page name if a given flag 'set-rss-id' is set
 - Populate feed links
 
 Other:
 - Update both repos with new code
 - Rewrite about section on homepage using zero-md
 - Go to repo links to the actual repo for each repo
-- Sitemap?
 
 
 Pipelines:
