@@ -1,7 +1,6 @@
 TODO/REMINDER:
 This repo:
 - Set data-xml-id to page name if a given flag 'set-rss-id' is set
-- Test cookies on main webpage
 - Populate feed links
 
 Other:

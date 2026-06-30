@@ -4,6 +4,36 @@
         "ABC News": "https://www.abc.net.au/news/feed/5313390/rss.xml"
     },
     "feed 2": {
-        "ArXiv": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+        "ABC News (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"global": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"local": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"politics-australia": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"politics-global": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"politics-local": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"primary": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"publications-astronomy": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"publications-other": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"satire": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
+    },
+	"tech": {
+        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
     }
 }

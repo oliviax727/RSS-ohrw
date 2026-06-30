@@ -6,7 +6,7 @@
 
     for html in "${html_files[@]}"
     do
-        if [ "$html" != "src/html/main.html" ]; then
+        if [ "$html" != "src/html/primary.html" ]; then
             echo "$local_html_file" > $html
         fi
     done

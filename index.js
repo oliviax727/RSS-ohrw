@@ -60,6 +60,7 @@ window.DynamicLoader = DynamicLoader;
 
 window.onload = () => {
 	Navigator.initPage(ModifyFeed.checkFullscreen);
+	ModifyFeed.setFeedIDs();
 	ModifyFeed.getFeedFromCookies();
 };
 
