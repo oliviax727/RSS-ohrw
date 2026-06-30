@@ -49,7 +49,7 @@ const ASCII_LIST = [
 	...Array.from({ length: 10 }, (_e, i) => String.fromCharCode(i + 48)), // Numbers, Base 10, 0-9
 	...Array.from({ length: 26 }, (_e, i) => String.fromCharCode(i + 65)), // Alphabet, Capitalised, A-Z
 	...Array.from({ length: 26 }, (_e, i) => String.fromCharCode(i + 97)), // Alphabet, Lowercase, a-z
-	// URI Query string Unreserved parameters (".", ",", ":" and "+" is for JSON object encoding)
+	// URI Query string Unreserved parameters
 	"-",
 	"_",
 ];

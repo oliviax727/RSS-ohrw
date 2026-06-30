@@ -156,8 +156,78 @@ export class PageData {
 
 /**
  * Most Base 64 encoders include header information that make compression pointless.
- * This class encodes NUMBERS ONLY JSON into something more compact for URI/cookie storage.
+ * This class encodes STRINGS ONLY JSON into something more compact for URI/cookie storage.
  */
-//export class Encoder {
-//
-//}
+export class Encoder {
+	static ENCODING = new Map([
+		["[", "@"],
+		["]", "."],
+		["{", "("],
+		["}", ")"],
+	]);
+
+	// URL-friendly parameters (".", ",", ":" and "" is for JSON object encoding)
+	static encodeBase64JSON(obj) {
+		let jstr = JSON.stringify(obj).replaceAll('"', "");
+
+		Encoder.ENCODING.forEach((val, key) => {
+			jstr = jstr.replaceAll(key, val);
+		});
+
+		return jstr;
+	}
+
+	static decodeBase64JSON(str) {
+		const wordEncoder = /(?<=[(:@,])([a-zA-z0-9\-_]*)(?=[).:,])/g;
+
+		let jstr = str.replaceAll(wordEncoder, '"$1"');
+
+		Encoder.ENCODING.forEach((val, key) => {
+			jstr = jstr.replaceAll(val, key);
+		});
+
+		return JSON.parse(jstr);
+	}
+
+	static encodeEntryDataMap(entryData) {
+		let dataArray = [];
+
+		entryData.forEach((val, key) => {
+			dataArray = [
+				...dataArray,
+				JSON.parse(
+					`[ "${key}", "${Encoder.combineBools([val.read, val.dismissed])}" ]`,
+				),
+			];
+		});
+
+		return Encoder.encodeBase64JSON(dataArray);
+	}
+
+	static decodeEntryDataMap(entryDataStr) {
+		const protoMap = Encoder.decodeBase64JSON(entryDataStr);
+
+		return new Map(
+			protoMap.map(([key, val]) => {
+				const unBool = Encoder.decombineBools(val);
+				console.log(unBool);
+				return [key, { read: unBool[0], dismissed: unBool[1] }];
+			}),
+		);
+	}
+
+	static combineBools(bools) {
+		return parseInt(
+			bools.reduce((acc, val) => acc + +val, ""),
+			2,
+		);
+	}
+
+	static decombineBools(num, len = 2) {
+		return (num >>> 0)
+			.toString(2)
+			.padStart(len, "0")
+			.split("")
+			.map((i) => i === "1");
+	}
+}
