@@ -109,10 +109,10 @@ const formatFeedObjectHTML =
 				},
 				".item-read": {
 					href: entryData.link,
-					onclick: `ReaderState.readItem("${entryData.uuid}");`,
+					onclick: `ReaderState.changeItemState("${entryData.uuid}", true);`,
 				},
 				".item-dismiss": {
-					onclick: `ReaderState.dismissItem("${entryData.uuid}");`,
+					onclick: `ReaderState.changeItemState("${entryData.uuid}", false);`,
 				},
 			})(modifiedText);
 

@@ -1,6 +1,6 @@
 // WARNING!!! THIS TYPESCRIPT FILE IS INCOMPLETE! Please see https://oliviax.github.io/RSS-ohrw for updates on progress
 
-import { Storer } from "./helpers.js";
+import { Encoder, Storer } from "./helpers.js";
 import { Navigator, Cruncher } from "./main.js";
 
 // Modify the RSS Feed HTML element
@@ -138,19 +138,57 @@ export class ReaderState {
 
 	entryDataMap = new Map([[]]);
 
-	// ===== LOAD/SAVE DATA FROM COOKIES ===== //
-
-	loadIDs() {}
-
-	saveIDs() {}
-
 	// ===== APPEND AND REMOVE DATA ===== //
 
-	dismissItem(uuid) {
-		return uuid;
+	changeItemState(uuid, readOrDismiss) {
+		// Get specific item
+		var item = document.querySelector(`[data-entry-uuid="${uuid}"]`);
+
+		const readOrDismissFunc = (readParam, stateBool) =>
+			readParam ? !stateBool : stateBool;
+
+		const entryDataDismissed =
+			self.ReaderState.entryDataMap.get(uuid).dismissed;
+
+		// Update entry data map
+		self.ReaderState.entryDataMap.set(uuid, {
+			read: readOrDismiss
+				? true
+				: self.ReaderState.entryDataMap.get(uuid).read,
+			dismissed: readOrDismissFunc(!readOrDismiss, entryDataDismissed),
+		});
+
+		// Set the document cookie
+		Storer.setCookie(
+			"entries",
+			Encoder.encodeEntryDataMap(self.ReaderState.entryDataMap),
+			undefined,
+			10,
+		);
+
+		// Update item dismiss button
+		if (!readOrDismiss) {
+			let dbl = item.querySelectorAll(".item-dismiss");
+
+			for (let i = 0; i < dbl.length; i++) {
+				dbl[i].innerHTML = entryDataDismissed
+					? "Restore Story"
+					: "Dismiss Story";
+			}
+		}
+
+		console.log("Dismised or Read: " + uuid);
 	}
 
-	readItem(uuid) {
-		return uuid;
+	// ===== FEED MANAGEMENT ===== //
+
+	getFeedFromCookies() {
+		self.ReaderState.entryDataMap = Encoder.decodeEntryDataMap(
+			Storer.getCookie("entries"),
+		);
+	}
+
+	reorderFeeds() {
+		return 4;
 	}
 }
