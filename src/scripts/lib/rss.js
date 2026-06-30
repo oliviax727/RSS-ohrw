@@ -239,6 +239,15 @@ export class ModifyFeed {
 			content.append(...sorted);
 		}
 	}
+
+	// Alter every instance of set-xml-id
+	static setFeedIDs() {
+		var feeds = document.querySelectorAll("[set-xml-id]");
+
+		for (let i = 0; i < feeds.length; i++) {
+			feeds[i].setAttribute("data-xml-id", self.PageData.CURRENT_SECTION);
+		}
+	}
 }
 
 // Singular object to get/set important data for the files in app to use

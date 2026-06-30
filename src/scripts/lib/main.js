@@ -49,6 +49,8 @@ export class Navigator {
 						console.log("MathJax error:", err),
 					);
 				}
+
+				document.dispatchEvent(new Event("pageLoaded"));
 			} catch (error) {
 				console.log(
 					"Did not switch to section: " + section + "; " + error,
