@@ -4,7 +4,7 @@ An RSS feed for my own personal use. Separate to my main website.
 
 https://oliviax727.github.io/RSS-ohrw
 
-### About this Website
+## About this Website
 
 This page is for an RSS News that I have made for myself. This webpage contains various news feeds ranging
 from political news to scientific publication. All for the purpose of staying informed.
@@ -15,16 +15,16 @@ user and often present either sensationalism or false bias labelling.
 
 This central location also can help me aggregate news on scientific publications.
 
-### How to use the Newsreader
+## How to use the Newsreader
 
-#### Navigation
+### Navigation
 
 The newsreader has three (two) buttons: the menu button opens the sidebar menu, the reload button will reload the
 feed, and the expand/minimise button will expand/minimise the window. On each feed item, there is a 'Read More ...'
 button and 'Dismiss Item' button; clicking the former will open a new tab, redirecting you to the article website
 and will mark the post as 'read'; clicking the latter will dismiss the item, moving it to the bottom of the feed.
 
-#### Feed
+### Feed
 
 Each feed in the navigator ribbon will contain information about the current date and, when in desktop mode,
 information about the current section will be displayed as well.
@@ -41,7 +41,7 @@ purposefully hide it either through settings or fiddle with scrolling to get it 
 The primary feed is an aggregate of the latest stories (5 per section). Dismissing any item anywhere will stop it
 from showing in the main feed (unless it is undismissed from another feed in a different window).
 
-#### Items
+### Items
 
 Each item always contains: a title, a description, a channel title, a channel name, and a link to the page (by
 clicking the 'Read More ...' button).
@@ -50,7 +50,7 @@ When the page is in desktop mode, a channel image will also be displayed.
 
 Feed items may additionally include publishing dates.
 
-### Attributions
+## Attributions
 
 All icons created by Google, from the [Google Material Design Monochrome](https://www.flaticon.com/authors/google-material-design/monochrome) icon pack, hosted by Flaticon, modified from black to white. See list of Flaticon attributions:
 
@@ -62,7 +62,7 @@ All icons created by Google, from the [Google Material Design Monochrome](https:
 - [Home Page icons](https://www.flaticon.com/free-icons/page)
 - [Build Icons](https://www.flaticon.com/free-icons/wrench)
 
-### Copyright
+## Copyright
 
 I am fundamentally opposed to copyright and any restriction on the free exchange of information and ideas. Unfortunately we do not live in a world where we can make everything public domain.
 
