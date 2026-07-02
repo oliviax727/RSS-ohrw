@@ -9,7 +9,7 @@ import { ModifyFeed, ReaderState } from "./src/scripts/lib/rss.js";
 import { PageData, Storer } from "./src/scripts/lib/helpers.js";
 import { Navigator, Cruncher } from "./src/scripts/lib/main.js";
 import BoneMiner from "./src/scripts/lib/game.js";
-import DynamicLoader from "./src/scripts/lib/load.js";
+import { DynamicLoader } from "./src/scripts/lib/load.js";
 
 // Constants
 const SECTION_COLOR_DICT = new Map([
