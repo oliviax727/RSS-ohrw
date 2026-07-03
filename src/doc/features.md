@@ -9,7 +9,7 @@ You can additionally inspect the source code of this webpage and the other linke
 HTML files can be loaded using the client-side XHTTP request. To load the contents of an HTML file, add a container `<div>` element with the attribute `html-ref` to the tag, setting it to the path of the HTML file _relative to the repository's top-level directory_. For example:
 
 ```html
-<div html-ref="src/layout/rss-feed.html" style="display: inline;"></div>
+<div html-ref="src/layout/rss-feed.htm" style="display: inline;"></div>
 ```
 
 In `index.js` the window's `onload` event is set to call the function `Navigator.initPage` by default. You can optionally add other functions to this event listener. Avoid loading the page multiple times automatically.
@@ -145,7 +145,7 @@ Then, in the HTML end simply requires adding the following element:
 
 ```html
 <div id="rss-feed-wrapper" data-xml-id="">
-    <div html-ref="src/layout/rss-feed.html"></div>
+    <div html-ref="src/layout/rss-feed.htm"></div>
 </div>
 ```
 
