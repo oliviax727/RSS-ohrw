@@ -74,7 +74,7 @@ const loadJSON = (file, selection) => TE.flatMap(feed => {
   return selectedFeed !== undefined ? TE.right(selectedFeed) : TE.left(new Error("Selected feed does not exist in JSON"));
 })((0, _fileHandlerMoules.getFeedMap)(file));
 // Generate the collection of items based on the feed
-const loadXML = (urlList, entryData) => TE.map(entries => entries.flat())(TE.traverseArray(urlEntry => TE.map(feedData => parsedXMLToEntries(feedData, urlEntry.name, entryData))((0, _fileHandlerMoules.getXML)(urlEntry.link)))(urlList));
+const loadXML = (urlList, entryData) => TE.map(entries => entries.flat())(TE.traverseArray(urlEntry => TE.orElse(() => TE.right([]))(TE.map(feedData => parsedXMLToEntries(feedData, urlEntry.name, entryData))((0, _fileHandlerMoules.getXML)(urlEntry.link))))(urlList));
 // Sort feed array based on date
 const sortFeed = entryList => [...entryList].sort((a, b) => {
   if (a.data.dismissed != b.data.dismissed) {

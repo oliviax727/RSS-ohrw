@@ -1,6 +1,7 @@
 TODO/REMINDER:
 This repo:
 - Populate feed links
+- Fix feed loading when timeout occurs
 
 Other:
 - Update both repos with new code

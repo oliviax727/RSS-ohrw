@@ -94,7 +94,9 @@ exports.getJSON = getJSON;
 const getXML = file => TE.flatMap(textXML => TE.tryCatch(() => rssParser.parseString(textXML), _defaultModules._id))(TE.orElse(() => tryGetXML((0, _defaultModules.getProxyURL)(file)))(tryGetXML(file)));
 // Attempts to get an XML file (sub-function of getXML)
 exports.getXML = getXML;
-const tryGetXML = url => TE.tryCatch(() => fetch(url).then(responseXML => {
+const tryGetXML = url => TE.tryCatch(() => fetch(url, {
+  signal: AbortSignal.timeout(1000)
+}).then(responseXML => {
   if (responseXML.ok) {
     return responseXML.text();
   }

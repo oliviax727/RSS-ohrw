@@ -181,7 +181,7 @@ export const getXML = (file: string): TaskEither<unknown, Parser.Output<object>>
 const tryGetXML = (url: string): TaskEither<unknown, string> =>
 	TE.tryCatch(
 		() =>
-			fetch(url)
+			fetch(url, { signal: AbortSignal.timeout(1000) })
 				.then((responseXML: Response) => {
 					if (responseXML.ok) {
 						return responseXML.text();
