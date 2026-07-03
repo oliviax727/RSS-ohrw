@@ -18,7 +18,7 @@ const loadRSS: IOFunction<[EntryDataMap, string], HTMLElement> = async function 
 	} catch (error: unknown) {
 		console.log("An error occured while trying to load the bundled modules: " + (error as string) + ";");
 
-		console.trace();
+		console.log((error as Error).stack);
 
 		return new HTMLElement();
 	}

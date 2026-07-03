@@ -17,7 +17,7 @@ const loadRSS = async function ([entryDataMap, feedName]) {
     return await getRSS([entryDataMap, feedName]);
   } catch (error) {
     console.log("An error occured while trying to load the bundled modules: " + error + ";");
-    console.trace();
+    console.log(error.stack);
     return new HTMLElement();
   }
 };
