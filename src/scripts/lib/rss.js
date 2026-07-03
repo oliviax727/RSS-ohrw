@@ -230,7 +230,7 @@ export class ModifyFeed {
 				} else if (a.date !== undefined && b.date !== undefined) {
 					return +b.date - +a.date;
 				} else {
-					return b.uuid.localeCompare(a.uuid);
+					return 0;
 				}
 			});
 

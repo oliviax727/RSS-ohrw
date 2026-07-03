@@ -7,22 +7,22 @@
         "ABC News (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
     },
 	"global": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+        "ABC News - Global": "https://www.abc.net.au/news/feed/104217382/rss.xml"
     },
 	"local": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+        "ABC News - Around Australia": "https://www.abc.net.au/news/feed/104333858/rss.xml",
+		 "ABC News - WA Top Stories": "https://www.abc.net.au/news/feed/5313390/rss.xml"
     },
 	"politics-australia": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+        "ABC News - Politics": "https://www.abc.net.au/news/feed/104217372/rss.xml",
+		"ABC News - Australia Votes": "https://www.abc.net.au/news/feed/104799038/rss.xml"
     },
-	"politics-global": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
-    },
-	"politics-local": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+	"politics-leftism": {
+        "ABC News - Global": "https://www.abc.net.au/news/feed/104217382/rss.xml"
     },
 	"primary": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+		"The Conversation": "https://theconversation.com/topics/science-1256/articles.atom",
+		"ABC News - Top Stories": "https://www.abc.net.au/news/feed/10719986/rss.xml"
     },
 	"publications-focused": {
 		"ArXiv - Instrumentation & Methods in Astrophysics": "https://rss.arxiv.org/rss/astro-ph.IM",
@@ -56,6 +56,10 @@
 		"Hard Drive": "https://hard-drive.net/feed/"
 	},
 	"tech": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+        "Phys.org": "https://phys.org/rss-feed/",
+		"Scientific American": "http://rss.sciam.com/ScientificAmerican-Global",
+		"New Scientist": "https://www.newscientist.com/feed/home/?cmpid=RSS%7CNSNS-Home",
+		"NPR": "https://feeds.npr.org/1007/rss.xml",
+		"The Conversation": "https://theconversation.com/topics/science-1256/articles.atom"
     }
 }

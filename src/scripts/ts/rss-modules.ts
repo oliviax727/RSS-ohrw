@@ -176,7 +176,7 @@ const sortFeed = (entryList: readonly Entry[]): Entry[] =>
 		} else if (a.date !== undefined && b.date !== undefined) {
 			return +b.date - +a.date;
 		} else {
-			return b.uuid.localeCompare(a.uuid);
+			return Math.random() - 0.5;
 		}
 	});
 

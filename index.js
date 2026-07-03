@@ -17,15 +17,14 @@ const SECTION_COLOR_DICT = new Map([
 	["local", 45],
 	["global", 25],
 
-	["politics-local", 120],
-	["politics-australia", 180],
-	["politics-global", 0],
+	["politics-australia", 120],
+	["politics-leftism", 0],
 
-	["satire-australia", 175],
+	["satire-australia", 180],
 	["satire-global", 195],
 
-	["publications-focused", 340],
-	["publications-astronomy", 250],
+	["publications-focused", 90],
+	["publications-astronomy", 340],
 	["publications-other", 240],
 
 	["tech", 270],
