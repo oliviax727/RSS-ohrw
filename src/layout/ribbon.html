@@ -34,10 +34,11 @@
       </div>
     </div>
 
-    <a onclick="Navigator.showSubList('satire');">Satire</a>
+    <a onclick="Navigator.showSubList('satire');" onmouseleave="Navigator.hideSubList('satire');"">Satire</a>
 
     <div hidden class="dropdown" id="drop-wrapper-publications">
       <div hidden class="dropdown-content" id="drop-publications">
+        <a onclick="Navigator.goToSection('publications-focused');">Focused</a>
         <a onclick="Navigator.goToSection('publications-astronomy');">Astronomy/Astrophysics</a>
         <a onclick="Navigator.goToSection('publications-other');">Other Academic</a>
       </div>

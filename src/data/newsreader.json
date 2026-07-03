@@ -24,11 +24,25 @@
 	"primary": {
         "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
     },
+	"publications-focused": {
+		"ArXiv - Instrumentation & Methods in Astrophysics": "https://rss.arxiv.org/rss/astro-ph.IM",
+        "ArXiv - Cosmology & Non-Galactic Astrophysics": "https://rss.arxiv.org/rss/astro-ph.CO",
+		"Publications of the Astronomical Society of Australia": "https://www.cambridge.org/core/rss/product/id/EA97E060D413517C6C4433BED25DDCA9"
+	},
 	"publications-astronomy": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+		"Monthly Notices of the Royal Astronomical Society": "https://academic.oup.com/rss/site_5326/3192.xml",
+		"The Astrophysical Journal": "https://iopscience.iop.org/journal/rss/0004-637X",
+		"Astronomy & Astrophysics": "https://feeds.feedburner.com/edp_aa",
+		"ArXiv - Astrophysics": "https://rss.arxiv.org/rss/astro-ph",
+		"ArXiv - General Relativity & Quantum Cosmology": "https://rss.arxiv.org/rss/gr-qc"
     },
 	"publications-other": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+        "ArXiv - Physics": "https://rss.arxiv.org/rss/physics",
+        "ArXiv - Computer Science": "https://rss.arxiv.org/rss/cs",
+        "ArXiv - Statistics": "https://rss.arxiv.org/rss/stat",
+		"Nature Physics": "https://www.nature.com/nphys.rss",
+		"Reviews of Modern Physics": "https://feeds.aps.org/rss/recent/rmp.xml",
+		"IEEE Access": "https://ieeexplore.ieee.org/rss/TOC6287639.XML"
     },
 	"satire-australia": {
         "The Shovel": "https://theshovel.com.au/feed",
@@ -39,8 +53,7 @@
 	"satire-global": {
 		"The Daily Tism": "https://thedailytism.com/feed",
 		"The Onion": "https://theonion.com/feed",
-		"Hard Drive": "https://hard-drive.net/feed/",
-		"Clickhole": "https://clickhole.com/feeds/all-stories/"
+		"Hard Drive": "https://hard-drive.net/feed/"
 	},
 	"tech": {
         "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
