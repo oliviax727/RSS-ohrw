@@ -30,9 +30,14 @@
 	"publications-other": {
         "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
     },
-	"satire": {
-        "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
+	"satire-australia": {
+        "The Shovel": "https://theshovel.com.au/feed/",
+        "Juice Media": "https://thejuicemedia.com/feed",
+		"The Betoota Advocate": "https://www.betootaadvocate.com/"
     },
+	"satire-global": {
+		"The Daily Tism": "https://thedailytism.com/feed/"
+	},
 	"tech": {
         "ArXiv (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_arxiv_feed.xml"
     }

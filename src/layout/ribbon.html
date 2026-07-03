@@ -27,7 +27,14 @@
 
     <a class="dropbtn" onclick="Navigator.showSubList('politics');" onmouseleave="Navigator.hideSubList('politics');">Politics</a>
 
-    <a onclick="Navigator.goToSection('satire');">Satire</a>
+	<div hidden class="dropdown" id="drop-wrapper-satire">
+      <div hidden class="dropdown-content" id="drop-satire">
+        <a onclick="Navigator.goToSection('satire-australia');">Australia</a>
+        <a onclick="Navigator.goToSection('satire-global');">Global (and US)</a>
+      </div>
+    </div>
+
+    <a onclick="Navigator.showSubList('satire');">Satire</a>
 
     <div hidden class="dropdown" id="drop-wrapper-publications">
       <div hidden class="dropdown-content" id="drop-publications">

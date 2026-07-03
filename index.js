@@ -21,7 +21,8 @@ const SECTION_COLOR_DICT = new Map([
 	["politics-australia", 180],
 	["politics-global", 0],
 
-	["satire", 195],
+	["satire-australia", 175],
+	["satire-global", 195],
 
 	["publications-astronomy", 250],
 	["publications-other", 240],
