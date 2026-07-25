@@ -37,7 +37,8 @@ class BoneMiner {
 			}
 		}
 
-		BoneMiner.saveBones();
+		// Print cookies to terminal iff an alert has been made
+		BoneMiner.saveBones(makealert);
 	}
 
 	static createAutoMiner(override = false) {
@@ -162,7 +163,7 @@ class BoneMiner {
 		Storer.setCookie("b", null);
 	}
 
-	static saveBones() {
+	static saveBones(quiet = false) {
 		// Get bones to save
 		let bones = document.getElementById("count-bones").innerHTML;
 		let gold = document.getElementById("count-gold").innerHTML;
@@ -177,7 +178,9 @@ class BoneMiner {
 		Storer.setCookie("g", gold);
 		Storer.setCookie("l", level);
 
-		console.log("Saved bones: b=" + bones + ", g=" + ", l=" + level);
+		if (!quiet) {
+			console.log("Saved bones: b=" + bones + ", g=" + ", l=" + level);
+		}
 	}
 }
 
