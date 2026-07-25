@@ -1,5 +1,7 @@
 import { _id, getProxyURL } from "./default-modules.js";
-import Parser from "rss-parser";
+// @ts-expect-error rss-parser does not ship type declarations for dist browser entrypoint.
+import RSSParser from "rss-parser/dist/rss-parser.min.js";
+import type Parser from "rss-parser";
 import type { TaskEither } from "fp-ts/TaskEither";
 import * as TE from "fp-ts/TaskEither";
 
@@ -23,7 +25,8 @@ type JSONFeedRecord = Readonly<
 export type FeedMap = Map<string, EntryURL[]>;
 
 // Parsers
-const rssParser = new Parser<object, object>();
+const RSSParserCtor = RSSParser as unknown as typeof Parser;
+const rssParser = new RSSParserCtor<object, object>();
 const domParser = new DOMParser();
 
 // RSS Parser return data
@@ -181,7 +184,7 @@ export const getXML = (file: string): TaskEither<unknown, Parser.Output<object>>
 const tryGetXML = (url: string): TaskEither<unknown, string> =>
 	TE.tryCatch(
 		() =>
-			fetch(url, { signal: AbortSignal.timeout(1000) })
+			fetch(url)
 				.then((responseXML: Response) => {
 					if (responseXML.ok) {
 						return responseXML.text();

@@ -160,11 +160,9 @@ const loadJSON = (file: string, selection: string): TaskEither<unknown, EntryURL
 const loadXML = (urlList: readonly EntryURL[], entryData: EntryDataMap): TaskEither<unknown, Entry[]> =>
 	TE.map((entries: readonly Entry[][]) => entries.flat())(
 		TE.traverseArray((urlEntry: Readonly<EntryURL>) =>
-			TE.orElse(() => TE.right<unknown, Entry[]>([]))(
-				TE.map((feedData: Readonly<rssData>) =>
-					parsedXMLToEntries(feedData, urlEntry.name, entryData),
-				)(getXML(urlEntry.link)),
-			),
+			TE.map((feedData: Readonly<rssData>) =>
+				parsedXMLToEntries(feedData, urlEntry.name, entryData),
+			)(getXML(urlEntry.link)),
 		)(urlList),
 	);
 
@@ -176,7 +174,7 @@ const sortFeed = (entryList: readonly Entry[]): Entry[] =>
 		} else if (a.date !== undefined && b.date !== undefined) {
 			return +b.date - +a.date;
 		} else {
-			return Math.random() - 0.5;
+			return b.uuid.localeCompare(a.uuid);
 		}
 	});
 
