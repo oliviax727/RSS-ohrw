@@ -94,6 +94,8 @@ Each variable is named according to the structure: `--<saturation name>-<brightn
 
 The CSS also contains the `--base-hue` variable.
 
+There is an additional `--very-light-gray` with <span style="color: black; background-color: hsl(300, 0%, 80%)">80% brightness</span> for better contrast with grey backgrounds.
+
 ## Dynamic Span Elements
 
 Below is a list of custom classes that will allow for span elements to update dynamically:
