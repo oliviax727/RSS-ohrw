@@ -54,6 +54,7 @@ window.DynamicLoader = DynamicLoader;
 window.onload = () => {
 	Navigator.initPage(ModifyFeed.checkFullscreen);
 	ModifyFeed.getFeedFromCookies();
+	BoneMiner.initMiner();
 };
 
 document.addEventListener("oncrunch", () => {
