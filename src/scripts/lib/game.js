@@ -8,7 +8,6 @@ class BoneMinerData {
 	constructor() {
 		// Set the timer
 		this.timer = window.setInterval(() => {
-			console.log(this.counter);
 			if (this.level <= 0) {
 				return;
 			} else if (this.level > this.counter) {
