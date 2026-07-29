@@ -82,10 +82,6 @@
   padding: 3%;
   background-color: var(--pale-light-color);
   height: fit-content;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
 }
 
 /* Feed Item */
@@ -107,11 +103,7 @@
   margin-bottom: 1em;
   margin-top: 1em;
 
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow-x: hidden;
+  min-width: 100%;
 }
 
 .item-inline {
@@ -122,13 +114,10 @@
   align-self: stretch;
 
   padding-inline: 2%;
-  box-sizing: border-box;
-  min-width: 0;
 }
 
 .item-link {
   vertical-align: middle;
-  flex: 0 0 auto;
 }
 
 .item-cell {
@@ -149,20 +138,8 @@
 }
 
 .item-content {
-  display: block;
-  flex: 1 1 auto;
-  min-width: 0;
-  max-width: 100%;
+  display: table-cell;
   text-align: left;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.item-desc {
-  display: inline;
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  word-break: break-word;
 }
 
 .rss-feed-max {
@@ -175,37 +152,4 @@
 
 .loading-text {
 	color: var(--dark-gray);
-}
-
-/* MathJax */
-
-/* Keep MathJax output inside feed boundaries when rendering long formulas. */
-#rss-feed-wrapper mjx-container {
-  box-sizing: border-box;
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-#rss-feed-wrapper mjx-container[display="true"] {
-  display: block;
-  margin-block: 0.6em;
-  width: 100%;
-}
-
-#rss-feed-wrapper mjx-container[display="false"] {
-  display: inline-block;
-  white-space: normal;
-  max-width: 100%;
-  overflow-x: auto;
-  vertical-align: middle;
-}
-
-#rss-feed-wrapper mjx-math,
-#rss-feed-wrapper mjx-assistive-mml {
-  max-width: 100%;
-}
-
-#rss-feed-wrapper mjx-container * {
-  max-width: 100%;
 }
