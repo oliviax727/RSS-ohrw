@@ -112,7 +112,7 @@ export class ModifyFeed {
 			rssMain[i].style.display = "none";
 		}
 		for (let i = 0; i < rssCrunch.length; i++) {
-			rssCrunch[i].style.display = "inline-block";
+			rssCrunch[i].style.display = "table-cell";
 		}
 	}
 
@@ -122,7 +122,7 @@ export class ModifyFeed {
 
 		// Change RSS feed structure
 		for (let i = 0; i < rssMain.length; i++) {
-			rssMain[i].style.display = "inline-flex";
+			rssMain[i].style.display = "table-column";
 		}
 		for (let i = 0; i < rssCrunch.length; i++) {
 			rssCrunch[i].style.display = "none";
