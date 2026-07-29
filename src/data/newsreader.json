@@ -7,22 +7,39 @@
         "ABC News (Old)": "https://raw.githubusercontent.com/oliviax727/RSS-ohrw/refs/heads/main/src/data/old_abc_feed.xml"
     },
 	"global": {
-        "ABC News - Global": "https://www.abc.net.au/news/feed/104217382/rss.xml"
+        "ABC News - Global": "https://www.abc.net.au/news/feed/104217382/rss.xml",
+		"Pink News": "https://www.thepinknews.com/feed/",
+		"Al Jazeera": "https://www.aljazeera.com/xml/rss/all.xml",
+		"South China Morning Post": "https://www.scmp.com/rss/feed",
+		"DW": "https://rss.dw.com/rdf/rss-en-world",
+		"Democracy Now!": "https://www.democracynow.org"
     },
 	"local": {
         "ABC News - Around Australia": "https://www.abc.net.au/news/feed/104333858/rss.xml",
-		 "ABC News - WA Top Stories": "https://www.abc.net.au/news/feed/5313390/rss.xml"
+		"ABC News - WA Top Stories": "https://www.abc.net.au/news/feed/5313390/rss.xml",
+		"The West Australian": "https://thewest.com.au/rss"
     },
 	"politics-australia": {
         "ABC News - Politics": "https://www.abc.net.au/news/feed/104217372/rss.xml",
-		"ABC News - Australia Votes": "https://www.abc.net.au/news/feed/104799038/rss.xml"
+		"ABC News - Australia Votes": "https://www.abc.net.au/news/feed/104799038/rss.xml",
+		"Michael West Media": "https://michaelwest.com.au/category/latest-posts/feed/",
+		"Crikey": "https://www.crikey.com.au/feed/",
+		"The Klaxton": "https://theklaxon.com.au/feed/"
     },
 	"politics-leftism": {
-        "ABC News - Global": "https://www.abc.net.au/news/feed/104217382/rss.xml"
+        "Green Left": "https://www.greenleft.org.au/rss.xml",
+		"CrimeThInc": "https://crimethinc.com/feed",
+		"The Ex-Worker": "https://exworker.libsyn.com/rss",
+		"The Anarchist Library": "https://theanarchistlibrary.org/feed",
+		"It's Going Down": "https://itsgoingdown.org/feed/podcast/",
+		"Jacobin": "https://jacobinmag.com/feed/"
     },
 	"primary": {
 		"The Conversation": "https://theconversation.com/topics/science-1256/articles.atom",
-		"ABC News - Top Stories": "https://www.abc.net.au/news/feed/10719986/rss.xml"
+		"ABC News - Top Stories": "https://www.abc.net.au/news/feed/10719986/rss.xml",
+		"Publications of the Astronomical Society of Australia": "https://www.cambridge.org/core/rss/product/id/EA97E060D413517C6C4433BED25DDCA9",
+		"Hard Drive": "https://hard-drive.net/feed/",
+		"Green Left": "https://www.greenleft.org.au/rss.xml"
     },
 	"publications-focused": {
 		"ArXiv - Instrumentation & Methods in Astrophysics": "https://rss.arxiv.org/rss/astro-ph.IM",
