@@ -202,13 +202,16 @@ export class ModifyFeed {
 		var feeds = document.querySelectorAll("[data-xml-id]");
 
 		const getEntry = (htmlElement) => {
-			const dateCheck = new Date(
-				htmlElement.querySelector(".item-date").innerHTML,
-			);
+			const dateText = htmlElement.querySelector(".item-date")?.innerHTML;
+			const dateCheck = dateText ? new Date(dateText) : undefined;
+			const validDate =
+				dateCheck != undefined && !Number.isNaN(dateCheck.getTime())
+					? dateCheck
+					: undefined;
 
 			return {
 				dismissed: htmlElement.getAttribute("data-dismissed") == "true",
-				date: dateCheck == "Invalid Date" ? undefined : dateCheck,
+				date: validDate,
 				uuid: htmlElement.getAttribute("data-entry-uuid"),
 			};
 		};
@@ -227,6 +230,10 @@ export class ModifyFeed {
 					return +a.dismissed - +b.dismissed;
 				} else if (a.date !== undefined && b.date !== undefined) {
 					return +b.date - +a.date;
+				} else if (a.date !== undefined) {
+					return -1;
+				} else if (b.date !== undefined) {
+					return 1;
 				} else {
 					return b.uuid.localeCompare(a.uuid);
 				}
