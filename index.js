@@ -94,3 +94,43 @@ document.addEventListener("onrelax", () => {
 	Cruncher.relaxContent();
 	ModifyFeed.relaxRSS();
 });
+
+// MATHJAX INTEGRATION
+
+window.MathJax = {
+	loader: {
+		load: ["[tex]/noerrors"],
+	},
+	tex: {
+		packages: { "[+]": ["noerrors"] },
+		inlineMath: [
+			["$", "$"],
+			["\\(", "\\)"],
+		],
+		displayMath: [
+			["$$", "$$"],
+			["\\[", "\\]"],
+		],
+		processEscapes: true,
+	},
+	output: {
+		displayOverflow: "linebreak",
+		linebreaks: {
+			inline: true,
+			width: "100%",
+		},
+	},
+	options: {
+		skipHtmlTags: [
+			"script",
+			"noscript",
+			"style",
+			"textarea",
+			"pre",
+			"code",
+		],
+	},
+	chtml: {
+		matchFontHeight: false,
+	},
+};
