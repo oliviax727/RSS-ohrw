@@ -66,6 +66,7 @@ window.onload = () => {
 };
 
 document.addEventListener("oncrunch", () => {
+	console.log("oncrunch event triggered");
 	Cruncher.onCrunch();
 	Cruncher.crunchRibbon();
 	Cruncher.crunchContent();
@@ -73,6 +74,7 @@ document.addEventListener("oncrunch", () => {
 });
 
 document.addEventListener("onrelax", () => {
+	console.log("onrelax event triggered");
 	Cruncher.onRelax();
 	Cruncher.relaxRibbon();
 	Cruncher.relaxContent();

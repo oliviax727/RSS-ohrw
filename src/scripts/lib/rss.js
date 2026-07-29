@@ -30,9 +30,7 @@ export class ModifyFeed {
 
 		fullscreen == null ? false : fullscreen;
 
-		if (fullscreen) {
-			ModifyFeed.toggleFullscreen(fullscreen);
-		}
+		ModifyFeed.toggleFullscreen(fullscreen);
 	}
 
 	// Toggle the expand and contract window functions
@@ -90,7 +88,7 @@ export class ModifyFeed {
 	}
 
 	static hideAndUnhideToggleButtons(toggleflag) {
-		const toggle = (flag) => (flag ? "none" : "inline");
+		const toggle = (flag) => (flag ? "none" : "");
 
 		var min_buttons = document.getElementsByClassName("rss-feed-min");
 		var max_buttons = document.getElementsByClassName("rss-feed-max");
