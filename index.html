@@ -34,18 +34,29 @@
 
 	<!-- MathJax -->
 	<!-- LTeX: enabled=false -->
-	<!--
-	<script>
-		window.MathJax = {
-			tex: {
-				inlineMath: [['$', '$'], ['\\(', '\\)']],
-				displayMath: [['$$', '$$'], ['\\[', '\\]']]
-			}
-		};
-	</script>
-	-->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [
+                    ["$", "$"],
+                    ["\\(", "\\)"],
+                ],
+                displayMath: [
+                    ["$$", "$$"],
+                    ["\\[", "\\]"],
+                ],
+                processEscapes: true,
+            },
+            options: {
+                skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+            },
+            chtml: {
+                matchFontHeight: false,
+            },
+        };
+    </script>
 	<!-- LTeX: enabled=true -->
-	<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>-->
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
 
     <!--RSS Feeds-->
     <link rel="alternate" type="application/rss+xml" title="News Feed" href="src/data/test_feed.xml">

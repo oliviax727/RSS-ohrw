@@ -4,23 +4,26 @@
 	background-color: var(--dark-gray);
 	position: relative;
 	display: block;
-	display:inline-block;
 	padding: 1%;
 	box-sizing: border-box;
 	height: auto;
 	z-index: 1;
+	max-width: 100%;
+	min-width: 0;
 }
 
 #centre {
 	padding: 2%;
 	width: 67%;
 	margin-left: 11%;
+	min-width: 0;
 }
 
 #centreext {
 	padding: 2%;
 	width: 78%;
 	margin-left: 11%;
+	min-width: 0;
 }
 
 #sidebar {

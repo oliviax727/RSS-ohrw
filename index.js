@@ -34,6 +34,8 @@ const DEFAULT_CRUNCH_SIZE = 1120;
 
 const DEFAULT_SECTION = "primary";
 
+const ENABLE_MATHJAX_DEFAULT = false;
+
 // Main HTML functions
 
 let data = new PageData(
@@ -64,6 +66,18 @@ window.onload = () => {
 	ModifyFeed.getFeedFromCookies();
 	BoneMiner.initMiner();
 };
+
+document.addEventListener("pageLoaded", () => {
+	Navigator.setMathJax(ENABLE_MATHJAX_DEFAULT);
+});
+
+const mathJaxScript = document.getElementById("MathJax-script");
+
+if (mathJaxScript != null) {
+	mathJaxScript.addEventListener("load", () => {
+		Navigator.setMathJax(ENABLE_MATHJAX_DEFAULT);
+	});
+}
 
 document.addEventListener("oncrunch", () => {
 	console.log("oncrunch event triggered");

@@ -40,6 +40,8 @@ export class ModifyFeed {
 		ModifyFeed.expandOrContractFeedWindow(toggleflag);
 		ModifyFeed.hideAndUnhideToggleButtons(toggleflag);
 
+		Cruncher.checkCrunch();
+
 		Storer.setURLParams("fullscreen", toggleflag, false);
 	}
 
@@ -67,7 +69,6 @@ export class ModifyFeed {
 			feedWindow.style.height = "100vh";
 
 			self.PageData.CRUNCH_SIZE = ModifyFeed.FULLSCREEN_CRUNCH_SIZE;
-			Cruncher.checkCrunch();
 		} else {
 			feedWindow.style.position = "";
 			feedWindow.style.top = "";
@@ -83,7 +84,6 @@ export class ModifyFeed {
 			});
 
 			self.PageData.CRUNCH_SIZE = self.PageData.DEFAULT_CRUNCH_SIZE;
-			Cruncher.checkCrunch();
 		}
 	}
 
@@ -112,7 +112,7 @@ export class ModifyFeed {
 			rssMain[i].style.display = "none";
 		}
 		for (let i = 0; i < rssCrunch.length; i++) {
-			rssCrunch[i].style.display = "table-cell";
+			rssCrunch[i].style.display = "inline-block";
 		}
 	}
 
@@ -122,7 +122,7 @@ export class ModifyFeed {
 
 		// Change RSS feed structure
 		for (let i = 0; i < rssMain.length; i++) {
-			rssMain[i].style.display = "table-column";
+			rssMain[i].style.display = "inline-flex";
 		}
 		for (let i = 0; i < rssCrunch.length; i++) {
 			rssCrunch[i].style.display = "none";
