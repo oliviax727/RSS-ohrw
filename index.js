@@ -26,8 +26,6 @@ const DEFAULT_CRUNCH_SIZE = 800;
 
 const DEFAULT_SECTION = "main";
 
-const ENABLE_MATHJAX_DEFAULT = false;
-
 // Main HTML functions
 
 let data = new PageData(
@@ -59,18 +57,6 @@ window.onload = () => {
 	BoneMiner.initMiner();
 };
 
-document.addEventListener("pageLoaded", () => {
-	Navigator.setMathJax(ENABLE_MATHJAX_DEFAULT);
-});
-
-const mathJaxScript = document.getElementById("MathJax-script");
-
-if (mathJaxScript != null) {
-	mathJaxScript.addEventListener("load", () => {
-		Navigator.setMathJax(ENABLE_MATHJAX_DEFAULT);
-	});
-}
-
 document.addEventListener("oncrunch", () => {
 	console.log("oncrunch event triggered");
 	Cruncher.onCrunch();
@@ -86,43 +72,3 @@ document.addEventListener("onrelax", () => {
 	Cruncher.relaxContent();
 	ModifyFeed.relaxRSS();
 });
-
-// MATHJAX INTEGRATION
-
-window.MathJax = {
-	loader: {
-		load: ["[tex]/noerrors"],
-	},
-	tex: {
-		packages: { "[+]": ["noerrors"] },
-		inlineMath: [
-			["$", "$"],
-			["\\(", "\\)"],
-		],
-		displayMath: [
-			["$$", "$$"],
-			["\\[", "\\]"],
-		],
-		processEscapes: true,
-	},
-	output: {
-		displayOverflow: "linebreak",
-		linebreaks: {
-			inline: true,
-			width: "100%",
-		},
-	},
-	options: {
-		skipHtmlTags: [
-			"script",
-			"noscript",
-			"style",
-			"textarea",
-			"pre",
-			"code",
-		],
-	},
-	chtml: {
-		matchFontHeight: false,
-	},
-};
