@@ -116,7 +116,7 @@ The default behaviour, as defined by the `Cruncher` class, is such that any elem
 
 ## Markdown Embedding
 
-Thanks to [<zero-md>](https://zerodevx.github.io/zero-md/), embedding markdown in HTML is very simple and is used throughout this website.
+Thanks to [`<zero-md>`](https://zerodevx.github.io/zero-md/), embedding markdown in HTML is very simple and is used throughout this website.
 
 Please see the above link for more information on how to embed markdown.
 
@@ -154,3 +154,5 @@ Then, in the HTML end simply requires adding the following element:
 And then set the `data-xml-id` parameter to the name of the RSS feed. From there, the RSS feed should display a combined list of articles from the various RSS feeds you specified in `src/data/newsreader.json`. This list is ordered according to the date of publication.
 
 Otherwise, you can use the attribute `set-xml-id` to set the `data-xml-id` field to whatever the name of the current section is.
+
+$/LaTeX$
