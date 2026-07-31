@@ -43,13 +43,6 @@ export class Navigator {
 				BoneMiner.loadBones();
 				_callback();
 
-				// Reload MathJax after new content is loaded
-				if (self.MathJax?.typesetPromise) {
-					self.MathJax.typesetPromise().catch((err) =>
-						console.log("MathJax error:", err),
-					);
-				}
-
 				document.dispatchEvent(new Event("pageLoaded"));
 			} catch (error) {
 				console.log(
@@ -180,6 +173,50 @@ export class Navigator {
 			var span = datespans[i];
 
 			span.innerHTML = self.PageData.CURRENT_DATE.toDateString();
+		}
+	}
+
+	static setMathJax(enableByDefault = false) {
+		let mathJaxEnabled = false,
+			mathJaxDisabled = false;
+
+		const mathJaxElement = document.querySelector("math-jax");
+
+		if (mathJaxElement != null) {
+			mathJaxEnabled = mathJaxElement.hasAttribute("enabled");
+			mathJaxDisabled = mathJaxElement.hasAttribute("disabled");
+		}
+
+		let enable =
+			(enableByDefault && !mathJaxEnabled) ||
+			(enableByDefault && mathJaxEnabled) ||
+			(mathJaxEnabled && !mathJaxDisabled);
+
+		if (enable) {
+			// Reload MathJax after new content is loaded
+			if (self.MathJax?.typesetPromise) {
+				const doTypeset = () => {
+					if (self.MathJax?.typesetClear) {
+						self.MathJax.typesetClear();
+					}
+
+					self.MathJax.typesetPromise().catch((err) => {
+						console.log("MathJax error:", err);
+					});
+				};
+
+				if (self.MathJax?.startup?.promise) {
+					self.MathJax.startup.promise
+						.then(doTypeset)
+						.catch((err) => {
+							console.log("MathJax startup error:", err);
+						});
+				} else {
+					doTypeset();
+				}
+			}
+		} else {
+			// MathJax is disabled for this section.
 		}
 	}
 }
